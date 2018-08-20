@@ -1,0 +1,23 @@
+{
+  "name": "Alfabot",
+  "version": "1.0.0",
+  "main": "src/app.ts",
+  "license": "MIT",
+  "scripts": {
+    "compile": "tsc && node build/app.js",
+    "dev": "nodemon -e ts  --exec \"npm run compile\" --quiet"
+  },
+  "dependencies": {
+    "@types/dotenv": "^4.0.3",
+    "axios": "^0.18.0",
+    "chalk": "^2.4.1",
+    "dotenv": "^6.0.0",
+    "telegraf": "^3.22.2"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/chalk": "^2.2.0",
+    "nodemon": "^1.18.3",
+    "ts-node": "^7.0.1"
+  }
+}
