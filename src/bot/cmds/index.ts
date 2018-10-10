@@ -1,14 +1,18 @@
 import * as TelegramBot from 'node-telegram-bot-api';
-import WeatherCommand from './weather';
-import HelpCommand from './help';
 import CommandBase from './commandBase';
+import HelpCommand from './help';
+import WeatherCommand from './weather';
 
 const commands = [
   WeatherCommand,
-  HelpCommand
+  HelpCommand,
 ];
 
 export const cmdList: CommandBase[] = [];
+
+export function getCommand(cmdName: string): CommandBase | undefined {
+  return cmdList.find(x => x.name === cmdName);
+}
 
 export function load(bot: TelegramBot) {
   for (const Command of commands) {

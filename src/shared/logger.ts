@@ -8,7 +8,7 @@ export const logger = new Signale({
     bot: {
       badge: '🤖',
       color: 'yellow',
-      label: 'bot'
-    }
-  }
+      label: 'bot',
+    },
+  },
 });
