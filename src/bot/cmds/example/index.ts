@@ -11,7 +11,7 @@ class ExampleCommand extends CommandBase {
   }
 
   listen(): void {
-    this.onText(/^\/example/i, async (msg, args, argCount) => {
+    this.onText(/^\/example/i, async msg => {
       this.reply(msg, 'Example command');
     });
   }
