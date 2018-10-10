@@ -11,8 +11,16 @@ class WeatherCommand extends CommandBase {
   }
 
   listen(): void {
-    this.onText(/^\/weather/i, async (msg, args) => {
-      this.reply(msg, 'Et saa');
+    this.onText(/^\/weather/i, async (msg, args, argCount) => {
+      if (argCount === 0) {
+        return this.showHelp(msg);
+      }
+
+      if (argCount === 1) {
+        return this.reply(msg, `${args[0]}:n sää:\nHeheh`);
+      }
+
+      this.reply(msg, 'kys');
     });
   }
 }

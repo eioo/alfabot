@@ -14,35 +14,42 @@ class HelpCommand extends CommandBase {
   listen(): void {
     this.onText(/^\/help/i, async (msg, args, argCount) => {
       if (argCount === 1) {
-        this.reply(msg, this.helpSingle(args[0]));
+        this.reply(msg, helpSingle(args[0]));
         return;
       }
 
-      this.reply(msg, this.helpAll());
+      this.reply(msg, helpAll());
     });
   }
+}
 
-  helpAll(): string {
-    const title = `*Alfabot*`;
-    const cmdLines = cmdList.map(cmd => {
-      const left = `/${cmd.name.padEnd(8, ' ')}`;
-      const right = cmd.helpText ? ` - ${cmd.helpText}` : '';
+export function helpAll(): string {
+  const title = `*Alfabot*`;
+  const cmdLines = cmdList.map(cmd => {
+    const left = `/${cmd.name.padEnd(8, ' ')}`;
+    const right = cmd.helpText ? ` - ${cmd.helpText}` : '';
 
-      return `\`${left}${right}\``;
-    }).join('\n');
+    return `\`${left}${right}\``;
+  }).join('\n');
 
-    return `${title}\n${cmdLines}`;
-  }
+  return `${title}\n${cmdLines}`;
+}
 
-  helpSingle(cmdName: string): string {
-    const cmd = getCommand(cmdName);
-    if (!cmd) {
+export function helpSingle(command: string | CommandBase): string {
+  const help = (cmd: CommandBase) =>
+    `\`/${cmd.name}\ ${cmd.helpArgs}\`\n${cmd.helpText}`;
+
+  if (typeof command === 'string') {
+    const cmdObj = getCommand(command);
+
+    if (!cmdObj) {
       return 'Komentoa ei löydy.';
     }
 
-    const text = `\`/${cmd.name}\ ${cmd.helpArgs}\`\n${cmd.helpText}`
-    return text;
+    return help(cmdObj);
   }
+
+  return help(command);
 }
 
 export default HelpCommand;
