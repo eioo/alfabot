@@ -1,4 +1,4 @@
-import * as TelegramBot from 'node-telegram-bot-api';
+import { Message } from 'node-telegram-bot-api';
 
 export interface IDatabaseChat {
   weather?: IDatabaseWeather;
@@ -11,4 +11,4 @@ export interface IDatabaseWeather {
 
 export type IDatabase = IDatabaseChat[];
 
-export type IOnTextCallback = (msg: TelegramBot.Message, args: string[], argCount?: number) => void;
+export type IOnTextCallback = (msg: Message, args: string[], argCount: number) => void;

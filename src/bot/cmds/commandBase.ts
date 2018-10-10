@@ -1,13 +1,15 @@
+import Bot from '@bot';
 import { logger } from '@shared/logger';
 import { IOnTextCallback } from '@shared/types';
-import * as TelegramBot from 'node-telegram-bot-api';
+import { Message } from 'node-telegram-bot-api';
+import { helpSingle } from './help';
 
 class CommandBase {
   name: string;
   helpText?: string;
   helpArgs?: string;
 
-  constructor(public bot: TelegramBot) { }
+  constructor(public bot: Bot) { }
 
   onText(regexp: RegExp, callback: IOnTextCallback) {
     this.bot.onText(regexp, (msg, _) => {
@@ -20,7 +22,15 @@ class CommandBase {
     });
   }
 
-  async reply(msg: TelegramBot.Message, text: string): Promise<TelegramBot.Message> {
+  async showHelp(msg: Message): Promise<void> {
+    const helpText = helpSingle(this.name);
+
+    await this.bot.sendMessage(msg.chat.id, helpText, {
+      parse_mode: 'Markdown',
+    });
+  }
+
+  async reply(msg: Message, text: string): Promise<Message> {
     const message = await this.bot.sendMessage(msg.chat.id, text, {
       parse_mode: 'Markdown',
     });
@@ -28,17 +38,17 @@ class CommandBase {
     return message;
   }
 
-  async editReply(msg: TelegramBot.Message, text: string): Promise<TelegramBot.Message> {
+  async editReply(msg: Message, text: string): Promise<Message> {
     const editedMsg = await this.bot.editMessageText(text, {
       chat_id: msg.chat.id,
       message_id: msg.message_id,
       parse_mode: 'Markdown',
     });
 
-    return editedMsg as TelegramBot.Message;
+    return editedMsg as Message;
   }
 
-  private logMessage(msg: TelegramBot.Message): void {
+  private logMessage(msg: Message): void {
     const { from } = msg;
 
     if (!from) {
