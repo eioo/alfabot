@@ -2,27 +2,29 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
-    "lib": ["es7", "es2017"],
-    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "es2015",
+      "es2017.string"
+    ],
+    "sourceMap": true,
     "moduleResolution": "node",
-    "noImplicitAny": true,
+    "strictNullChecks": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noUnusedLocals": false,
-    "sourceMap": true,
-    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
-    "outDir": "build",
-    "typeRoots": [
-      "node_modules/@types",
-      "node_modules/telegraf/typings/telegram-types.d.ts"
-    ]
+    "baseUrl": "src",
+    "paths": {
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@logger": [
+        "shared/logger"
+      ]
+    }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
   "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
+    "node_modules"
   ]
 }
