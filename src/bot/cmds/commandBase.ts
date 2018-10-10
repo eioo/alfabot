@@ -1,5 +1,6 @@
-import * as TelegramBot from 'node-telegram-bot-api';
 import { logger } from '@shared/logger';
+import { IOnTextCallback } from '@shared/types';
+import * as TelegramBot from 'node-telegram-bot-api';
 
 class CommandBase {
   name: string;
@@ -8,20 +9,20 @@ class CommandBase {
 
   constructor(public bot: TelegramBot) { }
 
-  onText(regexp: RegExp, callback: (msg: TelegramBot.Message, args: string[]) => void) {
-    this.bot.onText(regexp, (msg_, _) => {
-      const text = msg_.text || '';
+  onText(regexp: RegExp, callback: IOnTextCallback) {
+    this.bot.onText(regexp, (msg, _) => {
+      const text = msg.text || '';
       const args = text.split(' ').slice(1);
 
-      this.logMessage(msg_);
+      this.logMessage(msg);
 
-      callback(msg_, args);
+      callback(msg, args, args.length);
     });
   }
 
   async reply(msg: TelegramBot.Message, text: string): Promise<TelegramBot.Message> {
     const message = await this.bot.sendMessage(msg.chat.id, text, {
-      parse_mode: 'Markdown'
+      parse_mode: 'Markdown',
     });
 
     return message;
@@ -31,7 +32,7 @@ class CommandBase {
     const editedMsg = await this.bot.editMessageText(text, {
       chat_id: msg.chat.id,
       message_id: msg.message_id,
-      parse_mode: 'Markdown'
+      parse_mode: 'Markdown',
     });
 
     return editedMsg as TelegramBot.Message;
@@ -39,12 +40,15 @@ class CommandBase {
 
   private logMessage(msg: TelegramBot.Message): void {
     const { from } = msg;
-    if (!from) return;
 
-    const full_name = `${from.first_name || ''} ${from.last_name || ''}`.trim();
+    if (!from) {
+      return;
+    }
+
+    const fullName = `${from.first_name || ''} ${from.last_name || ''}`.trim();
 
     logger.bot(`New message (Chat: ${msg.chat.id})`);
-    logger.bot(`From: ${full_name}`);
+    logger.bot(`From: ${fullName}`);
 
   }
 }

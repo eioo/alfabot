@@ -21,6 +21,12 @@
       ],
       "@logger": [
         "shared/logger"
+      ],
+      "@bot": [
+        "shared/types/bot"
+      ],
+      "@base": [
+        "bot/cmds/commandBase"
       ]
     }
   },

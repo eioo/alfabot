@@ -1,9 +1,9 @@
-import CommandBase from '../commandBase';
-import * as TelegramBot from 'node-telegram-bot-api';
-import { cmdList } from '..';
+import CommandBase from '@base';
+import Bot from '@bot';
+import { cmdList, getCommand } from '..';
 
 class HelpCommand extends CommandBase {
-  constructor(bot: TelegramBot) {
+  constructor(bot: Bot) {
     super(bot);
 
     this.name = 'help';
@@ -12,18 +12,36 @@ class HelpCommand extends CommandBase {
   }
 
   listen(): void {
-    this.onText(/^\/help/i, async (msg, args) => {
-      const title = `*Alfabot*\n`;
-      const response = title +
-        cmdList.map(cmd => {
-          const left = `/${cmd.name.padEnd(8, ' ')}`;
-          const right = cmd.helpText ? ` - ${cmd.helpText}` : '';
+    this.onText(/^\/help/i, async (msg, args, argCount) => {
+      if (argCount === 1) {
+        this.reply(msg, this.helpSingle(args[0]));
+        return;
+      }
 
-          return `\`${left}${right}\``;
-        }).join('\n');
-
-      this.reply(msg, response);
+      this.reply(msg, this.helpAll());
     });
+  }
+
+  helpAll(): string {
+    const title = `*Alfabot*`;
+    const cmdLines = cmdList.map(cmd => {
+      const left = `/${cmd.name.padEnd(8, ' ')}`;
+      const right = cmd.helpText ? ` - ${cmd.helpText}` : '';
+
+      return `\`${left}${right}\``;
+    }).join('\n');
+
+    return `${title}\n${cmdLines}`;
+  }
+
+  helpSingle(cmdName: string): string {
+    const cmd = getCommand(cmdName);
+    if (!cmd) {
+      return 'Komentoa ei löydy.';
+    }
+
+    const text = `\`/${cmd.name}\ ${cmd.helpArgs}\`\n${cmd.helpText}`
+    return text;
   }
 }
 

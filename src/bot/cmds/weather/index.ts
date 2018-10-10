@@ -1,8 +1,8 @@
-import CommandBase from '../commandBase';
-import * as TelegramBot from 'node-telegram-bot-api';
+import CommandBase from '@base';
+import Bot from '@bot';
 
 class WeatherCommand extends CommandBase {
-  constructor(bot: TelegramBot) {
+  constructor(bot: Bot) {
     super(bot);
 
     this.name = 'weather'
