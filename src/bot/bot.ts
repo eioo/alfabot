@@ -1,4 +1,4 @@
-import { logger } from '@logger';
+import { logger } from 'logger';
 import * as TelegramBot from 'node-telegram-bot-api';
 import * as commands from './cmds';
 import * as schedules from './schedules';
@@ -15,6 +15,7 @@ export function create(): void {
 
   schedules.start(bot);
   commands.load(bot);
+
   bot.startPolling();
 
   logger.bot('Bot started');

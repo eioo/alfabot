@@ -17,14 +17,17 @@ export type IOnTextCallback = (msg: Message, args: string[], argCount: number) =
 
 export type IScheduleList = Array<{
   name: string;
-  rule: {
-    year?: number;
-    month?: number;
-    date?: number;
-    dayOfWeek?: number;
-    hour?: number;
-    minute?: number;
-    second?: number;
-  };
+  rule?: IScheduleRule;
+  rules?: IScheduleRule[];
   action: Function;
 }>
+
+export interface IScheduleRule {
+  year?: number;
+  month?: number;
+  date?: number;
+  dayOfWeek?: number;
+  hour?: number;
+  minute?: number;
+  second?: number;
+}

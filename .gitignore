@@ -3,3 +3,5 @@ dist
 .cache
 .env
 database.json
+build
+*-error.log

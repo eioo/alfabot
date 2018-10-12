@@ -1,8 +1,8 @@
-import Bot from '@bot';
-import { logger } from '@shared/logger';
-import { IOnTextCallback } from '@shared/types';
+import Bot from 'bot';
 import * as _ from 'lodash';
 import { Message } from 'node-telegram-bot-api';
+import { logger } from 'shared/logger';
+import { IOnTextCallback } from 'shared/types';
 import { helpSingle } from './help';
 
 class CommandBase {
