@@ -1,5 +1,5 @@
-import CommandBase from 'base';
-import Bot from 'bot';
+import CommandBase from 'bot/cmds/commandBase';
+import Bot from 'shared/types/bot';
 import { cmdList, getCommand } from '..';
 
 class HelpCommand extends CommandBase {
@@ -7,8 +7,8 @@ class HelpCommand extends CommandBase {
     super(bot);
 
     this.name = 'help';
-    this.helpText = 'Show help'
-    this.helpArgs = '[command]'
+    this.helpText = 'Show help';
+    this.helpArgs = '[command]';
   }
 
   listen(): void {
@@ -25,12 +25,14 @@ class HelpCommand extends CommandBase {
 
 export function helpAll(): string {
   const title = `*Alfabot*`;
-  const cmdLines = cmdList.map(cmd => {
-    const left = `/${cmd.name.padEnd(8, ' ')}`;
-    const right = cmd.helpText ? ` - ${cmd.helpText}` : '';
+  const cmdLines = cmdList
+    .map(cmd => {
+      const left = `/${cmd.name.padEnd(8, ' ')}`;
+      const right = cmd.helpText ? ` - ${cmd.helpText}` : '';
 
-    return `\`${left}${right}\``;
-  }).join('\n');
+      return `\`${left}${right}\``;
+    })
+    .join('\n');
 
   return `${title}\n${cmdLines}`;
 }

@@ -2,6 +2,7 @@ node_modules
 dist
 .cache
 .env
+.idea
 database.json
 build
 *-error.log

@@ -1,15 +1,15 @@
-import CommandBase from 'base';
-import Bot from 'bot';
+import CommandBase from 'bot/cmds/commandBase';
 import { schedules } from 'bot/schedules/rules';
 import { scheduledJobs } from 'node-schedule';
+import Bot from 'shared/types/bot';
 
 class DebugCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
 
-    this.name = 'debug'
-    this.helpText = 'debug'
-    this.helpArgs = '[runschedule <name>]'
+    this.name = 'debug';
+    this.helpText = 'debug';
+    this.helpArgs = '[runschedule <name>]';
   }
 
   listen(): void {

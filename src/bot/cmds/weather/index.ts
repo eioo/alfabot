@@ -1,13 +1,13 @@
-import CommandBase from 'base';
-import Bot from 'bot';
+import CommandBase from 'bot/cmds/commandBase';
+import Bot from 'shared/types/bot';
 
 class WeatherCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
 
-    this.name = 'weather'
-    this.helpText = 'Show weather'
-    this.helpArgs = '[city]'
+    this.name = 'weather';
+    this.helpText = 'Show weather';
+    this.helpArgs = '[city]';
   }
 
   listen(): void {
