@@ -19,6 +19,9 @@
       "@shared/*": [
         "shared/*"
       ],
+      "@db": [
+        "shared/database"
+      ],
       "@logger": [
         "shared/logger"
       ],
