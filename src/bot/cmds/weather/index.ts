@@ -12,17 +12,11 @@ class WeatherCommand extends CommandBase {
 
   listen(): void {
     this.onText(/^\/weather/i, async (msg, args, argCount) => {
-      if (argCount === 0) {
+      if (!argCount) {
         return this.showHelp(msg);
       }
 
       if (argCount === 1) {
-        await this.setChatSettings(msg, {
-          weather: {
-            places: [args[0]],
-          },
-        });
-
         return this.reply(msg, `${args[0]}:n sää:\nHeheh`);
       }
 

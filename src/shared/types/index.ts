@@ -14,3 +14,17 @@ export interface IDatabase {
 }
 
 export type IOnTextCallback = (msg: Message, args: string[], argCount: number) => void;
+
+export type IScheduleList = Array<{
+  name: string;
+  rule: {
+    year?: number;
+    month?: number;
+    date?: number;
+    dayOfWeek?: number;
+    hour?: number;
+    minute?: number;
+    second?: number;
+  };
+  action: Function;
+}>
