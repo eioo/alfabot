@@ -1,5 +1,5 @@
-import { logger } from 'logger';
 import * as TelegramBot from 'node-telegram-bot-api';
+import { logger } from 'shared/logger';
 import * as commands from './cmds';
 import * as schedules from './schedules';
 

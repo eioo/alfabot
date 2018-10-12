@@ -2,14 +2,10 @@ import * as TelegramBot from 'node-telegram-bot-api';
 import CommandBase from './commandBase';
 import HelpCommand from './help';
 import WeatherCommand from './weather';
-
 import DebugCommand from './debug';
+import PostiCommand from './posti';
 
-const commands = [
-  WeatherCommand,
-  HelpCommand,
-  DebugCommand,
-];
+const commands = [WeatherCommand, HelpCommand, DebugCommand, PostiCommand];
 
 export const cmdList: CommandBase[] = [];
 

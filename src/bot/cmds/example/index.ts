@@ -1,13 +1,13 @@
-import CommandBase from 'base';
-import Bot from 'bot';
+import CommandBase from 'bot/cmds/commandBase';
+import Bot from 'shared/types/bot';
 
 class ExampleCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
 
-    this.name = 'example'
-    this.helpText = 'Example command'
-    this.helpArgs = '[somearg] [otherarg]'
+    this.name = 'example';
+    this.helpText = 'Example command';
+    this.helpArgs = '[somearg] [otherarg]';
   }
 
   listen(): void {
