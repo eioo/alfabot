@@ -1,6 +1,7 @@
 import { logger } from '@logger';
 import * as TelegramBot from 'node-telegram-bot-api';
 import * as commands from './cmds';
+import * as schedules from './schedules';
 
 export function create(): void {
   const token = process.env.BOT_TOKEN || '';
@@ -12,6 +13,7 @@ export function create(): void {
 
   const bot = new TelegramBot(token);
 
+  schedules.start(bot);
   commands.load(bot);
   bot.startPolling();
 
