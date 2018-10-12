@@ -1,14 +1,16 @@
 import { Message } from 'node-telegram-bot-api';
 
-export interface IDatabaseChat {
-  weather?: IDatabaseWeather;
+export interface IChatSettings {
+  weather?: IWeatherSettings;
 }
 
-export interface IDatabaseWeather {
+export interface IWeatherSettings {
   places?: string[];
   notifications?: boolean;
 }
 
-export type IDatabase = IDatabaseChat[];
+export interface IDatabase {
+  [chatId: number]: IChatSettings[];
+}
 
 export type IOnTextCallback = (msg: Message, args: string[], argCount: number) => void;

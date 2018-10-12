@@ -17,6 +17,12 @@ class WeatherCommand extends CommandBase {
       }
 
       if (argCount === 1) {
+        await this.setChatSettings(msg, {
+          weather: {
+            places: [args[0]],
+          },
+        });
+
         return this.reply(msg, `${args[0]}:n sää:\nHeheh`);
       }
 
