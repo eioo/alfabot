@@ -1,8 +1,7 @@
-import Bot from 'bot';
-import * as _ from 'lodash';
 import { Message } from 'node-telegram-bot-api';
 import { logger } from 'shared/logger';
 import { IOnTextCallback } from 'shared/types';
+import Bot from 'shared/types/bot';
 import { helpSingle } from './help';
 
 class CommandBase {
@@ -10,10 +9,10 @@ class CommandBase {
   helpText?: string;
   helpArgs?: string;
 
-  constructor(public bot: Bot) { }
+  constructor(public bot: Bot) {}
 
   onText(regexp: RegExp, callback: IOnTextCallback) {
-    this.bot.onText(regexp, (msg) => {
+    this.bot.onText(regexp, msg => {
       const text = msg.text || '';
       const args = text.split(' ').slice(1);
 
@@ -60,7 +59,6 @@ class CommandBase {
 
     logger.bot(`New message (Chat: ${msg.chat.id})`);
     logger.bot(`From: ${fullName}`);
-
   }
 }
 

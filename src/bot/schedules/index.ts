@@ -1,5 +1,5 @@
-import Bot from 'bot';
 import { RecurrenceRule, scheduleJob } from 'node-schedule';
+import Bot from 'shared/types/bot';
 import { schedules } from './rules';
 
 export function start(bot: Bot): void {
@@ -36,5 +36,3 @@ export function start(bot: Bot): void {
     }
   }
 }
-
-
