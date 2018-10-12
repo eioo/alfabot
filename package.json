@@ -6,7 +6,7 @@
   "scripts": {
     "dev:bot": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
     "dev:server": "parcel src/server/views/index.pug",
-    "start": "node index.js"
+    "start": "node scripts/startbot.js"
   },
   "dependencies": {
     "dotenv": "^6.1.0",
