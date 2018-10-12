@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev:bot": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
-    "dev:server": "parcel src/server/views/index.pug"
+    "dev:server": "parcel src/server/views/index.pug",
+    "start": "npm run dev:bot"
   },
   "dependencies": {
     "dotenv": "^6.1.0",
