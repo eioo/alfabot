@@ -1,5 +1,5 @@
-import CommandBase from '@base';
-import Bot from '@bot';
+import CommandBase from 'base';
+import Bot from 'bot';
 import { schedules } from 'bot/schedules/rules';
 import { scheduledJobs } from 'node-schedule';
 

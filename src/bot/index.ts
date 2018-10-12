@@ -1,5 +1,5 @@
-import { logger } from '@shared/logger';
 import * as dotenv from 'dotenv';
+import { logger } from 'shared/logger';
 
 dotenv.config();
 process.env.NTBA_FIX_319 = '1';

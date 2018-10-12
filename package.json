@@ -6,7 +6,7 @@
   "scripts": {
     "dev:bot": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
     "dev:server": "parcel src/server/views/index.pug",
-    "start": "npm run dev:bot"
+    "start": "node index.js"
   },
   "dependencies": {
     "dotenv": "^6.1.0",
@@ -22,12 +22,26 @@
     "@types/node-schedule": "^1.2.2",
     "@types/node-telegram-bot-api": "^0.30.3",
     "@types/signale": "^1.2.0",
+    "husky": "^1.1.2",
+    "lint-staged": "^7.3.0",
     "parcel-bundler": "^1.10.2",
+    "prettier": "^1.14.3",
     "pug": "^2.0.3",
     "ts-node-dev": "^1.0.0-pre.30",
     "tsconfig-paths": "^3.6.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "^3.1.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

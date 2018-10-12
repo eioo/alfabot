@@ -1,5 +1,5 @@
-import CommandBase from '@base';
-import Bot from '@bot';
+import CommandBase from 'base';
+import Bot from 'bot';
 
 class ExampleCommand extends CommandBase {
   constructor(bot: Bot) {

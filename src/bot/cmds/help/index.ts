@@ -1,5 +1,5 @@
-import CommandBase from '@base';
-import Bot from '@bot';
+import CommandBase from 'base';
+import Bot from 'bot';
 import { cmdList, getCommand } from '..';
 
 class HelpCommand extends CommandBase {
