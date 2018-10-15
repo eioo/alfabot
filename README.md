@@ -6,5 +6,5 @@ Telegram bot
 
 ```
 yarn install
-yarn dev
+yarn start
 ```
