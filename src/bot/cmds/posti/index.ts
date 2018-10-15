@@ -75,10 +75,10 @@ class PostiCommand extends CommandBase {
       }
 
       const trackingCode = args[1];
-      const myMessage = await this.reply(msg, 'Haetaan lähetystä...');
+      const reply = await this.reply(msg, 'Haetaan lähetystä...');
       const status = await getTrackingDetails(trackingCode);
 
-      this.editReply(myMessage, status.currentStatus);
+      this.editReply(reply, status.currentStatus);
 
       const details = status.details
         .map(detail => `*${detail.time}:* ${detail.text}`)
