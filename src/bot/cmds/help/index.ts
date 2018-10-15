@@ -24,7 +24,7 @@ class HelpCommand extends CommandBase {
 }
 
 export function helpAll(): string {
-  const title = `*Alfabot*`;
+  const title = `*Commands*`;
   const cmdLines = cmdList
     .map(cmd => {
       const left = `/${cmd.name.padEnd(8, ' ')}`;

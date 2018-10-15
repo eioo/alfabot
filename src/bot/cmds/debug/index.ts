@@ -8,31 +8,29 @@ class DebugCommand extends CommandBase {
     super(bot);
 
     this.name = 'debug';
-    this.helpText = 'debug';
-    this.helpArgs = '[runschedule <name>]';
+    this.helpText = 'Helps debugging';
+    this.helpArgs = '[schedule [run <name>]]';
   }
 
   listen(): void {
     this.onText(/^\/debug/i, async (msg, args, argCount) => {
-      if (!argCount) {
-        console.log(scheduledJobs);
-      }
-
-      if (args[0] === 'schedules' && argCount === 1) {
-        const names = schedules.map(s => s.name).join('\n');
-        this.reply(msg, `*List of schedules:*\n${names}`);
-      }
-
-      if (args[0] === 'runschedule' && argCount === 2) {
-        const schedule = scheduledJobs[args[1]];
-
-        if (!schedule) {
-          this.reply(msg, 'Schedule not found.');
-          return;
+      if (args[0] === 'schedule') {
+        if (argCount === 1) {
+          const names = schedules.map(s => s.name).join('\n');
+          return this.reply(msg, `*List of schedules:*\n${names}`);
         }
 
-        this.reply(msg, `\`Running "${schedule.name}" schedule.\``);
-        schedule.invoke();
+        if (args[1] === 'run' && argCount === 3) {
+          const schedule = scheduledJobs[args[2]];
+
+          if (!schedule) {
+            this.reply(msg, 'Schedule not found.');
+            return;
+          }
+
+          this.reply(msg, `\`Running "${schedule.name}" schedule.\``);
+          return schedule.invoke();
+        }
       }
     });
   }

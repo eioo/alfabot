@@ -4,35 +4,16 @@ import { schedules } from './rules';
 
 export function start(bot: Bot): void {
   for (const schedule of schedules) {
-    if (schedule.rule) {
-      const recRule = new RecurrenceRule();
+    const recRule = new RecurrenceRule();
 
-      for (const [unit, value] of Object.entries(schedule.rule)) {
-        recRule[unit] = value;
-      }
-
-      scheduleJob(schedule.name, recRule, () => {
-        schedule.action(bot);
-      });
-
-      return;
+    for (const [unit, value] of Object.entries(schedule.rule)) {
+      recRule[unit] = value;
     }
 
-    if (schedule.rules) {
-      schedule.rules.forEach((rule, i) => {
-        const name = rule + i.toString();
-        const recRule = new RecurrenceRule();
+    scheduleJob(schedule.name, recRule, () => {
+      schedule.action(bot);
+    });
 
-        for (const [unit, value] of Object.entries(rule)) {
-          recRule[unit] = value;
-        }
-
-        scheduleJob(name, recRule, () => {
-          schedule.action(bot);
-        });
-      });
-
-      return;
-    }
+    return;
   }
 }

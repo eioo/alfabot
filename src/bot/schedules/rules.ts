@@ -1,21 +1,33 @@
 import { IScheduleList } from 'shared/types';
 import * as blazeit from './blazeit';
+import * as mornings from './mornings';
+import * as schedule from 'node-schedule';
 
 export const schedules: IScheduleList = [
   {
-    name: 'blazeit',
-    rules: [
-      {
-        hour: 4,
-        minute: 20,
-        second: 30,
-      },
-      {
-        hour: 15,
-        minute: 20,
-        second: 30,
-      },
-    ],
+    name: 'mornings',
+    rule: {
+      hour: 7,
+      dayOfWeek: [new schedule.Range(0, 5)]
+    },
+    action: mornings.action,
+  },
+  {
+    name: 'blazeitday',
+    rule: {
+      hour: 16,
+      minute: 20,
+      second: 30,
+    },
+    action: blazeit.action,
+  },
+  {
+    name: 'blazeitday',
+    rule: {
+      hour: 16,
+      minute: 20,
+      second: 30,
+    },
     action: blazeit.action,
   },
 ];
