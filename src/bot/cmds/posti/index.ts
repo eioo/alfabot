@@ -1,22 +1,22 @@
 import CommandBase from 'bot/cmds/commandBase';
-import Bot from 'shared/types/bot';
 import * as puppeteer from 'puppeteer';
+import Bot from 'shared/types/bot';
 
 const TRACKING_URL = 'https://t.17track.net/en#nums=';
 
-interface Detail {
+interface IDetail {
   time: string;
   text: string;
 }
 
-interface TrackingDetails {
+interface ITrackingDetails {
   currentStatus: string;
-  details: Detail[];
+  details: IDetail[];
 }
 
 async function getTrackingDetails(
   trackingCode: string
-): Promise<TrackingDetails> {
+): Promise<ITrackingDetails> {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(`${TRACKING_URL}${trackingCode}`);
