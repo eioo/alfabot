@@ -1,14 +1,14 @@
+import * as schedule from 'node-schedule';
 import { IScheduleList } from 'shared/types';
 import * as blazeit from './blazeit';
 import * as mornings from './mornings';
-import * as schedule from 'node-schedule';
 
 export const schedules: IScheduleList = [
   {
     name: 'mornings',
     rule: {
       hour: 7,
-      dayOfWeek: [new schedule.Range(0, 5)]
+      dayOfWeek: [new schedule.Range(0, 5)],
     },
     action: mornings.action,
   },

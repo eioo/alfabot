@@ -1,8 +1,8 @@
-import fetch from 'node-fetch'
-import Bot from 'shared/types/bot';
 import * as cheerio from 'cheerio';
 import * as dateFormat from 'dateformat';
 import * as _ from 'lodash';
+import fetch from 'node-fetch'
+import Bot from 'shared/types/bot';
 
 interface IHoliday {
   national: boolean;
@@ -23,7 +23,7 @@ async function fetchHolidays(): Promise<IHoliday[]> {
       national: !!$(row).find('td:nth-of-type(1) > img').length,
       url: $(row).find('td:nth-of-type(2) > a').attr('href'),
       name: $(row).find('td:nth-of-type(2) > a').text(),
-      date: $(row).find('td:nth-of-type(4)').text().trim()
+      date: $(row).find('td:nth-of-type(4)').text().trim(),
     })
   }
 
@@ -54,6 +54,6 @@ export async function action(bot: Bot): Promise<void> {
     `${holidayText}`;
 
   bot.sendMessage(-161953743, message, {
-    parse_mode: 'Markdown'
+    parse_mode: 'Markdown',
   })
 }
