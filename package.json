@@ -1,12 +1,12 @@
 {
-  "name": "package",
+  "name": "alfabot",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "dev:bot": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
     "dev:server": "parcel src/server/views/index.pug",
-    "start": "node scripts/startbot.js"
+    "start": "yarn dev:bot"
   },
   "dependencies": {
     "@types/node-fetch": "^2.1.2",
