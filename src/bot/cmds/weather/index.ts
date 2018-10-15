@@ -1,4 +1,5 @@
 import CommandBase from 'bot/cmds/commandBase';
+import { weather } from 'shared/api/openWeatherMap';
 import Bot from 'shared/types/bot';
 
 class WeatherCommand extends CommandBase {
@@ -17,10 +18,14 @@ class WeatherCommand extends CommandBase {
       }
 
       if (argCount === 1) {
-        return this.reply(msg, `${args[0]}:n sää:\nHeheh`);
+        const reply = await this.reply(msg, `_Ladataan..._`);
+        const data = await weather.getByCityName(args[0]);
+        const temp = data.main.temp.toFixed(2);
+
+        return this.editReply(reply, `${temp}°C`);
       }
 
-      this.reply(msg, 'kys');
+      this.showHelp(msg);
     });
   }
 }

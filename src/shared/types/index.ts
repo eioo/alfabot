@@ -1,5 +1,5 @@
-import { Message } from 'node-telegram-bot-api';
 import { RecurrenceRule } from 'node-schedule';
+import { Message } from 'node-telegram-bot-api';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 

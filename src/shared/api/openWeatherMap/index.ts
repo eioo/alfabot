@@ -13,38 +13,40 @@ const defaultOptions = {
 
 async function query(apiEndpoint: string, params: object): Promise<IForecast | IWeather> {
   const url = API_BASE_URL + apiEndpoint;
-  const body = queryString.stringify({
+  const payload = queryString.stringify({
     ...params,
     ...defaultOptions,
   });
 
-  const response = await fetch(url, { body });
+  const response = await fetch(url + '?' + payload);
   const json = await response.json();
 
   return json;
 }
 
+
 export const weather = {
   async getByCityName(cityName: string): Promise<IWeather> {
-    const result = await query('forecast', { q: cityName });
+    const result = await query('weather', { q: cityName });
     return result as IWeather;
   },
 
   async getByCityId(cityId: string): Promise<IWeather> {
-    const result = await query('forecast', { id: cityId });
+    const result = await query('weather', { id: cityId });
     return result as IWeather;
   },
 
   async getByGeoCoords(lat: number | string, lon: number | string): Promise<IWeather> {
-    const result = await query('forecast', { lat, lon });
+    const result = await query('weather', { lat, lon });
     return result as IWeather;
   },
 
   async getByZipCode(zipCode: number | string): Promise<IWeather> {
-    const result = await query('forecast', { zip: zipCode });
+    const result = await query('weather', { zip: zipCode });
     return result as IWeather;
   },
 }
+
 
 export const forecast = {
   async getByCityName(cityName: string): Promise<IForecast> {
