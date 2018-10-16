@@ -1,4 +1,4 @@
-import { Message } from 'node-telegram-bot-api';
+import { EditMessageTextOptions, Message, SendMessageOptions } from 'node-telegram-bot-api';
 import { logger } from 'shared/logger';
 import { IOnTextCallback } from 'shared/types';
 import Bot from 'shared/types/bot';
@@ -30,19 +30,21 @@ class CommandBase {
     });
   }
 
-  async reply(msg: Message, text: string): Promise<Message> {
+  async reply(msg: Message, text: string, options?: SendMessageOptions): Promise<Message> {
     const message = await this.bot.sendMessage(msg.chat.id, text, {
       parse_mode: 'Markdown',
+      ...options,
     });
 
     return message;
   }
 
-  async editReply(msg: Message, text: string): Promise<Message> {
+  async editReply(msg: Message, text: string, options?: EditMessageTextOptions): Promise<Message> {
     const editedMsg = await this.bot.editMessageText(text, {
       chat_id: msg.chat.id,
       message_id: msg.message_id,
       parse_mode: 'Markdown',
+      ...options,
     });
 
     return editedMsg as Message;
