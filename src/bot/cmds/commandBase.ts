@@ -49,16 +49,19 @@ class CommandBase {
   }
 
   private logMessage(msg: Message): void {
-    const { from } = msg;
-
-    if (!from) {
+    if (!msg.from) {
       return;
     }
 
-    const fullName = `${from.first_name || ''} ${from.last_name || ''}`.trim();
+    const firstName = msg.from.first_name || '';
+    const lastName = msg.from.last_name || '';
+    const fullName = `${firstName} ${lastName}`.trim();
+    const msgBody = msg.text ? msg.text.replace('\n', '\\n') : '';
 
-    logger.bot(`New message (Chat: ${msg.chat.id})`);
-    logger.bot(`From: ${fullName}`);
+    logger.bot(`/${this.name} command triggered\n` +
+               `Chat: ${msg.chat.id}\n` + 
+               `From: ${fullName}\n` +
+               `Body: ${msgBody}`);
   }
 }
 

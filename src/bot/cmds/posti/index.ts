@@ -1,61 +1,7 @@
 import CommandBase from 'bot/cmds/commandBase';
-import * as puppeteer from 'puppeteer';
+import * as dateFormat from 'dateformat';
 import Bot from 'shared/types/bot';
-
-const TRACKING_URL = 'https://t.17track.net/en#nums=';
-
-interface IDetail {
-  time: string;
-  text: string;
-}
-
-interface ITrackingDetails {
-  currentStatus: string;
-  details: IDetail[];
-}
-
-async function getTrackingDetails(
-  trackingCode: string
-): Promise<ITrackingDetails> {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.goto(`${TRACKING_URL}${trackingCode}`);
-
-  return await page.evaluate(() => {
-    const statusElement = document.querySelector(
-      '.tracklist-item .text-capitalize'
-    );
-    const detailsElement = document.querySelectorAll(
-      '.tracklist-details dl.ori-block dd div'
-    );
-
-    if (!statusElement || !detailsElement) {
-      return 'Ei löytynyt';
-    }
-
-    const details = Array.from(detailsElement).map(element => {
-      const timeElement = element.querySelector('time');
-      const textElement = element.querySelector('p');
-
-      if (!timeElement || !textElement) {
-        return {
-          time: '',
-          text: '',
-        };
-      }
-
-      return {
-        time: timeElement.textContent,
-        text: textElement.textContent,
-      };
-    });
-
-    return {
-      currentStatus: statusElement.textContent,
-      details,
-    };
-  });
-}
+import { getTrackingDetails } from './tracking';
 
 class PostiCommand extends CommandBase {
   constructor(bot: Bot) {
@@ -71,22 +17,36 @@ class PostiCommand extends CommandBase {
       const args = (msg.text || '').split(' ');
 
       if (!args[1]) {
-        return;
+        return this.showHelp(msg);
       }
 
       const trackingCode = args[1];
       const reply = await this.reply(msg, 'Haetaan lähetystä...');
-      const status = await getTrackingDetails(trackingCode);
+      const tracking = await getTrackingDetails(trackingCode);
 
-      this.editReply(reply, status.currentStatus);
-
-      const details = status.details
-        .map(detail => `*${detail.time}:* ${detail.text}`)
-        .join('\n');
-
-      if (details.length === 0) {
-        return;
+      if (!tracking.shipments.length) {
+        return this.editReply(msg, 'Lähetystä ei löytynyt');
       }
+
+      const shipment = tracking.shipments[0];
+      this.editReply(
+        reply,
+        `*${trackingCode}*\n` +
+          `Tila: ${shipment.phase}\n` +
+          `Paino: ${shipment.weight || '-'} kg, ` +
+          `Tilavuus: ${shipment.volume || '-'} m³`
+      );
+
+      const details = shipment.events
+        .map(event => {
+          const { locationName, timestamp, description } = event;
+
+          const dateText = dateFormat(new Date(timestamp), 'dd-mm-yyyy HH:MM');
+          const locationText = locationName ? ` (_${locationName})_ ` : '';
+
+          return `*${dateText}*${locationText}${description.fi}`;
+        })
+        .join('\n');
 
       this.reply(msg, details);
     });
