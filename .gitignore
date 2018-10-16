@@ -6,3 +6,5 @@ dist
 database.json
 build
 *-error.log
+.vscode
+.idea
