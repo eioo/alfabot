@@ -9,7 +9,6 @@
     "start": "yarn dev:bot"
   },
   "dependencies": {
-    "@types/node-fetch": "^2.1.2",
     "cheerio": "^1.0.0-rc.2",
     "dateformat": "^3.0.3",
     "dotenv": "^6.1.0",
@@ -26,6 +25,7 @@
     "@types/dateformat": "^1.0.1",
     "@types/dotenv": "^4.0.3",
     "@types/lodash": "^4.14.117",
+    "@types/node-fetch": "^2.1.2",
     "@types/node-schedule": "^1.2.2",
     "@types/node-telegram-bot-api": "^0.30.3",
     "@types/query-string": "^6.1.1",

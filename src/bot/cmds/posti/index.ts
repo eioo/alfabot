@@ -1,7 +1,7 @@
 import CommandBase from 'bot/cmds/commandBase';
 import * as dateFormat from 'dateformat';
 import Bot from 'shared/types/bot';
-import { getTrackingDetails, shipmentPhases } from './tracking';
+import { getTrackingDetails, ShipmentPhases } from './tracking';
 
 class PostiCommand extends CommandBase {
   constructor(bot: Bot) {
@@ -29,12 +29,13 @@ class PostiCommand extends CommandBase {
       }
 
       const shipment = tracking.shipments[0];
+
       this.editReply(
         reply,
         `*${trackingCode}*\n` +
-          `Tila: ${shipmentPhases[shipment.phase]}\n` +
-          `Paino: ${shipment.weight || '-'} kg, ` +
-          `Tilavuus: ${shipment.volume || '-'} m³`
+        `Tila: ${ShipmentPhases[shipment.phase]}\n` +
+        `Paino: ${shipment.weight || '-'} kg, ` +
+        `Tilavuus: ${shipment.volume || '-'} m³`
       );
 
       const details = shipment.events
