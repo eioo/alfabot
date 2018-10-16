@@ -10,6 +10,7 @@ class DebugCommand extends CommandBase {
     this.name = 'debug';
     this.helpText = 'Helps debugging';
     this.helpArgs = '[schedule [run <name>]]';
+    this.visible = false;
   }
 
   listen(): void {

@@ -8,8 +8,9 @@ class CommandBase {
   name: string;
   helpText?: string;
   helpArgs?: string;
+  visible: boolean = true;
 
-  constructor(public bot: Bot) {}
+  constructor(public bot: Bot) { }
 
   onText(regexp: RegExp, callback: IOnTextCallback) {
     this.bot.onText(regexp, msg => {
@@ -61,9 +62,9 @@ class CommandBase {
     const msgBody = msg.text ? msg.text.replace('\n', '\\n') : '';
 
     logger.bot(`/${this.name} command triggered\n` +
-               `Chat: ${msg.chat.id}\n` + 
-               `From: ${fullName}\n` +
-               `Body: ${msgBody}`);
+      `Chat: ${msg.chat.id}\n` +
+      `From: ${fullName}\n` +
+      `Body: ${msgBody}`);
   }
 }
 

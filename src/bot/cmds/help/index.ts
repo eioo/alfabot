@@ -27,11 +27,16 @@ export function helpAll(): string {
   const title = `*Commands*`;
   const cmdLines = cmdList
     .map(cmd => {
+      if (!cmd.visible) {
+        return;
+      }
+
       const left = `/${cmd.name.padEnd(8, ' ')}`;
       const right = cmd.helpText ? ` - ${cmd.helpText}` : '';
 
       return `\`${left}${right}\``;
     })
+    .filter(x => x)
     .join('\n');
 
   return `${title}\n${cmdLines}`;
@@ -42,13 +47,13 @@ export function helpSingle(command: string | CommandBase): string {
     `\`/${cmd.name}\ ${cmd.helpArgs}\`\n${cmd.helpText}`;
 
   if (typeof command === 'string') {
-    const cmdObj = getCommand(command);
+    const cmdClass = getCommand(command);
 
-    if (!cmdObj) {
+    if (!cmdClass) {
       return 'Komentoa ei löydy.';
     }
 
-    return help(cmdObj);
+    return help(cmdClass);
   }
 
   return help(command);
