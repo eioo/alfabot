@@ -4,7 +4,7 @@ import { forecast } from './openWeatherMap';
 export async function getForecastText(cityName: string, limit: number = 8): Promise<string>  {
   const data = await forecast.getByCityName(cityName);
 
-  const items = data.list.slice(1,limit + 1);
+  const items = data.list.slice(0, limit + 1);
   const forecastLines = items
     .map(item => {
       const icon = weatherIcons[item.weather[0].icon];
