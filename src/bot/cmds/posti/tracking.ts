@@ -7,7 +7,7 @@ export const shipmentPhases = {
   WAITING: 'Lähetys ei ole vielä saapunut Postille',
   RECEIVED: 'Lähetys on vastaanotettu',
   IN_TRANSPORT: 'Lähetys on kuljetuksessa',
-  READY_FOR_PICKuP: 'Lähetys on noudettavissa',
+  READY_FOR_PICKUP: 'Lähetys on noudettavissa',
   DELIVERED: 'Lähetys on toimitettu',
   RETURNED_TO_SENDER: 'Lähetys on palautettu',
 }
