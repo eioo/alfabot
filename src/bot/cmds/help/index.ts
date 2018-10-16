@@ -43,14 +43,14 @@ export function helpAll(): string {
 }
 
 export function helpSingle(command: string | CommandBase): string {
-  const help = (cmd: CommandBase) =>
-    `\`/${cmd.name}\ ${cmd.helpArgs}\`\n${cmd.helpText}`;
+  const help = (base: CommandBase) =>
+    `\`/${base.name}\ ${base.helpArgs}\`\n${base.helpText}`;
 
   if (typeof command === 'string') {
     const cmdClass = getCommand(command);
 
     if (!cmdClass) {
-      return 'Komentoa ei löydy.';
+      return 'Command not found.';
     }
 
     return help(cmdClass);
