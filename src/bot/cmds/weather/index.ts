@@ -1,6 +1,7 @@
 import CommandBase from 'bot/cmds/commandBase';
-import { weather } from 'shared/api/openWeatherMap';
 import Bot from 'shared/types/bot';
+import { validateCity } from './openWeatherMap';
+import { getForecastText } from './responseBuilder';
 
 class WeatherCommand extends CommandBase {
   constructor(bot: Bot) {
@@ -12,17 +13,25 @@ class WeatherCommand extends CommandBase {
   }
 
   listen(): void {
-    this.onText(/^\/weather/i, async (msg, args, argCount) => {
+    this.onText(/^\/(weather|sää)/i, async (msg, args, argCount) => {
       if (!argCount) {
-        return this.showHelp(msg);
+        this.showHelp(msg);
+        return;
       }
 
       if (argCount === 1) {
         const reply = await this.reply(msg, `_Ladataan..._`);
-        const data = await weather.getByCityName(args[0]);
-        const temp = data.main.temp.toFixed(2);
+        const cityName = args[0];
+        const cityIsValid = await validateCity(cityName);
 
-        return this.editReply(reply, `${temp}°C`);
+        if (!cityIsValid) {
+          this.editReply(reply, 'Paikkaa ei ole olemassa');
+          return;
+        }
+        
+        const response = await getForecastText(cityName);
+        this.editReply(reply, response);
+        return;
       }
 
       this.showHelp(msg);
