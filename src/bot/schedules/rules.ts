@@ -8,6 +8,7 @@ export const schedules: IScheduleList = [
     name: 'mornings',
     rule: {
       hour: 7,
+      minute: 0,
       dayOfWeek: [new schedule.Range(0, 5)],
     },
     action: mornings.action,
