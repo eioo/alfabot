@@ -1,3 +1,4 @@
+
 import CommandBase from 'bot/cmds/commandBase';
 import * as dateFormat from 'dateformat';
 import * as schedule from 'node-schedule';
@@ -7,7 +8,7 @@ import { logger } from 'shared/logger';
 import Bot from 'shared/types/bot';
 import { IReminder } from 'shared/types/database';
 
-class RemindmeCommand extends CommandBase {
+class RemindCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
 
@@ -22,7 +23,7 @@ class RemindmeCommand extends CommandBase {
   listen(): void {
     const durationRegex = /^\d+ ?\w+ /;
 
-    this.onText(/^\/remind(me)?/i, async (msg, args) => {
+    this.onText(/^\/remind(me|er)? /i, async (msg, args) => {
       const { from } = msg;
       const argsJoined = args.join(' ');
       const duration = parseDuration(argsJoined);
@@ -90,4 +91,4 @@ class RemindmeCommand extends CommandBase {
   }
 }
 
-export default RemindmeCommand;
+export default RemindCommand;
