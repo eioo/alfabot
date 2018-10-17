@@ -43,7 +43,7 @@ class RemindmeCommand extends CommandBase {
       const chatid = msg.chat.id;
       const timestamp = +new Date(now + duration);
       const text = argsJoined.replace(durationRegex, '').trim();
-      const asker = (`${from.first_name || ''} ${from.last_name || ''}`).trim();
+      const asker = from.first_name;
 
       const reminder: IReminder = {
         chatid,
@@ -67,7 +67,7 @@ class RemindmeCommand extends CommandBase {
     await db('reminders').insert(reminder)
 
     schedule.scheduleJob(new Date(timestamp), async () => {
-      this.bot.sendMessage(reminder.chatid, `*Reminder for ${asker}*\n_${text}_`, {
+      this.bot.sendMessage(reminder.chatid, `*Reminder for* @${asker}\n_${text}_`, {
         parse_mode: 'Markdown',
       });
     });
