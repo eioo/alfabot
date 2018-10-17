@@ -8,6 +8,7 @@ class CommandBase {
   name: string;
   helpText?: string;
   helpArgs?: string;
+  helpDescription?: string;
   visible: boolean = true;
 
   constructor(public bot: Bot) { }
@@ -23,8 +24,9 @@ class CommandBase {
     });
   }
 
-  async showHelp(msg: Message): Promise<void> {
-    const helpText = helpSingle(this.name);
+  async showHelp(msg: Message, err: string = ''): Promise<void> {
+    const errText = err ? `😞 *${err}*\n\n` : ''
+    const helpText = errText + helpSingle(this.name);
 
     await this.bot.sendMessage(msg.chat.id, helpText, {
       parse_mode: 'Markdown',

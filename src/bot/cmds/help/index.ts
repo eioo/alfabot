@@ -43,8 +43,16 @@ export function helpAll(): string {
 }
 
 export function helpSingle(command: string | CommandBase): string {
-  const help = (base: CommandBase) =>
-    `\`/${base.name}\ ${base.helpArgs}\`\n${base.helpText}`;
+  const createText = (base: CommandBase) => {
+    const { name, helpArgs, helpText, helpDescription } = base;
+    const helpDesc = helpDescription ? `\n${helpDescription}` : '';
+
+    return [
+      `\`/${name}\ ${helpArgs}\``,
+      helpText,
+      helpDesc,
+    ].join('\n');
+  }
 
   if (typeof command === 'string') {
     const cmdClass = getCommand(command);
@@ -53,10 +61,10 @@ export function helpSingle(command: string | CommandBase): string {
       return 'Command not found.';
     }
 
-    return help(cmdClass);
+    return createText(cmdClass);
   }
 
-  return help(command);
+  return createText(command);
 }
 
 export default HelpCommand;

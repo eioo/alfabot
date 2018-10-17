@@ -13,7 +13,7 @@ const db = knex({
   searchPath: ['public'],
 });
 
-async function getChat(chatId: number): Promise<IChat> {
+export async function getChat(chatId: number): Promise<IChat> {
   const chatExists = (await db('chats').where('chatId', chatId)).length;
 
   if (!chatExists) {
@@ -28,7 +28,7 @@ async function getChat(chatId: number): Promise<IChat> {
   return proxiedChat;
 }
 
-async function saveChat(chat: IChat): Promise<void> {
+export async function saveChat(chat: IChat): Promise<void> {
   const { chatId, ...rest } = chat;
   await db('chats').where('chatId', chatId).update(rest);
 }
