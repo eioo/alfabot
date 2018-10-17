@@ -17,7 +17,6 @@ Telegram bot. Beep Boop.
 3. Run following commands:
 
 ```
-yarn global add pm2
 yarn install
 yarn start
 ```
