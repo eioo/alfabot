@@ -33,7 +33,6 @@ class IBANCommand extends CommandBase {
       if (!argCount) {
         const response = ibanAccounts
           .map(acc => `*${acc.ownerName}*: ${acc.ibanNumber}`)
-          .join('\n');
         const responseNone = 'Ei IBAN-tilejä';
 
         this.reply(msg, response || responseNone);

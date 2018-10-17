@@ -46,8 +46,7 @@ class PostiCommand extends CommandBase {
           const locationText = locationName ? ` (_${locationName})_ ` : '';
 
           return `*${dateText}*${locationText}${description.fi}`;
-        })
-        .join('\n');
+        });
 
       this.reply(msg, details);
     });

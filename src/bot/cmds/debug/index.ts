@@ -17,8 +17,11 @@ class DebugCommand extends CommandBase {
     this.onText(/^\/debug/i, async (msg, args, argCount) => {
       if (args[0] === 'schedule') {
         if (argCount === 1) {
-          const names = schedules.map(s => s.name).join('\n');
-          return this.reply(msg, `*List of schedules:*\n${names}`);
+          const names = schedules.map(s => s.name);
+          return this.reply(msg, [
+            `*List of schedules:*`,
+            ...names,
+          ]);
         }
 
         if (args[1] === 'run' && argCount === 3) {

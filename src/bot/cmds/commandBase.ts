@@ -33,7 +33,9 @@ class CommandBase {
     });
   }
 
-  async reply(msg: Message, text: string, options?: SendMessageOptions): Promise<Message> {
+  async reply(msg: Message, text: string | string[], options?: SendMessageOptions): Promise<Message> {
+    text = typeof text === 'string' ? text : text.join('\n');
+
     const message = await this.bot.sendMessage(msg.chat.id, text, {
       parse_mode: 'Markdown',
       ...options,

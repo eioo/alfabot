@@ -59,7 +59,7 @@ class RemindCommand extends CommandBase {
         '*Reminder set!*',
         `\`When:\` ${dateFormat(new Date(timestamp))}`,
         `\`Text:\` ${reminder.text}`,
-      ].join('\n'));
+      ]);
     });
   }
 
