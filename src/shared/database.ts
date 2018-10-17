@@ -1,14 +1,22 @@
 import * as knex from 'knex';
+import { logger } from './logger';
 import { onChange } from './onChange';
 import { IChat } from './types/database';
+
+const { PG_HOST, PG_DATABASE, PG_USER, PG_PASS } = process.env;
+
+if (!PG_HOST || !PG_DATABASE || !PG_USER || !PG_PASS) {
+  logger.error('Fill in PostgreSQL database details in .env.');
+  process.exit();
+}
 
 export const db = knex({
   client: 'pg',
   connection: {
-    host: process.env.PG_HOST || '',
-    database: process.env.PG_DATABASE || '',
-    user: process.env.PG_USER || '',
-    password: process.env.PG_PASS || '',
+    host: PG_HOST,
+    database: PG_DATABASE,
+    user: PG_USER,
+    password: PG_PASS,
   },
   searchPath: ['public'],
 });
@@ -29,6 +37,6 @@ export async function getChat(chatId: number): Promise<IChat> {
 }
 
 export async function saveChat(chat: IChat): Promise<void> {
-  const { chatId, ...rest } = chat;
-  await db('chats').where('chatId', chatId).update(rest);
+  const { chatid, ...rest } = chat;
+  await db('chats').where('chatId', chatid).update(rest);
 }

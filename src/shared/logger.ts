@@ -10,5 +10,10 @@ export const logger = new Signale({
       color: 'cyan',
       label: 'bot',
     },
+    database: {
+      badge: '💾',
+      color: 'yellow',
+      label: 'bot',
+    },
   },
 });
