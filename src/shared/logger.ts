@@ -7,7 +7,7 @@ export const logger = new Signale({
   types: {
     bot: {
       badge: '🤖',
-      color: 'yellow',
+      color: 'cyan',
       label: 'bot',
     },
   },

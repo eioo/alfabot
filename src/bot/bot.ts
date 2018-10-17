@@ -3,7 +3,7 @@ import { logger } from 'shared/logger';
 import * as commands from './cmds';
 import * as schedules from './schedules';
 
-export function create(): void {
+export async function create(): Promise<void> {
   const token = process.env.BOT_TOKEN || '';
 
   if (!token) {
@@ -17,6 +17,4 @@ export function create(): void {
   commands.load(bot);
 
   bot.startPolling();
-
-  logger.bot('Bot started');
 }

@@ -2,7 +2,7 @@ import * as knex from 'knex';
 import { onChange } from './onChange';
 import { IChat } from './types/database';
 
-const db = knex({
+export const db = knex({
   client: 'pg',
   connection: {
     host: process.env.PG_HOST || '',
