@@ -13,7 +13,7 @@ export const logger = new Signale({
     database: {
       badge: '💾',
       color: 'yellow',
-      label: 'bot',
+      label: 'database',
     },
   },
 });

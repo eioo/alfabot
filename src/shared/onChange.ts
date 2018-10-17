@@ -1,3 +1,4 @@
+// Detects changes on object
 export function onChange(object: object, callback: () => void) {
   const handler = {
     get(target: any, property: any, receiver: any): any {

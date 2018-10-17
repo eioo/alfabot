@@ -2,7 +2,7 @@
 import HelpCommand from './help';
 import IBANCommand from './iban';
 import PostiCommand from './posti';
-import RemindmeCommand from './remindme';
+import RemindCommand from './remind';
 import WeatherCommand from './weather';
 
 import DebugCommand from './debug';
@@ -13,5 +13,5 @@ export const commandRefs = [
   DebugCommand,
   PostiCommand,
   IBANCommand,
-  RemindmeCommand,
+  RemindCommand,
 ]
