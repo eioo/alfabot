@@ -20,17 +20,17 @@ class WeatherCommand extends CommandBase {
       }
 
       if (argCount === 1) {
-        const reply = await this.reply(msg, `_Ladataan..._`);
+        const reply = await this.reply(msg, `_Loading..._`);
         const cityName = args[0];
         const cityIsValid = await validateCity(cityName);
 
         if (!cityIsValid) {
-          this.editReply(reply, 'Paikkaa ei ole olemassa');
+          this.editReply(reply, `City doesn't exist`);
           return;
         }
-        
+
         const response = await getForecastText(cityName);
-        this.editReply(reply, response);
+        this.editReply(reply, response || 'Could not get forecast');
         return;
       }
 
