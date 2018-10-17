@@ -1,6 +1,12 @@
-# Alfabot
+# 🤖 Alfabot
 
-Telegram bot
+Telegram bot. Beep Boop.
+
+## Requirements
+
+- Node.js
+- Yarn
+- PostgreSQL database
 
 ## Installation & running
 
