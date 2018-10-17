@@ -68,7 +68,7 @@ class RemindCommand extends CommandBase {
     await db('reminders').insert(reminder)
 
     schedule.scheduleJob(new Date(timestamp), async () => {
-      this.bot.sendMessage(reminder.chatid, `*Reminder for* @${asker}\n_${text}_`, {
+      this.bot.sendMessage(reminder.chatid, `*🔔 Reminder for* @${asker}\n_${text}_`, {
         parse_mode: 'Markdown',
       });
     });
