@@ -23,9 +23,9 @@ export const schedules: IScheduleList = [
     action: blazeit.action,
   },
   {
-    name: 'blazeitday',
+    name: 'blazeitnight',
     rule: {
-      hour: 16,
+      hour: 4,
       minute: 20,
       second: 30,
     },
