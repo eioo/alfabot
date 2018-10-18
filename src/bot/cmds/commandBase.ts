@@ -63,11 +63,12 @@ class CommandBase {
     const firstName = msg.from.first_name || '';
     const lastName = msg.from.last_name || '';
     const fullName = `${firstName} ${lastName}`.trim();
-    // const msgBody = msg.text ? msg.text.replace('\n', '\\n') : '';
 
-    logger.bot(`/${this.name} command triggered\n` +
+    logger.bot(
+      `/${this.name} command triggered\n` +
       `Chat: ${msg.chat.id}\n` +
-      `From: ${fullName}\n` +
+      `From: ${fullName}\n`
+    );
   }
 }
 
