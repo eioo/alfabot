@@ -1,4 +1,5 @@
 import CommandBase from 'bot/cmds/commandBase';
+import * as _ from 'lodash';
 import Bot from 'shared/types/bot';
 
 class TuleminenCommand extends CommandBase {
@@ -11,8 +12,20 @@ class TuleminenCommand extends CommandBase {
   }
 
   listen(): void {
-    this.onText(/(tulen|tulin|tulee)/i, async msg => {
-      this.reply(msg, 'paperia?? :D');
+    this.onText(/([^a-z]tul(?!(li|va))|[^a-z]tuu)/i, async msg => {
+      const answers = [
+        'paperia?? :D',
+        'pabers?',
+        'tarviikko papruu :D',
+        '*tirsk*',
+      ];
+      const randomAnswer = _.sample(answers);
+
+      if (!randomAnswer) {
+        return;
+      }
+
+      this.reply(msg, randomAnswer);
     });
   }
 }
