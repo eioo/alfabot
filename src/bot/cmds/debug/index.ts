@@ -15,8 +15,8 @@ class DebugCommand extends CommandBase {
 
   listen(): void {
     this.onText(/^\/debug/i, async (msg, args, argCount) => {
-      if (args[0] === 'schedule') {
-        if (argCount === 1) {
+      if (/^schedules?$/.test(args[0])) {
+        if (argCount === 1 || (argCount === 2 && args[1].toLowerCase() === 'list')) {
           const names = schedules.map(s => s.name);
           return this.reply(msg, [
             `*List of schedules:*`,
@@ -26,7 +26,7 @@ class DebugCommand extends CommandBase {
 
         if (args[1] === 'run' && argCount === 3) {
           const schedule = scheduledJobs[args[2]];
-
+          console.log(scheduledJobs, args[2]);
           if (!schedule) {
             this.reply(msg, 'Schedule not found.');
             return;
@@ -36,6 +36,8 @@ class DebugCommand extends CommandBase {
           return schedule.invoke();
         }
       }
+
+      this.reply(msg, 'U dun goofed');
     });
   }
 }

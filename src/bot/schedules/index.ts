@@ -13,7 +13,5 @@ export function start(bot: Bot): void {
     scheduleJob(schedule.name, recRule, () => {
       schedule.action(bot);
     });
-
-    return;
   }
 }
