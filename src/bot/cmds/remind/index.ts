@@ -20,30 +20,35 @@ class RemindCommand extends CommandBase {
     this.loadReminders();
   }
 
+
   listen(): void {
-    const durationRegex = /^\d+ ?\w+ /;
+    const durationRegex = /^(-?[\d]+( +)?\w+( +)?){1,2}/i;
 
     this.onText(/^\/remind(me|er)?/i, async (msg, args) => {
       const { from } = msg;
-      const argsJoined = args.join(' ');
-      const duration = parseDuration(argsJoined);
+      const argsJoined = args.join(' ').trim();
+      const duration: number = parseDuration(argsJoined);
+      const text = argsJoined.replace(durationRegex, '').trim();
 
       if (!from) {
         return;
       }
 
-      if (!durationRegex.test(argsJoined)) {
-        return this.showHelp(msg, 'Could not parse parameters');
+      if (args.length < 2) {
+        return this.showHelp(msg, 'Not enough parameters');
       }
 
-      if (!duration || duration < 0) {
+      if (!text) {
+        return this.showHelp(msg, `There's no remind message`);
+      }
+
+      if (!duration || duration <= 0 || !durationRegex.test(argsJoined)) {
         return this.showHelp(msg, 'Could not parse duration');
       }
 
       const now = new Date().getTime();
       const chatid = msg.chat.id;
       const timestamp = +new Date(now + duration);
-      const text = argsJoined.replace(durationRegex, '').trim();
       const asker = from.first_name;
 
       const reminder: IReminder = {

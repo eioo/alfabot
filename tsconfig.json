@@ -10,6 +10,8 @@
       "es2016.array.include"
     ],
     "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react",
     "moduleResolution": "node",
     "strictNullChecks": true,
     "noImplicitReturns": true,
