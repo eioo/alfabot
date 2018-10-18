@@ -12,12 +12,12 @@ class TuleminenCommand extends CommandBase {
   }
 
   listen(): void {
-    this.onText(/([^a-z]|.{0})tul(?!(li|va))|([^a-z]|.{0})tuu/i, async msg => {
+    this.onText(/\w?(tul[ei]+|lasti|spermaa?\w*)\w?/i, async msg => {
       const answers = [
-        'paperia?? :D',
-        'pabers?',
+        'haluuks paperia?? :D',
+        'kelpaisko pabers?',
         'tarviikko papruu :D',
-        '*tirsk*',
+        '*tirsk* mieti ny vähä et missä xD',
       ];
       const randomAnswer = _.sample(answers);
 
