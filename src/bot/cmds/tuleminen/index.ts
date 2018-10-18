@@ -12,7 +12,7 @@ class TuleminenCommand extends CommandBase {
   }
 
   listen(): void {
-    this.onText(/\w?(tul[ei]+|lasti|spermaa?\w*)\w?/i, async msg => {
+    this.onText(/\w?(tul[lei]+|lastit?|spermaa?|soos(s?i?t?)?)+?/i, async msg => {
       const answers = [
         'haluuks paperia?? :D',
         'kelpaisko pabers?',
