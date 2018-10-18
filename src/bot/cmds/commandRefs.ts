@@ -3,8 +3,8 @@ import HelpCommand from './help';
 import IBANCommand from './iban';
 import PostiCommand from './posti';
 import RemindCommand from './remind';
-import WeatherCommand from './weather';
 import TuleminenCommand from './tuleminen';
+import WeatherCommand from './weather';
 
 import DebugCommand from './debug';
 
