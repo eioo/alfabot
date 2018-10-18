@@ -9,6 +9,7 @@ class TuleminenCommand extends CommandBase {
     this.name = 'tuleminen';
     this.helpText = 'Tulemiskomento';
     this.helpArgs = '';
+    this.visible = false;
   }
 
   listen(): void {
