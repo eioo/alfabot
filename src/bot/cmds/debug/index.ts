@@ -26,7 +26,7 @@ class DebugCommand extends CommandBase {
 
         if (args[1] === 'run' && argCount === 3) {
           const schedule = scheduledJobs[args[2]];
-          console.log(scheduledJobs, args[2]);
+
           if (!schedule) {
             this.reply(msg, 'Schedule not found.');
             return;
