@@ -23,7 +23,7 @@ class RemindCommand extends CommandBase {
   listen(): void {
     const durationRegex = /^\d+ ?\w+ /;
 
-    this.onText(/^\/remind(me|er)? /i, async (msg, args) => {
+    this.onText(/^\/remind(me|er)?/i, async (msg, args) => {
       const { from } = msg;
       const argsJoined = args.join(' ');
       const duration = parseDuration(argsJoined);
