@@ -12,7 +12,11 @@ class TuleminenCommand extends CommandBase {
   }
 
   listen(): void {
+<<<<<<< HEAD
     this.onText(/([^a-z]|.{0})tul(?!(li|va))|([^a-z]|.{0})tuu/i, async msg => {
+=======
+    this.onText(/([^a-z]tul(?!(li|va))|[^a-z]tuu)/i, async msg => {
+>>>>>>> 4aa165fe1685667ca5783561cdc6e8366b974312
       const answers = [
         'paperia?? :D',
         'pabers?',
