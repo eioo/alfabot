@@ -4,11 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev:bot": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
-    "dev:server": "parcel -d build src/server/views/index.pug",
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
     "migrate:rollback": "knex migrate:rollback",
     "migrate": "knex migrate:latest",
-    "start": "yarn dev:bot"
+    "start": "npm-run-all -s knex:migrate-latest dev"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
