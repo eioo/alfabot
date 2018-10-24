@@ -3,19 +3,6 @@ import { Message } from 'node-telegram-bot-api';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export interface IChatSettings {
-  weather?: IWeatherSettings;
-}
-
-export interface IWeatherSettings {
-  places?: string[];
-  notifications?: boolean;
-}
-
-export interface IDatabase {
-  [chatid: number]: IChatSettings[];
-}
-
 export type IOnTextCallback = (
   msg: Message,
   args: string[],

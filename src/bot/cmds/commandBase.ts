@@ -1,4 +1,8 @@
-import { EditMessageTextOptions, Message, SendMessageOptions } from 'node-telegram-bot-api';
+import {
+  EditMessageTextOptions,
+  Message,
+  SendMessageOptions,
+} from 'node-telegram-bot-api';
 import { logger } from 'shared/logger';
 import { IOnTextCallback } from 'shared/types';
 import Bot from 'shared/types/bot';
@@ -11,7 +15,7 @@ class CommandBase {
   helpDescription?: string;
   visible: boolean = true;
 
-  constructor(public bot: Bot) { }
+  constructor(public bot: Bot) {}
 
   onText(regexp: RegExp, callback: IOnTextCallback) {
     this.bot.onText(regexp, msg => {
@@ -25,7 +29,7 @@ class CommandBase {
   }
 
   async showHelp(msg: Message, err: string = ''): Promise<void> {
-    const errText = err ? `😞 *${err}*\n\n` : ''
+    const errText = err ? `😞 *${err}*\n\n` : '';
     const helpText = errText + helpSingle(this.name);
 
     await this.bot.sendMessage(msg.chat.id, helpText, {
@@ -33,7 +37,11 @@ class CommandBase {
     });
   }
 
-  async reply(msg: Message, text: string | string[], options?: SendMessageOptions): Promise<Message> {
+  async reply(
+    msg: Message,
+    text: string | string[],
+    options?: SendMessageOptions
+  ): Promise<Message> {
     text = typeof text === 'string' ? text : text.join('\n');
 
     const message = await this.bot.sendMessage(msg.chat.id, text, {
@@ -44,7 +52,11 @@ class CommandBase {
     return message;
   }
 
-  async editReply(msg: Message, text: string, options?: EditMessageTextOptions): Promise<Message> {
+  async editReply(
+    msg: Message,
+    text: string,
+    options?: EditMessageTextOptions
+  ): Promise<Message> {
     const editedMsg = await this.bot.editMessageText(text, {
       chat_id: msg.chat.id,
       message_id: msg.message_id,
@@ -66,8 +78,8 @@ class CommandBase {
 
     logger.bot(
       `/${this.name} command triggered\n` +
-      `Chat: ${msg.chat.id}\n` +
-      `From: ${fullName}\n`
+        `Chat: ${msg.chat.id}\n` +
+        `From: ${fullName}\n`
     );
   }
 }
