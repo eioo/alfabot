@@ -6,6 +6,8 @@
   "scripts": {
     "dev:bot": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
     "dev:server": "parcel -d build src/server/views/index.pug",
+    "migrate:rollback": "knex migrate:rollback",
+    "migrate": "knex migrate:latest",
     "start": "yarn dev:bot"
   },
   "dependencies": {
