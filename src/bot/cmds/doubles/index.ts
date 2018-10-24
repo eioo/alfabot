@@ -18,8 +18,8 @@ class DoublesCommand extends CommandBase {
         const numRolled = Math.floor(Math.random() * 101)
         const strRolled = numRolled.toString().padStart(3, '0');
         const response = strRolled.slice(-1) === strRolled.slice(-2, -1)
-          ? `🎲 \[${numRolled}\] You rolled doubles! :))`
-          : `🎲 \[${numRolled}\] No doubles for u :((`;
+          ? `🎲 [[${numRolled}]] You rolled doubles! :))`
+          : `🎲 [[${numRolled}]] No doubles for u :((`;
 
         this.editReply(reply, response)
       }, 2500);
