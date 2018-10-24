@@ -10,11 +10,8 @@ Telegram bot. Beep Boop.
 
 ## Installation & running
 
-1. Import `./database/schema.sql` to your PostgreSQL database.
-
-2. Make copy of `.env.example` to `.env`. Fill with your own details.
-
-3. Run following commands:
+1. Make copy of `.env.example` to `.env`. Fill it with your own details.
+2. Run following commands:
 
 ```
 yarn install
