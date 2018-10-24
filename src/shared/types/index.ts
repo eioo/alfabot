@@ -1,7 +1,7 @@
 import { RecurrenceRule } from 'node-schedule';
 import { Message } from 'node-telegram-bot-api';
 
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export interface IChatSettings {
   weather?: IWeatherSettings;
@@ -13,15 +13,19 @@ export interface IWeatherSettings {
 }
 
 export interface IDatabase {
-  [chatId: number]: IChatSettings[];
+  [chatid: number]: IChatSettings[];
 }
 
-export type IOnTextCallback = (msg: Message, args: string[], argCount: number) => void;
+export type IOnTextCallback = (
+  msg: Message,
+  args: string[],
+  argCount: number
+) => void;
 
 export type IScheduleList = Array<{
   name: string;
   rule: IScheduleRule;
   action: Function;
-}>
+}>;
 
 type IScheduleRule = Partial<Omit<RecurrenceRule, 'nextInvocationDate'>>;
