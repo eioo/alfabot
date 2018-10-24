@@ -7,7 +7,7 @@ exports.up = (knex: Knex) => {
       .integer('chatid')
       .unique()
       .notNullable();
-    table.integer('timestamp').notNullable();
+    table.bigInteger('timestamp').notNullable();
     table.string('text').notNullable();
     table.string('asker').notNullable();
   });
