@@ -7,7 +7,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
     "migrate:rollback": "knex migrate:rollback",
     "migrate": "knex migrate:latest",
-    "start": "npm-run-all -s knex:migrate-latest dev"
+    "start": "npm-run-all -s migrate dev"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
