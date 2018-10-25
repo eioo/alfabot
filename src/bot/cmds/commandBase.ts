@@ -32,9 +32,7 @@ class CommandBase {
     const errText = err ? `😞 *${err}*\n\n` : '';
     const helpText = errText + helpSingle(this.name);
 
-    await this.bot.sendMessage(msg.chat.id, helpText, {
-      parse_mode: 'Markdown',
-    });
+    await this.reply(msg, helpText);
   }
 
   async reply(
@@ -79,7 +77,7 @@ class CommandBase {
     logger.bot(
       `/${this.name} command triggered\n` +
         `Chat: ${msg.chat.id}\n` +
-        `From: ${fullName}\n`
+        `From: ${fullName}`
     );
   }
 }

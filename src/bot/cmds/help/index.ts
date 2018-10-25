@@ -44,17 +44,14 @@ export function helpAll(): string {
   return `${title}\n${cmdLines}`;
 }
 
-export function helpSingle(command: string | CommandBase): string | string[] {
-  const createText = (base: CommandBase): string[] => {
+export function helpSingle(command: string | CommandBase): string {
+  const createText = (base: CommandBase): string => {
+    const helpArgs = base.helpArgs || '';
     const helpText = base.helpText || '';
     const helpDesc = base.helpDescription ? `\n${base.helpDescription}` : '';
 
-    return [
-      `\`/${base.name}\ ${base.helpArgs}\``,
-      helpText,
-      helpDesc,
-    ];
-  }
+    return [`\`/${base.name}\ ${helpArgs}\``, helpText, helpDesc].join('\n');
+  };
 
   const cmdClass = _.isString(command) ? getCommand(command) : command;
   return cmdClass ? createText(cmdClass) : 'Command not found.';
