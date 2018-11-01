@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Container, Segment } from 'semantic-ui-react';
+import { hot } from 'react-hot-loader';
+import { Container, Segment } from 'semantic-ui-react';
 import Settings from './settings';
 import Title from './Title';
 
@@ -7,7 +8,7 @@ class App extends React.Component {
   render() {
     return (
       <Container style={{ marginTop: '1em' }}>
-        <Segment padded>
+        <Segment>
           <Title />
           <Settings />
         </Segment>
@@ -16,4 +17,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default hot(module)(App);

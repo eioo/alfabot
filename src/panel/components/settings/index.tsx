@@ -1,18 +1,37 @@
 import React from 'react';
 import { Tab } from 'semantic-ui-react';
+import styled from 'styled-components';
+import ScheduleSettings from './ScheduleSettings';
+import WeatherSettings from './WeatherSettings';
 
-const panes = [
-  { menuItem: 'Tab 1', render: () => <Tab.Pane>Tab 1 Content</Tab.Pane> },
-  { menuItem: 'Tab 2', render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
-  { menuItem: 'Tab 3', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
-];
+const TabList = styled(Tab)`
+  & > .grid > .column:nth-child(2) {
+    padding: 14px;
+    padding-left: 0px;
+  }
+`;
+
+const menuItems = {
+  '/weather': <WeatherSettings />,
+  Schedules: <ScheduleSettings />,
+};
+
+const panes = Object.entries(menuItems).map(([key, component]) => {
+  return {
+    menuItem: key,
+    render: () => <Tab.Pane>{component}</Tab.Pane>,
+  };
+});
 
 class Settings extends React.Component {
-  componentDidMount() {
-    console.log('ei vittu ebin xD');
-  }
   render() {
-    return <Tab panes={panes} />;
+    return (
+      <TabList
+        menu={{ fluid: true, vertical: true }}
+        menuPosition='left'
+        panes={panes}
+      />
+    );
   }
 }
 
