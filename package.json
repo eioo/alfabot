@@ -4,12 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
+    "dev:bot": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
+    "dev:panel": "parcel -d build/panel src/panel/index.html",
     "migrate:rollback": "knex migrate:rollback",
     "migrate": "knex migrate:latest",
-    "start": "npm-run-all -s migrate dev"
+    "start": "npm-run-all -s migrate dev:bot"
   },
   "dependencies": {
+    "@types/react": "^16.4.18",
+    "@types/react-dom": "^16.0.9",
+    "@types/semantic-ui": "^2.2.6",
     "cheerio": "^1.0.0-rc.2",
     "dateformat": "^3.0.3",
     "dotenv": "^6.1.0",
@@ -19,9 +23,14 @@
     "node-schedule": "^1.3.0",
     "node-telegram-bot-api": "^0.30.0",
     "npm-run-all": "^4.1.3",
+    "parcel-bundler": "^1.10.3",
     "parse-duration": "^0.1.1",
     "pg": "^7.5.0",
     "query-string": "^6.2.0",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-final-form": "^3.6.7",
+    "semantic-ui-react": "^0.83.0",
     "signale": "^1.3.0"
   },
   "devDependencies": {
