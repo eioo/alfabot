@@ -1,5 +1,6 @@
 import * as TelegramBot from 'node-telegram-bot-api';
 import { logger } from 'shared/logger';
+import * as webserver from '../webserver';
 import * as commands from './cmds';
 import * as schedules from './schedules';
 
@@ -18,4 +19,5 @@ export async function create(): Promise<void> {
 
   bot.startPolling();
   logger.bot('Bot started');
+  webserver.init();
 }
