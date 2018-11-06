@@ -18,6 +18,6 @@ export async function create(): Promise<void> {
   commands.load(bot);
 
   bot.startPolling();
+  await webserver.init();
   logger.bot('Bot started');
-  webserver.init();
 }
