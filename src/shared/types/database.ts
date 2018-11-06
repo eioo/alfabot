@@ -1,9 +1,9 @@
 export interface IChat {
-  chatid: number,
+  chatid: number;
   weather: {
     cities: string[];
     enableNotifications: boolean;
-  }
+  };
 }
 
 export interface IReminder {
@@ -11,5 +11,6 @@ export interface IReminder {
   chatid: number;
   timestamp: number;
   text: string;
-  asker: string;
+  askername: string;
+  askerid: number;
 }

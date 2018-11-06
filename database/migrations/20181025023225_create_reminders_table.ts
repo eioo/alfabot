@@ -3,13 +3,11 @@ import * as Knex from 'knex';
 exports.up = (knex: Knex) => {
   return knex.schema.createTable('reminders', table => {
     table.increments();
-    table
-      .integer('chatid')
-      .unique()
-      .notNullable();
+    table.integer('chatid').notNullable();
     table.bigInteger('timestamp').notNullable();
     table.string('text').notNullable();
-    table.string('asker').notNullable();
+    table.string('askername').notNullable();
+    table.bigInteger('askerid').notNullable();
   });
 };
 
