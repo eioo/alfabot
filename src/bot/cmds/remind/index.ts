@@ -1,4 +1,3 @@
-
 import CommandBase from 'bot/cmds/commandBase';
 import * as dateFormat from 'dateformat';
 import * as schedule from 'node-schedule';
@@ -15,11 +14,10 @@ class RemindCommand extends CommandBase {
     this.name = 'remind';
     this.helpText = 'Reminds you';
     this.helpArgs = '<time option> <message>';
-    this.helpDescription = '*Example*\n\`/remind 1 day just a reminder\`';
+    this.helpDescription = '*Example*\n`/remind 1 day just a reminder`';
 
     this.loadReminders();
   }
-
 
   listen(): void {
     const durationRegex = /^(-?[\d]+( +)?\w+( +)?){1,2}/i;
@@ -49,13 +47,15 @@ class RemindCommand extends CommandBase {
       const now = new Date().getTime();
       const chatid = msg.chat.id;
       const timestamp = +new Date(now + duration);
-      const asker = from.first_name;
+      const askername = from.first_name;
+      const askerid = from.id;
 
       const reminder: IReminder = {
         chatid,
         timestamp,
         text,
-        asker,
+        askername,
+        askerid,
       };
 
       this.scheduleReminder(reminder);
@@ -69,19 +69,26 @@ class RemindCommand extends CommandBase {
   }
 
   async scheduleReminder(reminder: IReminder): Promise<void> {
-    const { timestamp, asker, text } = reminder;
-    await db('reminders').insert(reminder)
+    const { timestamp, askername, askerid, text } = reminder;
+    await db('reminders').insert(reminder);
+
+    console.log(askerid);
 
     schedule.scheduleJob(new Date(timestamp), async () => {
-      this.bot.sendMessage(reminder.chatid, `*🔔 Reminder for* @${asker}\n_${text}_`, {
-        parse_mode: 'Markdown',
-      });
+      this.reply(
+        reminder.chatid,
+        `*🔔 Reminder for* [${askername}](tg://user?id=${askerid})\n_${text}_`
+      );
     });
   }
 
   async loadReminders(): Promise<void> {
     const now = +new Date();
-    const reminders: IReminder[] = await db('reminders').where('timestamp', '>', now);
+    const reminders: IReminder[] = await db('reminders').where(
+      'timestamp',
+      '>',
+      now
+    );
     const count = reminders.length;
 
     for (const reminder of reminders) {

@@ -36,13 +36,14 @@ class CommandBase {
   }
 
   async reply(
-    msg: Message,
+    msg: Message | number,
     text: string | string[],
     options?: SendMessageOptions
   ): Promise<Message> {
     text = typeof text === 'string' ? text : text.join('\n');
 
-    const message = await this.bot.sendMessage(msg.chat.id, text, {
+    const chatid = typeof msg === 'number' ? msg : msg.chat.id;
+    const message = await this.bot.sendMessage(chatid, text, {
       parse_mode: 'Markdown',
       ...options,
     });
