@@ -1,9 +1,17 @@
+import * as fs from 'fs';
+import * as _ from 'lodash';
+import * as path from 'path';
 import Bot from 'shared/types/bot';
 
-const text = `It's 420‼️🍁🍃🍃 I BLAZE 💨💨💨 because I just dont care 😬😜😝 and getting high 😱😱😱🚬 makes me forget 😤😷 all the PAIN 😩😖😪 of being a MIDDLE SCHOOLER 💀🙅💁`;
+const FACTS_FILE = path.join(__dirname, 'facts.txt');
+
+const facts = fs.readFileSync(FACTS_FILE, 'utf-8').split('\n');
 
 export function action(bot: Bot): void {
-  bot.sendMessage(-161953743, text, {
-    disable_notification: true
+  const fact = _.sample(facts);
+
+  bot.sendMessage(-161953743, `‼️🍁🍃 *420* ‼️🍁🍃*\n_${fact}_`, {
+    disable_notification: true,
+    parse_mode: 'Markdown',
   });
 }
