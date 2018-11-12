@@ -6,6 +6,7 @@ import WeatherCommand from './weather';
 
 import DebugCommand from './debug';
 import DoublesCommand from './doubles';
+import RepsCommand from './reps';
 
 export const commandRefs = [
   WeatherCommand,
@@ -15,4 +16,5 @@ export const commandRefs = [
   RemindCommand,
   DebugCommand,
   DoublesCommand,
+  RepsCommand,
 ];
