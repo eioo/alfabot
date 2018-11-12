@@ -1,13 +1,14 @@
 import CommandBase from 'bot/cmds/commandBase';
 import fetch from 'node-fetch';
+import * as queryString from 'query-string';
 import Bot from 'shared/types/bot';
 
+const SEARCH_TERM = 'laugh';
 const API_KEY = process.env.GIPHY_TOKEN;
 
 class RepsCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
     this.visible = false;
   }
 
@@ -17,9 +18,14 @@ class RepsCommand extends CommandBase {
         return;
       }
 
-      const searchTerm = 'laugh';
-      const url = `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=${searchTerm}&rating=R`;
-      const request = await fetch(url);
+      const url = `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=${SEARCH_TERM}&rating=R`;
+      const request = await fetch(url, {
+        body: queryString.stringify({
+          api_key: API_KEY,
+          tag: SEARCH_TERM,
+          rating: 'R',
+        }),
+      });
       const json = await request.json();
       const gifUrl = json.data.images.original.url;
 
