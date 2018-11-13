@@ -13,7 +13,7 @@ class RepsCommand extends CommandBase {
   }
 
   listen(): void {
-    this.onText(/(reps|repesin|huutist?a?)/i, async msg => {
+    this.onText(/(reps|repesin|huuti(i|st?a?))/i, async msg => {
       if (!API_KEY) {
         return;
       }
