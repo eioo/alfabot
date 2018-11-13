@@ -22,9 +22,7 @@ async function query(
     ...defaultOptions,
   });
 
-  const response = await fetch(url, {
-    body: payload,
-  });
+  const response = await fetch(`${url}?${payload}`);
   const json = await response.json();
 
   return json;

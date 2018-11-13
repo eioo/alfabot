@@ -5,7 +5,6 @@ Telegram bot. Beep Boop.
 ## Requirements
 
 - Node.js
-- Yarn
 - PostgreSQL database
 
 ## Installation & running
@@ -14,8 +13,8 @@ Telegram bot. Beep Boop.
 2. Run following commands:
 
 ```
-yarn install
-yarn start
+npm install
+npm run start
 ```
 
 ## Environment variables
@@ -27,11 +26,14 @@ yarn start
 | PG_USER              | PostgreSQL username                 |
 | PG_PASS              | PostgreSQL password                 |
 | BOT_TOKEN            | Your Telegram bot token             |
-| OPENWEATHERMAP_TOKEN | Your OpenWeatherMap API token       |
 | IBAN_NUMBERS         | IBAN account list for /iban command |
+| OPENWEATHERMAP_TOKEN | Your OpenWeatherMap API token       |
+| GIPHY_TOKEN          | Your Giphy API token                |
 
-IBAN numbers are formatted followingly:
+- IBAN accounts are formatted like this:
 
-`<accountName>:<accountNumber>;<accountName>:<accountNumber>`
+`<accountName>:<accountNumber>` (each account splitted with semicolon)
 
-... and so on.
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details

@@ -19,13 +19,13 @@ class RepsCommand extends CommandBase {
       }
 
       const url = `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=${SEARCH_TERM}&rating=R`;
-      const request = await fetch(url, {
-        body: queryString.stringify({
-          api_key: API_KEY,
-          tag: SEARCH_TERM,
-          rating: 'R',
-        }),
+      const payload = queryString.stringify({
+        api_key: API_KEY,
+        tag: SEARCH_TERM,
+        rating: 'R',
       });
+
+      const request = await fetch(`${url}?${payload}`);
       const json = await request.json();
       const gifUrl = json.data.images.original.url;
 
