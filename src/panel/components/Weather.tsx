@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { IChatSettings } from '../../shared/types/database';
 
 function listCities(chat: IChatSettings) {
