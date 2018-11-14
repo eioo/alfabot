@@ -14,7 +14,7 @@ class WeatherCommand extends CommandBase {
 
   listen(): void {
     this.onText(/^\/(weather|sää)/i, async (msg, args, argCount) => {
-      if (!process.env.OPENWEATHERMAP_TOKEN) {
+      if (!process.env.OPENWEATHERMAP_KEY) {
         this.reply(msg, '😞 OpenWeatherMap token is not set');
         return;
       }

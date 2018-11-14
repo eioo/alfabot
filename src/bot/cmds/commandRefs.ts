@@ -4,6 +4,7 @@ import PostiCommand from './posti';
 import RemindCommand from './remind';
 import WeatherCommand from './weather';
 
+import AlexaPlayCommand from './alexaplay';
 import DebugCommand from './debug';
 import DoublesCommand from './doubles';
 import RepsCommand from './reps';
@@ -17,4 +18,5 @@ export const commandRefs = [
   DebugCommand,
   DoublesCommand,
   RepsCommand,
+  AlexaPlayCommand,
 ];

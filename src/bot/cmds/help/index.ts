@@ -25,7 +25,6 @@ class HelpCommand extends CommandBase {
 }
 
 export function helpAll(): string {
-  const title = `*Commands*`;
   const cmdLines = cmdList
     .sort((a, b) => a.name.localeCompare(b.name))
     .map(cmd => {
@@ -41,7 +40,7 @@ export function helpAll(): string {
     .filter(x => x)
     .join('\n');
 
-  return `${title}\n${cmdLines}`;
+  return `*Commands*\n${cmdLines}`;
 }
 
 export function helpSingle(command: string | CommandBase): string {
