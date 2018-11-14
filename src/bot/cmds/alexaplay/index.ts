@@ -14,7 +14,7 @@ class AlexaPlayCommand extends CommandBase {
     this.onText(
       /^(alexa play|alfabot soita) .+/i,
       async (msg, args, argCount) => {
-        if (argCount === 0 || !API_KEY) {
+        if (!API_KEY || argCount === 0) {
           return;
         }
 
