@@ -3,7 +3,7 @@ import { logger } from 'shared/logger';
 import routes from './routes';
 
 const server = new Server({
-  port: 3000,
+  port: process.env.WEBSERVER_PORT || 3000,
   routes: {
     validate: {
       failAction: async (request: Request, h: ResponseToolkit, err: Error) => {

@@ -25,6 +25,7 @@ npm run start
 | PG_DATABASE        | PostgreSQL database name            |
 | PG_USER            | PostgreSQL username                 |
 | PG_PASS            | PostgreSQL password                 |
+| WEBSERVER_PORT     | Port for Hapi server                |
 | BOT_TOKEN          | Your Telegram bot token             |
 | IBAN_NUMBERS       | IBAN account list for /iban command |
 | OPENWEATHERMAP_KEY | Your OpenWeatherMap API token       |

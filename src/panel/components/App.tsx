@@ -4,8 +4,10 @@ import { createGlobalStyle } from 'styled-components';
 import ChatSettings from './ChatSettings';
 import Denied from './Denied';
 
-// TODO Port is hardcoded
-export const API_BASE = `${location.protocol}//${location.hostname}:3000/api`;
+const API_PORT = process.env.WEBSERVER_PORT || 3000;
+export const API_BASE = `${location.protocol}//${
+  location.hostname
+}:${API_PORT}/api`;
 
 const GlobalStyle = createGlobalStyle`
   @import url('//fonts.googleapis.com/css?family=Rubik&subset=latin');
