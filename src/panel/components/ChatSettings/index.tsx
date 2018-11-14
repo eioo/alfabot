@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { API_BASE } from '../App';
 
 const Wrapper = styled.div`
   margin: auto;
