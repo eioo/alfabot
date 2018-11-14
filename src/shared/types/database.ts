@@ -1,4 +1,4 @@
-export interface IChat {
+export interface IChatSettings {
   chatid: number;
   weather: {
     cities: string[];
