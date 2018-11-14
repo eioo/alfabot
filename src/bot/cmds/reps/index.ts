@@ -4,11 +4,12 @@ import * as queryString from 'query-string';
 import Bot from 'shared/types/bot';
 
 const SEARCH_TERM = 'laugh';
-const API_KEY = process.env.GIPHY_TOKEN;
+const API_KEY = process.env.GIPHY_KEY;
 
 class RepsCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
+    this.name = 'reps';
     this.visible = false;
   }
 

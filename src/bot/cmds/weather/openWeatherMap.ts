@@ -3,7 +3,7 @@ import * as queryString from 'query-string';
 import { isArray } from 'util';
 import { IForecast, IWeather } from './types';
 
-const APP_ID = process.env.OPENWEATHERMAP_TOKEN;
+const APP_ID = process.env.OPENWEATHERMAP_KEY;
 const API_BASE_URL = 'http://api.openweathermap.org/data/2.5/';
 
 const defaultOptions = {
