@@ -1,6 +1,7 @@
+import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { IChat } from '../../shared/types/database';
+import { IChatSettings } from '../../shared/types/database';
 import Weather from './Weather';
 
 const API_PORT = process.env.WEBSERVER_PORT || 3000;
@@ -20,7 +21,7 @@ const Title = styled.div`
 
 export default function ChatSettings({ match }) {
   const { chatId } = match.params;
-  const [chat, setChat] = useState({} as IChat);
+  const [chat, setChat] = useState({} as IChatSettings);
 
   useEffect(() => {
     console.log(`Chat ID: ${chatId}`);
@@ -31,17 +32,6 @@ export default function ChatSettings({ match }) {
         setChat(data);
       });
   }, []);
-
-  useEffect(
-    () => {
-      if (!Object.keys(chat).length) {
-        return;
-      }
-
-      console.log(chat);
-    },
-    [chat]
-  );
 
   return (
     <Wrapper>
