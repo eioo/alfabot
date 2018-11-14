@@ -1,20 +1,35 @@
 import React from 'react';
-import { hot } from 'react-hot-loader';
-import { Container, Segment } from 'semantic-ui-react';
-import Settings from './settings';
-import Title from './Title';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
+import ChatSettings from './ChatSettings';
+import Denied from './Denied';
 
-class App extends React.Component {
-  render() {
-    return (
-      <Container style={{ marginTop: '1em' }}>
-        <Segment>
-          <Title />
-          <Settings />
-        </Segment>
-      </Container>
-    );
+// TODO Port is hardcoded
+export const API_BASE = `${location.protocol}//${location.hostname}:3000/api`;
+
+const GlobalStyle = createGlobalStyle`
+  @import url('//fonts.googleapis.com/css?family=Rubik&subset=latin');
+
+  * {
+    font-family: 'Rubik', sans-serif;
   }
-}
 
-export default hot(module)(App);
+  body {
+    margin: 0;
+  }
+`;
+
+export default function App() {
+  return (
+    <div>
+      <GlobalStyle />
+
+      <BrowserRouter>
+        <Switch>
+          <Route path='/:chatId' exact component={ChatSettings} />
+          <Route component={Denied} />
+        </Switch>
+      </BrowserRouter>
+    </div>
+  );
+}

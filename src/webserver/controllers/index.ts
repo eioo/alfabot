@@ -1,4 +1,4 @@
-import * as healthCheck from './health-check';
-import * as weather from './weather';
+import * as chatSettings from './chatSettings';
+import * as healthCheck from './healthCheck';
 
-export { healthCheck, weather };
+export { healthCheck, chatSettings };

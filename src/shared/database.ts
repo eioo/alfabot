@@ -1,8 +1,5 @@
 import * as knex from 'knex';
-import { Message } from 'node-telegram-bot-api';
 import { logger } from './logger';
-import { onChange } from './onChange';
-import { IChat } from './types/database';
 
 const { PG_HOST, PG_DATABASE, PG_USER, PG_PASS } = process.env;
 
@@ -21,34 +18,3 @@ export const db = knex({
   },
   searchPath: ['public'],
 });
-
-export async function getChat(
-  chatIdOrMessage: number | Message
-): Promise<IChat> {
-  const chatId =
-    typeof chatIdOrMessage === 'number'
-      ? chatIdOrMessage
-      : chatIdOrMessage.chat.id;
-  const chatExists = (await db('chats').where('chatId', chatId)).length;
-
-  if (!chatExists) {
-    await db('chats').insert({ chatId });
-  }
-
-  const chat = await db('chats')
-    .select('*')
-    .where('chatId', chatId)
-    .first();
-  const proxiedChat = onChange(chat, async () => {
-    await saveChat(proxiedChat);
-  });
-
-  return proxiedChat;
-}
-
-export async function saveChat(chat: IChat): Promise<void> {
-  const { chatid, ...rest } = chat;
-  await db('chats')
-    .where('chatId', chatid)
-    .update(rest);
-}
