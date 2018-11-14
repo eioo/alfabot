@@ -1,10 +1,9 @@
-import { healthCheck, weather } from './controllers';
-
+import { chatSettings, healthCheck } from './controllers';
 import { GET } from './utils/route';
 
 const routes = [
-  GET('/api/healthcheck', healthCheck.check.handler),
-  GET('/api/weather', weather.listCities.handler),
+  GET('/api/healthcheck', healthCheck.handler),
+  GET('/api/chatsettings/{chatId}', chatSettings.handler),
 ];
 
 export default routes;
