@@ -8,13 +8,15 @@ interface IAccounts {
 
 const envString = process.env.IBAN_NUMBERS || '';
 
-const ibanAccounts: IAccounts[] = envString.split(';')
+const ibanAccounts: IAccounts[] = envString
+  .split(';')
   .filter(x => x)
   .map(x => {
-
     const [key, value] = x.split(':');
     const ownerName = key.trim();
-    const ibanNumber = (value.replace(/ /g, '').match(/.{4}/g) as RegExpMatchArray).join(' ');
+    const ibanNumber = (value
+      .replace(/ /g, '')
+      .match(/.{4}/g) as RegExpMatchArray).join(' ');
 
     return { ownerName, ibanNumber };
   });
@@ -25,15 +27,16 @@ class IBANCommand extends CommandBase {
 
     this.name = 'iban';
     this.helpText = 'Show IBAN numbers';
-    this.helpArgs = '<someone>';
+    this.helpArgs = '[account name]';
   }
 
   listen(): void {
     this.onText(/^\/iban/i, async (msg, args, argCount) => {
       if (!argCount) {
-        const response = ibanAccounts
-          .map(acc => `*${acc.ownerName}*: ${acc.ibanNumber}`)
-        const responseNone = 'Ei IBAN-tilejä';
+        const response = ibanAccounts.map(
+          acc => `*${acc.ownerName}*: ${acc.ibanNumber}`
+        );
+        const responseNone = 'No IBAN-accounts';
 
         this.reply(msg, response || responseNone);
         return;
@@ -41,10 +44,12 @@ class IBANCommand extends CommandBase {
 
       if (argCount === 1) {
         const ownerName = args[0].trim();
-        const account = ibanAccounts.find(x => x.ownerName.toLowerCase() === ownerName.toLowerCase());
+        const account = ibanAccounts.find(
+          x => x.ownerName.toLowerCase() === ownerName.toLowerCase()
+        );
 
         if (!account) {
-          this.reply(msg, 'Ei löytyny');
+          this.reply(msg, 'IBAN account not found.');
           return;
         }
 

@@ -40,7 +40,7 @@ export function helpAll(): string {
     .filter(x => x)
     .join('\n');
 
-  return `*Commands*\n${cmdLines}`;
+  return `*Commands*\n${cmdLines}\n\n\`/help <command>\` to get more help.`;
 }
 
 export function helpSingle(command: string | CommandBase): string {
