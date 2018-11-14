@@ -20,15 +20,5 @@ function listCities(chat: IChatSettings) {
 
 export default function Weather(props) {
   const chat: IChatSettings = props.chat;
-
-  useEffect(
-    () => {
-      if (_.isEmpty(chat)) {
-        return;
-      }
-    },
-    [props.chat]
-  );
-
   return <div>Ebin xD{listCities(chat)}</div>;
 }
