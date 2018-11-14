@@ -6,6 +6,7 @@
   "scripts": {
     "dev:bot": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
     "dev:panel": "parcel -d build/panel src/panel/index.html",
+    "dev": "npm-run-all -p dev:bot dev:panel",
     "migrate:rollback": "knex migrate:rollback",
     "migrate": "knex migrate:latest",
     "start": "npm-run-all -s migrate dev:bot"

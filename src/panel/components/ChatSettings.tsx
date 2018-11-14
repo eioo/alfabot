@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IChat } from '../../shared/types/database';
+import Weather from './Weather';
 
 const API_PORT = process.env.WEBSERVER_PORT || 3000;
 const API_BASE = `${location.protocol}//${location.hostname}:${API_PORT}/api`;
@@ -24,7 +25,7 @@ export default function ChatSettings({ match }) {
   useEffect(() => {
     console.log(`Chat ID: ${chatId}`);
 
-    fetch(`http://localhost:3000/api/chatsettings/${chatId}`)
+    fetch(`${API_BASE}/chatsettings/${chatId}`)
       .then(response => response.json())
       .then(data => {
         setChat(data);
@@ -45,7 +46,7 @@ export default function ChatSettings({ match }) {
   return (
     <Wrapper>
       <Title>Alfabot</Title>
-      Content
+      <Weather chat={chat} />
     </Wrapper>
   );
 }
