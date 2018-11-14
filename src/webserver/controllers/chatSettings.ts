@@ -12,5 +12,6 @@ export const handler = async (request: hapi.Request, reply: any) => {
     .select('*')
     .where('chatid', Number(chatId))
     .first();
+
   return chat;
 };
