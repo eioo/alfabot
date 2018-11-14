@@ -76,9 +76,10 @@ class CommandBase {
     const fullName = `${firstName} ${lastName}`.trim();
 
     logger.bot(
-      `/${this.name} command triggered\n` +
+      `${this.name || '<unknown>'} command triggered\n` +
         `Chat: ${msg.chat.id}\n` +
-        `From: ${fullName}`
+        `From: ${fullName}\n` +
+        `Body: ${(msg.text || '').replace('\n', '\\n')}`
     );
   }
 }
