@@ -1,13 +1,16 @@
 import _ from 'lodash';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { IChatSettings } from '../../shared/types/database';
-import { getAPIUrl } from '../apiBuilder';
+import { getAPIUrl } from '../shared/apiBuilder';
+import { FillPage } from '../shared/styles';
+
 import Box from '../components/Box';
-import Weather from '../components/Weather';
 import Sidebar from '../components/Sidebar';
 import Spinner from '../components/Spinner';
+import Weather from '../components/Weather';
+import { settingsList } from '../shared/settingsList';
 import { ControlPanelContext } from './ControlPanel.context';
 
 const Wrapper = styled.div`
@@ -21,23 +24,14 @@ const Content = styled.div`
   padding: 1rem;
 `;
 
-const FillPage = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
-`;
-
 export default function ControlPanel({ match }) {
   const { chatId, initialCommand } = match.params;
 
   const [chat, setChat] = useState({} as IChatSettings);
   const [commands, setCommands] = useState([] as string[]);
-  const [selectedCommand, selectCommand] = useState(initialCommand || 'weather');
+  const [selectedCommand, selectCommand] = useState(
+    initialCommand || 'weather'
+  );
   const [denied, setDenied] = useState(false);
 
   useEffect(() => {
@@ -47,13 +41,13 @@ export default function ControlPanel({ match }) {
         if (_.isEmpty(data)) {
           return setDenied(true);
         }
-        
+
         setChat(data);
-      }); 
+      });
 
     fetch(getAPIUrl(`commands`))
       .then(response => response.json())
-      .then(data => setCommands(data)); 
+      .then(data => setCommands(data));
   }, []);
 
   if (denied) {
@@ -61,21 +55,29 @@ export default function ControlPanel({ match }) {
   }
 
   if (_.isEmpty(chat) || _.isEmpty(commands)) {
-    return <FillPage><Spinner /></FillPage>;
+    return (
+      <FillPage>
+        <Spinner />
+      </FillPage>
+    );
   }
 
+  const SettingsComponent = settingsList[selectedCommand];
+
   return (
-    <ControlPanelContext.Provider value={{
-      chat,
-      selectCommand,
-      selectedCommand,
-      commands,
-    }}>
+    <ControlPanelContext.Provider
+      value={{
+        chat,
+        selectCommand,
+        selectedCommand,
+        commands,
+      }}
+    >
       <Wrapper>
         <Sidebar />
         <Content>
           <Box title={selectedCommand}>
-            <Weather />
+            <SettingsComponent />
           </Box>
         </Content>
       </Wrapper>

@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { ControlPanelContext } from '../containers/ControlPanel.context';
-import Weather from './Weather';
+import { settingsList } from '../shared/settingsList';
+import { device } from '../shared/styles';
 
-const commandsWithSettings = {
-  weather: Weather,
-};
+import { ControlPanelContext } from '../containers/ControlPanel.context';
 
 interface INavLinkProps {
   disabled?: boolean;
@@ -14,36 +12,39 @@ interface INavLinkProps {
 
 const NavLink = styled.a`
   display: block;
-  color: ${
-    ({ selected, disabled }: INavLinkProps) =>
-      disabled ? 'gray' : (selected ? 'black' : 'white')
-  };
+  padding: 1rem 0rem;
+  color: ${({ selected, disabled }: INavLinkProps) =>
+    disabled ? 'gray' : selected ? 'black' : 'white'};
   text-decoration: none;
   letter-spacing: 0.05rem;
-  padding: 1rem 0;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   user-select: none;
 
-  ${
-    ({ selected }: INavLinkProps) => selected &&
+  @media ${device.tablet} {
+    font-size: 0.9rem;
+  }
+
+  ${({ selected }: INavLinkProps) =>
+    selected &&
     `
       background: #fff;
-      transform: translateX(-2rem);
+      transform: translateX(-1rem);
       width: 100%;
-      padding: 1rem 2rem;
-    `
-  }
+      padding: 1rem;
+    `}
 `;
 
 export default function Navigation() {
-  const { chat, commands, selectedCommand, selectCommand} = useContext(ControlPanelContext);
-  
-  const changeUrl = (path) => {
+  const { chat, commands, selectedCommand, selectCommand } = useContext(
+    ControlPanelContext
+  );
+
+  const changeUrl = path => {
     const newUrl = `/${chat.chatid}/${path}`.replace(/\/+$/, '');
     history.pushState(path, 'Alfabot', newUrl);
   };
 
-  if (!commands.includes(selectedCommand)) {
+  if (!(selectedCommand in settingsList)) {
     selectCommand('weather');
     changeUrl('');
   }
@@ -51,23 +52,29 @@ export default function Navigation() {
   return (
     <>
       {commands.map(command => {
-        if (!(command in commandsWithSettings)) {
+        if (!(command in settingsList)) {
           return;
         }
+
+        const selected = command === selectedCommand;
 
         return (
           <NavLink
             key={command}
-            selected={command === selectedCommand}
+            selected={selected}
             onMouseDown={() => {
+              if (selected) {
+                return;
+              }
+
               selectCommand(command);
               changeUrl(`commands/${command}`);
             }}
           >
             /{command}
           </NavLink>
-      )}
-      )}
+        );
+      })}
     </>
   );
 }

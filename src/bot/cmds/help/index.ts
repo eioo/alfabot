@@ -1,5 +1,5 @@
 import CommandBase from 'bot/cmds/commandBase';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import Bot from 'shared/types/bot';
 import { cmdList, getCommand } from '..';
 

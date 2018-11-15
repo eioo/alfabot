@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import * as queryString from 'query-string';
 import React, { useContext } from 'react';
-import { getAPIUrl } from '../apiBuilder';
-import { ControlPanelContext } from '../containers/ControlPanel.context';
 import { IChatSettings } from '../../shared/types/database';
+import { ControlPanelContext } from '../containers/ControlPanel.context';
+import { getAPIUrl } from '../shared/apiBuilder';
 
 function listCities(chat: IChatSettings) {
   if (_.isEmpty(chat)) {
@@ -47,8 +47,8 @@ async function removeCity(chatId: number, cityName: string) {
 }
 
 export default function Weather() {
-  const { chat } = useContext(ControlPanelContext); 
-  
+  const { chat } = useContext(ControlPanelContext);
+
   return (
     <div>
       {listCities(chat)}
