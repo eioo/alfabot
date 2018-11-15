@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 
-import ChatSettings from './ChatSettings';
-import Command from './Command';
+import ControlPanel from './ControlPanel';
 import Denied from './Denied';
 
 const GlobalStyle = createGlobalStyle`
@@ -27,8 +26,8 @@ export default function App() {
 
       <BrowserRouter>
         <Switch>
-          <Route path="/:chatId" exact={true} component={ChatSettings} />
-          <Route path="/command/:command" exact={true} component={Command} />
+          <Route path="/:chatId" exact={true} component={ControlPanel} />
+          <Route path="/:chatId/commands/:initialCommand" exact={true} component={ControlPanel} />
           <Route component={Denied} />
         </Switch>
       </BrowserRouter>

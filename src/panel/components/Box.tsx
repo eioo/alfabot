@@ -27,9 +27,7 @@ interface IBoxProps {
   children?: any;
 }
 
-export default function Box(props: IBoxProps) {
-  const { title, children } = props;
-
+export default function Box({ title, children }: IBoxProps) {
   return (
     <Wrapper>
       <Legend>{title}</Legend>
