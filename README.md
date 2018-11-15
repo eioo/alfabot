@@ -28,8 +28,9 @@ npm run start
 | WEBSERVER_PORT     | Port for Hapi server                |
 | BOT_TOKEN          | Your Telegram bot token             |
 | IBAN_NUMBERS       | IBAN account list for /iban command |
-| OPENWEATHERMAP_KEY | Your OpenWeatherMap API token       |
-| GIPHY_KEY          | Your Giphy API token                |
+| OPENWEATHERMAP_KEY | Your OpenWeatherMap API key         |
+| GIPHY_KEY          | Your Giphy API key                  |
+| YOUTUBEV3_KEY      | Your Youtube V3 Data API key        |
 
 - IBAN accounts are formatted like this:
 
