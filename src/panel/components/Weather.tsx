@@ -20,7 +20,7 @@ function listCities(chat: IChatSettings) {
       {cities.map((city, i) => {
         const removeLink = (
           <a
-            href='#'
+            href="#"
             onClick={async () => {
               await removeCity(chat.chatid, city);
             }}
@@ -54,12 +54,11 @@ export default function Weather(props: IWeatherProps) {
 
   return (
     <div>
-      <strong>/weather</strong>
       {listCities(chat)}
 
       <label>Add city/place:</label>
       <p>
-        <input type='text' placeholder='Oulu, FI' />
+        <input type="text" placeholder="Oulu, FI" />
         <button>Add</button>
       </p>
     </div>
