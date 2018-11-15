@@ -8,4 +8,6 @@ interface IControlPanelContext {
   commands: string[];
 }
 
-export const ControlPanelContext = React.createContext({} as IControlPanelContext);
+export const ControlPanelContext = React.createContext(
+  {} as IControlPanelContext
+);

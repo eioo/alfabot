@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 import * as dateFormat from 'dateformat';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import fetch from 'node-fetch';
 import Bot from 'shared/types/bot';
 

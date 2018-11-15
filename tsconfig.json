@@ -13,6 +13,7 @@
     "noImplicitAny": true,
     "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "build",
     "baseUrl": "src"
   },
