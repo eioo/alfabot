@@ -1,11 +1,10 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { IChatSettings } from '../../shared/types/database';
+import { getAPIUrl } from '../apiBuilder';
 import Weather from './Weather';
-
-const API_PORT = process.env.WEBSERVER_PORT || 3000;
-const API_BASE = `${location.protocol}//${location.hostname}:${API_PORT}/api`;
 
 const Wrapper = styled.div`
   margin: auto;
@@ -22,16 +21,27 @@ const Title = styled.div`
 export default function ChatSettings({ match }) {
   const { chatId } = match.params;
   const [chat, setChat] = useState({} as IChatSettings);
+  const [denied, setDenied] = useState(false);
 
   useEffect(() => {
-    console.log(`Chat ID: ${chatId}`);
-
-    fetch(`${API_BASE}/chatsettings/${chatId}`)
+    fetch(getAPIUrl(`chatsettings/${chatId}`))
       .then(response => response.json())
       .then(data => {
+        if (_.isEmpty(data)) {
+          return setDenied(true);
+        }
+
         setChat(data);
       });
   }, []);
+
+  if (denied) {
+    return <Redirect to='/' />;
+  }
+
+  if (_.isEmpty(chat)) {
+    return <div>Loadings :D</div>;
+  }
 
   return (
     <Wrapper>
