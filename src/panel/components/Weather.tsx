@@ -11,8 +11,8 @@ function listCities(chat: IChatSettings) {
 
   return (
     <ul>
-      {cities.map(city => (
-        <li>{city}</li>
+      {cities.map((city, i) => (
+        <li key={i}>{city}</li>
       ))}
     </ul>
   );
@@ -20,5 +20,5 @@ function listCities(chat: IChatSettings) {
 
 export default function Weather(props) {
   const chat: IChatSettings = props.chat;
-  return <div>Ebin xD{listCities(chat)}</div>;
+  return <div>Ebin xD{!_.isEmpty(chat) ? listCities(chat) : 'oot gay'}</div>;
 }
