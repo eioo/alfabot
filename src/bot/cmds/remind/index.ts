@@ -58,6 +58,7 @@ class RemindCommand extends CommandBase {
         askerid,
       };
 
+      await db('reminders').insert(reminder);
       this.scheduleReminder(reminder);
 
       this.reply(msg, [
@@ -70,14 +71,6 @@ class RemindCommand extends CommandBase {
 
   async scheduleReminder(reminder: IReminder): Promise<void> {
     const { timestamp, askername, askerid, text } = reminder;
-
-    try {
-      await db('reminders').insert(reminder);
-    } catch {
-      /* Probably already exists in database */
-    }
-
-    console.log(askerid);
 
     schedule.scheduleJob(new Date(timestamp), async () => {
       this.reply(
