@@ -1,16 +1,15 @@
 import _ from 'lodash';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { IChatSettings } from '../../shared/types/database';
 import { getAPIUrl } from '../shared/apiBuilder';
-import { FillPage } from '../shared/styles';
 
 import Box from '../components/Box';
 import Sidebar from '../components/Sidebar';
 import Spinner from '../components/Spinner';
-import Weather from '../components/Weather';
 import { settingsList } from '../shared/settingsList';
+import { FillPage } from '../styled';
 import { ControlPanelContext } from './ControlPanel.context';
 
 const Wrapper = styled.div`

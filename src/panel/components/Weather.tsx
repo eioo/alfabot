@@ -4,21 +4,15 @@ import styled from 'styled-components';
 import { ControlPanelContext } from '../containers/ControlPanel.context';
 import { getAPIUrl } from '../shared/apiBuilder';
 
+import { RemoveButton } from '../styled';
 import Input from './Input';
 
-const CityList = styled.ul`
-  padding: 0;
-  list-style-type: none;
+const CityListItem = styled.div`
+  margin-bottom: 1rem;
 `;
 
-const CityListItem = styled.li`
-  padding-bottom: 0.3rem;
-`;
-
-const RemoveButton = styled.span`
-  cursor: pointer;
-  color: #b13838;
-  padding-right: 0.8rem;
+const CityName = styled.span`
+  margin-left: 0.8rem;
 `;
 
 export default function Weather() {
@@ -32,24 +26,17 @@ export default function Weather() {
 
     const { cities } = chat.weather;
 
-    return (
-      <CityList>
-        {cities.map((cityName, i) => {
-          return (
-            <CityListItem key={i}>
-              <span className="mi" />
-              <RemoveButton
-                className="fas fa-minus-circle"
-                onClick={async () => {
-                  await removeCity(cityName);
-                }}
-              />
-              {cityName}
-            </CityListItem>
-          );
-        })}
-      </CityList>
-    );
+    return cities.map((cityName, i) => (
+      <CityListItem key={i}>
+        <RemoveButton
+          className="fas fa-minus-circle"
+          onClick={async () => {
+            await removeCity(cityName);
+          }}
+        />
+        <CityName>{cityName}</CityName>
+      </CityListItem>
+    ));
   };
 
   const removeCity = async (cityName: string) => {
@@ -60,6 +47,7 @@ export default function Weather() {
         cityName,
       }),
     });
+
     const result = await response.json();
 
     if (result.status !== 'ok') {
@@ -78,6 +66,7 @@ export default function Weather() {
         cityName,
       }),
     });
+
     const result = await response.json();
 
     if (result.status !== 'ok') {

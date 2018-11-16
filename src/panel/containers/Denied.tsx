@@ -1,5 +1,5 @@
 import React from 'react';
-import { FillPage } from '../shared/styles';
+import { FillPage } from '../styled';
 
 export default function Denied() {
   return <FillPage>Denied!</FillPage>;

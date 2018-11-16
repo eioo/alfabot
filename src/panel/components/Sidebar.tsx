@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { device } from '../shared/styles';
+import { device } from '../styled';
 import Navigation from './Navigation';
 
 const SidebarStyles = styled.div`
