@@ -14,9 +14,9 @@ class PanelCommand extends CommandBase {
     this.onText(/^\/panel/i, async msg => {
       this.reply(
         msg,
-        `🤖 [Panel for this chat](http://localhost:1234/${
-          msg.chat.id
-        })\nhttp://localhost:1234/${msg.chat.id}`
+        `🤖 [Panel for this chat](http://${location.origin}/${msg.chat.id})\n${
+          location.origin
+        }/${msg.chat.id}`
       );
     });
   }
