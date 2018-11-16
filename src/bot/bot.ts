@@ -13,28 +13,27 @@ export async function create(): Promise<void> {
     return process.exit(1);
   }
 
+  await webserver.startServer();
   const bot = new TelegramBot(token);
 
-  messageHandler(bot);
+  bot.on('message', messageHandler);
   schedules.start(bot);
   commands.load(bot);
-  await webserver.init();
   bot.startPolling();
 
   logger.bot('Bot started');
 }
 
-function messageHandler(bot: TelegramBot) {
-  bot.on('message', async msg => {
-    const chat = await db('chats')
-      .select('*')
-      .where('chatid', msg.chat.id)
-      .first();
+async function messageHandler(msg: TelegramBot.Message) {
+  const chat = await db('chats')
+    .where('chatid', msg.chat.id)
+    .first();
 
-    if (!chat) {
-      await db('chats').insert({
-        chatid: msg.chat.id,
-      });
-    }
+  if (chat) {
+    return;
+  }
+
+  await db('chats').insert({
+    chatid: msg.chat.id,
   });
 }

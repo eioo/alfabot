@@ -1,3 +1,5 @@
 export const handler = () => {
-  return 'ok';
+  return {
+    status: 'ok',
+  };
 };

@@ -23,7 +23,6 @@ class WeatherCommand extends CommandBase {
 
       if (!argCount) {
         const chat: IChatSettings = await db('chats')
-          .select('*')
           .where({
             chatid: msg.chat.id,
           })

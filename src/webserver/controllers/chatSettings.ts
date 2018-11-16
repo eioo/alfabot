@@ -9,7 +9,6 @@ export const handler = async (request: hapi.Request) => {
   }
 
   const chat = await db('chats')
-    .select('*')
     .where('chatid', Number(chatId))
     .first();
 
