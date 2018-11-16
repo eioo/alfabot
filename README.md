@@ -19,18 +19,19 @@ npm run start
 
 ## Environment variables
 
-| Key                | Explanation                         |
-| ------------------ | ----------------------------------- |
-| PG_HOST            | PostgreSQL host                     |
-| PG_DATABASE        | PostgreSQL database name            |
-| PG_USER            | PostgreSQL username                 |
-| PG_PASS            | PostgreSQL password                 |
-| WEBSERVER_PORT     | Port for Hapi server                |
-| BOT_TOKEN          | Your Telegram bot token             |
-| IBAN_NUMBERS       | IBAN account list for /iban command |
-| OPENWEATHERMAP_KEY | Your OpenWeatherMap API key         |
-| GIPHY_KEY          | Your Giphy API key                  |
-| YOUTUBEV3_KEY      | Your Youtube V3 Data API key        |
+| Key                | Explanation                                    |
+| ------------------ | ---------------------------------------------- |
+| PG_HOST            | PostgreSQL host                                |
+| PG_DATABASE        | PostgreSQL database name                       |
+| PG_USER            | PostgreSQL username                            |
+| PG_PASS            | PostgreSQL password                            |
+| PANEL_HOST         | Panel host. Don't include leading/trailing "/" |
+| WEBSERVER_PORT     | Port for Hapi server                           |
+| BOT_TOKEN          | Your Telegram bot token                        |
+| IBAN_NUMBERS       | IBAN account list for /iban command            |
+| OPENWEATHERMAP_KEY | Your OpenWeatherMap API key                    |
+| GIPHY_KEY          | Your Giphy API key                             |
+| YOUTUBEV3_KEY      | Your Youtube V3 Data API key                   |
 
 - IBAN accounts are formatted like this:
 
