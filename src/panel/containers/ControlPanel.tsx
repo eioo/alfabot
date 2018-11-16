@@ -2,14 +2,14 @@ import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import { IChatSettings } from '../../shared/types/database';
-import { getAPIUrl } from '../shared/apiBuilder';
 
+import { IChatSettings } from '../../shared/types/database';
 import Box from '../components/Box';
 import Sidebar from '../components/Sidebar';
 import Spinner from '../components/Spinner';
-import { settingsList } from '../shared/settingsList';
-import { FillPage } from '../styled';
+import routes from '../routes';
+import { getCommands, getSettings } from '../services/api';
+import { FillPage } from '../theme';
 import { ControlPanelContext } from './ControlPanel.context';
 
 const Wrapper = styled.div`
@@ -34,19 +34,16 @@ export default function ControlPanel({ match }) {
   const [denied, setDenied] = useState(false);
 
   useEffect(() => {
-    fetch(getAPIUrl(`chatsettings/${chatId}`))
-      .then(response => response.json())
-      .then(data => {
-        if (_.isEmpty(data)) {
-          return setDenied(true);
-        }
+    getSettings(chatId).then(response => {
+      if (_.isEmpty(response)) {
+        setDenied(true);
+        return;
+      }
 
-        setChat(data);
-      });
+      setChat(response);
+    });
 
-    fetch(getAPIUrl(`commands`))
-      .then(response => response.json())
-      .then(data => setCommands(data));
+    getCommands().then(response => setCommands(response));
   }, []);
 
   if (denied) {
@@ -61,7 +58,7 @@ export default function ControlPanel({ match }) {
     );
   }
 
-  const SettingsComponent = settingsList[selectedCommand];
+  const SettingsComponent = routes[selectedCommand];
 
   return (
     <ControlPanelContext.Provider

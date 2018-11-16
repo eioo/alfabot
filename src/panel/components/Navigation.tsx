@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { settingsList } from '../shared/settingsList';
-import { device } from '../styled';
 
 import { ControlPanelContext } from '../containers/ControlPanel.context';
+import routes from '../routes';
+import { device } from '../theme';
 
 interface INavLinkProps {
   disabled?: boolean;
@@ -44,7 +44,7 @@ export default function Navigation() {
     history.pushState(path, 'Alfabot', newUrl);
   };
 
-  if (!(selectedCommand in settingsList)) {
+  if (!(selectedCommand in routes)) {
     selectCommand('weather');
     changeUrl('');
   }
@@ -52,8 +52,8 @@ export default function Navigation() {
   return (
     <>
       {commands.map(command => {
-        if (!(command in settingsList)) {
-          return;
+        if (!(command in routes)) {
+          return null;
         }
 
         const selected = command === selectedCommand;

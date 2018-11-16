@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { IChatSettings } from '../../shared/types/database';
 
 interface IControlPanelContext {

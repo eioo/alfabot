@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { device } from '../styled';
+
+import { device } from '../theme';
 import Navigation from './Navigation';
 
 const SidebarStyles = styled.div`
@@ -8,7 +9,6 @@ const SidebarStyles = styled.div`
   background: #013c56;
   color: #fff;
   padding: 0 2rem 0 2rem;
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.15);
   width: 50px;
   padding: 0 1rem;
 
@@ -19,7 +19,6 @@ const SidebarStyles = styled.div`
 `;
 
 const Title = styled.div`
-  font-family: 'Space Mono', monospace;
   font-weight: normal;
   font-size: 2rem;
   white-space: nowrap;
@@ -34,6 +33,11 @@ const Title = styled.div`
 
 const TitleText = styled.span`
   display: none;
+  margin-left: 0.5rem;
+  font-size: 1.8rem;
+  font-family: 'Space Mono', monospace;
+  font-weight: bold;
+  vertical-align: text-bottom;
 
   @media ${device.tablet} {
     display: inline-block;
