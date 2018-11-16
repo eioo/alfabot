@@ -8,6 +8,7 @@ import Denied from './Denied';
 const GlobalStyle = createGlobalStyle`
   @import url('//fonts.googleapis.com/css?family=Rubik&subset=latin');
   @import url('//fonts.googleapis.com/css?family=Space+Mono');
+  @import url('https://use.fontawesome.com/releases/v5.5.0/css/all.css');
   
   * {
     font-family: 'Rubik', sans-serif;

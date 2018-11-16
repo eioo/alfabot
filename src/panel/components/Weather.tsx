@@ -1,9 +1,25 @@
 import _ from 'lodash';
 import React, { useContext, useState } from 'react';
+import styled from 'styled-components';
 import { ControlPanelContext } from '../containers/ControlPanel.context';
 import { getAPIUrl } from '../shared/apiBuilder';
 
 import Input from './Input';
+
+const CityList = styled.ul`
+  padding: 0;
+  list-style-type: none;
+`;
+
+const CityListItem = styled.li`
+  padding-bottom: 0.3rem;
+`;
+
+const RemoveButton = styled.span`
+  cursor: pointer;
+  color: #b13838;
+  padding-right: 0.8rem;
+`;
 
 export default function Weather() {
   const { chat, setChat } = useContext(ControlPanelContext);
@@ -17,26 +33,22 @@ export default function Weather() {
     const { cities } = chat.weather;
 
     return (
-      <ul>
+      <CityList>
         {cities.map((cityName, i) => {
-          const removeLink = (
-            <a
-              href="#"
-              onClick={async () => {
-                await removeCity(cityName);
-              }}
-            >
-              x
-            </a>
-          );
-
           return (
-            <li key={i}>
-              [{removeLink}] {cityName}
-            </li>
+            <CityListItem key={i}>
+              <span className="mi" />
+              <RemoveButton
+                className="fas fa-minus-circle"
+                onClick={async () => {
+                  await removeCity(cityName);
+                }}
+              />
+              {cityName}
+            </CityListItem>
           );
         })}
-      </ul>
+      </CityList>
     );
   };
 

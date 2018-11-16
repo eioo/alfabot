@@ -7,6 +7,7 @@ import WeatherCommand from './weather';
 import AlexaPlayCommand from './alexaplay';
 import DebugCommand from './debug';
 import DoublesCommand from './doubles';
+import PanelCommand from './panel';
 import RepsCommand from './reps';
 
 export const commandRefs = [
@@ -19,4 +20,5 @@ export const commandRefs = [
   DoublesCommand,
   RepsCommand,
   AlexaPlayCommand,
+  PanelCommand,
 ];
