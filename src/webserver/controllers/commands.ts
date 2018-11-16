@@ -1,4 +1,3 @@
-// import * as hapi from 'hapi';
 import { cmdList } from '../../bot/cmds';
 
 export const handler = () => {

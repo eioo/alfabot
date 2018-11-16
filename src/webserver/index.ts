@@ -14,10 +14,10 @@ const server = new Server({
   },
 });
 
-server.route(routes);
-
-export const init = async () => {
+export const startServer = async () => {
+  server.route(routes);
   await server.start();
+
   logger.bot(`Webserver running at: ${server.info.uri}`);
 };
 
