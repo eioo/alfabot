@@ -1,7 +1,7 @@
 import * as hapi from 'hapi';
 import { db } from 'shared/database';
 
-export const handler = async (request: hapi.Request, reply: any) => {
+export const handler = async (request: hapi.Request) => {
   const { chatId } = request.params;
 
   if (!chatId) {
@@ -10,7 +10,7 @@ export const handler = async (request: hapi.Request, reply: any) => {
 
   const chat = await db('chats')
     .select('*')
-    .where('chatid', parseInt(chatId))
+    .where('chatid', Number(chatId))
     .first();
 
   return chat || {};

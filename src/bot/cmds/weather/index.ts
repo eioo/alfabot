@@ -1,5 +1,7 @@
 import CommandBase from 'bot/cmds/commandBase';
+import { db } from 'shared/database';
 import Bot from 'shared/types/bot';
+import { IChatSettings } from 'shared/types/database';
 import { validateCity } from './openWeatherMap';
 import { getForecastText } from './responseBuilder';
 
@@ -20,7 +22,27 @@ class WeatherCommand extends CommandBase {
       }
 
       if (!argCount) {
-        this.showHelp(msg);
+        const chat: IChatSettings = await db('chats')
+          .select('*')
+          .where({
+            chatid: msg.chat.id,
+          })
+          .first();
+
+        if (chat.weather.cities.length) {
+          const reply = await this.reply(msg, `_Loading..._`);
+
+          const forecastPromises = chat.weather.cities.map(async cityName => {
+            const forecastText = await getForecastText(cityName);
+            return forecastText;
+          });
+          const response = (await Promise.all(forecastPromises)).join('\n\n');
+
+          this.editReply(reply, response);
+          return;
+        }
+
+        this.showHelp(msg, 'No cities yet added. Visit* /panel *to add more.');
         return;
       }
 
