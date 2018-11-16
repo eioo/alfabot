@@ -70,7 +70,12 @@ class RemindCommand extends CommandBase {
 
   async scheduleReminder(reminder: IReminder): Promise<void> {
     const { timestamp, askername, askerid, text } = reminder;
-    await db('reminders').insert(reminder);
+
+    try {
+      await db('reminders').insert(reminder);
+    } catch {
+      /* Probably already exists in database */
+    }
 
     console.log(askerid);
 
