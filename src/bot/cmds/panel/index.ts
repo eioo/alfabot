@@ -12,7 +12,6 @@ class PanelCommand extends CommandBase {
 
   listen(): void {
     this.onText(/^\/panel/i, async msg => {
-      // TODO: we need to get REMOTE url
       this.reply(
         msg,
         `🤖 [Panel for this chat](http://localhost:1234/${

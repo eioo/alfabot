@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { settingsList } from '../shared/settingsList';
-import { device } from '../shared/styles';
+import { device } from '../styled';
 
 import { ControlPanelContext } from '../containers/ControlPanel.context';
 

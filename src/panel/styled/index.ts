@@ -31,3 +31,8 @@ export const FillPage = styled.div`
   height: 100vh;
   width: 100vw;
 `;
+
+export const RemoveButton = styled.span`
+  cursor: pointer;
+  color: #b13838;
+`;
