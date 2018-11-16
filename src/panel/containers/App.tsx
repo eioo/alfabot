@@ -27,7 +27,11 @@ export default function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/:chatId" exact={true} component={ControlPanel} />
-          <Route path="/:chatId/commands/:initialCommand" exact={true} component={ControlPanel} />
+          <Route
+            path="/:chatId/commands/:initialCommand"
+            exact={true}
+            component={ControlPanel}
+          />
           <Route component={Denied} />
         </Switch>
       </BrowserRouter>

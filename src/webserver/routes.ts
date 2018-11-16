@@ -5,8 +5,8 @@ const routes = [
   GET('/api/healthcheck', healthCheck.handler),
   GET('/api/chatsettings/{chatId}', chatSettings.handler),
   GET('/api/commands', commands.handler),
-  POST('/api/weather/add', weather.addHandler),
-  POST('/api/weather/remove', weather.removeHandler),
+  POST('/api/weather/add', weather.addCityHandler),
+  POST('/api/weather/remove', weather.removeCityHandler),
 ];
 
 export default routes;

@@ -68,6 +68,7 @@ export default function ControlPanel({ match }) {
     <ControlPanelContext.Provider
       value={{
         chat,
+        setChat,
         selectCommand,
         selectedCommand,
         commands,
