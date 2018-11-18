@@ -28,6 +28,8 @@ class RemindCommand extends CommandBase {
       const duration: number = parseDuration(argsJoined);
       const text = argsJoined.replace(durationRegex, '').trim();
 
+      console.log(text);
+
       if (!from) {
         return;
       }
