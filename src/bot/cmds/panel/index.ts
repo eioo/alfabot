@@ -6,12 +6,11 @@ class PanelCommand extends CommandBase {
     super(bot);
 
     this.name = 'panel';
-    this.helpText = 'Example command';
-    this.helpArgs = '[somearg] [otherarg]';
+    this.helpText = 'Gives control panel link';
   }
 
   listen(): void {
-    this.onText(/^\/panel/i, async msg => {
+    this.onText(/^\/panel$/i, async msg => {
       const panelUrl = `http://${process.env.PANEL_HOST}/${msg.chat.id}`;
 
       this.reply(msg, `🤖 [Panel for this chat](${panelUrl})`);
