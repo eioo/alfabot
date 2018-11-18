@@ -41,4 +41,10 @@ const POST = (
   validator?: RouteOptionsValidate
 ) => route('POST', path, handler, validator);
 
-export { route, GET, POST };
+const DELETE = (
+  path: string,
+  handler: Handler,
+  validator?: RouteOptionsValidate
+) => route('DELETE', path, handler, validator);
+
+export { route, GET, POST, DELETE };

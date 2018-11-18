@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-import { ControlPanelContext } from '../containers/ControlPanel.context';
-import { getAPIUrl } from '../shared/apiBuilder';
 
-import { RemoveButton } from '../styled';
+import { ControlPanelContext } from '../containers/ControlPanel.context';
+import { addWeather, deleteWeather } from '../services/api';
+import { RemoveButton } from '../theme';
 import Input from './Input';
 
 const CityListItem = styled.div`
@@ -40,43 +40,17 @@ export default function Weather() {
   };
 
   const removeCity = async (cityName: string) => {
-    const response = await fetch(getAPIUrl('weather/remove'), {
-      method: 'POST',
-      body: JSON.stringify({
-        chatId: chat.chatid,
-        cityName,
-      }),
-    });
-
-    const result = await response.json();
-
-    if (result.status !== 'ok') {
-      alert(result.error);
-    }
+    await deleteWeather(chat.chatid, cityName);
 
     chat.weather.cities = chat.weather.cities.filter(x => x !== cityName);
     setChat(chat);
   };
 
   const addCity = async (cityName: string) => {
-    const response = await fetch(getAPIUrl('weather/add'), {
-      method: 'POST',
-      body: JSON.stringify({
-        chatId: chat.chatid,
-        cityName,
-      }),
-    });
-
-    const result = await response.json();
-
-    if (result.status !== 'ok') {
-      return alert(result.error);
-    }
+    await addWeather(chat.chatid, cityName);
 
     chat.weather.cities.push(_.capitalize(cityName));
-    setChat({
-      ...chat,
-    });
+    setChat({ ...chat });
   };
 
   const onChange = (name: string, value: string) => {

@@ -5,16 +5,16 @@ import {
   remind,
   weather,
 } from './controllers';
-import { GET, POST } from './utils/route';
+import { DELETE, GET, POST } from './utils/route';
 
 const routes = [
   GET('/api/healthcheck', healthCheck.handler),
+  GET('/api/remind', remind.getHandler),
   GET('/api/chatsettings/{chatId}', chatSettings.handler),
   GET('/api/commands', commands.handler),
-  POST('/api/weather/add', weather.addCityHandler),
-  POST('/api/weather/remove', weather.removeCityHandler),
-  GET('/api/remind', remind.getHandler),
-  POST('/api/remind/remove', remind.removeHandler),
+  POST('/api/weather', weather.addCityHandler),
+  DELETE('/api/remind', remind.removeHandler),
+  DELETE('/api/weather', weather.removeCityHandler),
 ];
 
 export default routes;
