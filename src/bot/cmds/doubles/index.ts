@@ -6,7 +6,7 @@ class DoublesCommand extends CommandBase {
     super(bot);
 
     this.name = 'doubles';
-    this.helpText = 'Doubles command';
+    this.helpText = 'Rolls 0-100';
   }
 
   listen(): void {

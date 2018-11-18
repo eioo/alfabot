@@ -10,7 +10,7 @@ class WeatherCommand extends CommandBase {
     super(bot);
 
     this.name = 'weather';
-    this.helpText = 'Show weather';
+    this.helpText = 'Show weather forecasts';
     this.helpArgs = '[city]';
   }
 
