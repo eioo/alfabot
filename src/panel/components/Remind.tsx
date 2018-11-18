@@ -22,11 +22,14 @@ const Column = styled.div`
 `;
 
 const TriggerTime = styled.span`
+  white-space: nowrap;
   color: gray;
 `;
+
 const AskerName = styled.span`
   font-weight: bold;
 `;
+
 const RemindText = styled.span`
   color: black;
 `;
