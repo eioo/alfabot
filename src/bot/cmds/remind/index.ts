@@ -28,8 +28,6 @@ class RemindCommand extends CommandBase {
       const duration: number = parseDuration(argsJoined);
       const text = argsJoined.replace(durationRegex, '').trim();
 
-      console.log(text);
-
       if (!from) {
         return;
       }
@@ -60,7 +58,11 @@ class RemindCommand extends CommandBase {
         askerid,
       };
 
-      await db('reminders').insert(reminder);
+      const id = await db('reminders')
+        .insert(reminder)
+        .returning('id');
+      reminder.id = id[0];
+
       this.scheduleReminder(reminder);
 
       this.reply(msg, [
@@ -72,9 +74,15 @@ class RemindCommand extends CommandBase {
   }
 
   async scheduleReminder(reminder: IReminder): Promise<void> {
-    const { timestamp, askername, askerid, text } = reminder;
+    const { id, timestamp, askername, askerid, text } = reminder;
 
     schedule.scheduleJob(new Date(timestamp), async () => {
+      const stillExists = (await db('reminders').where('id', id || -1)).length;
+
+      if (!stillExists) {
+        return;
+      }
+
       this.reply(
         reminder.chatid,
         `*🔔 Reminder for* [${askername}](tg://user?id=${askerid})\n_${text}_`
