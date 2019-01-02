@@ -1,6 +1,7 @@
 import { validateCity } from 'bot/cmds/weather/openWeatherMap';
 import * as _ from 'lodash';
 import { db } from 'shared/database';
+import { logger } from 'shared/logger';
 import { IChatSettings } from 'shared/types/database';
 import { ISocketResponse } from 'shared/types/sockets';
 
@@ -11,16 +12,15 @@ interface ICityData {
 
 export async function addCity(
   data: ICityData,
-  fn: (response?: ISocketResponse) => void
+  fn: (response: ISocketResponse) => void
 ) {
   const { chatId, cityName } = data;
-
   const chat: IChatSettings = await db('chats')
     .where('chatid', chatId)
     .first();
 
   if (!chat) {
-    fn({
+    return fn({
       error: 'chat not found',
     });
   }
@@ -28,7 +28,7 @@ export async function addCity(
   const validCity = await validateCity(cityName);
 
   if (!validCity) {
-    fn({
+    return fn({
       error: 'invalid city',
     });
   }
@@ -42,7 +42,7 @@ export async function addCity(
       weather,
     });
 
-  fn();
+  fn({});
 }
 
 export async function removeCity(

@@ -60,11 +60,9 @@ export default function Weather() {
       },
       ({ error }: ISocketResponse) => {
         if (error) {
-          alert(error);
-          return;
+          return alert(error);
         }
 
-        console.log('pussed');
         chat.weather.cities.push(_.capitalize(cityName));
         setChat({ ...chat });
       }

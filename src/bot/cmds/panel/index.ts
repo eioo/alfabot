@@ -11,7 +11,8 @@ class PanelCommand extends CommandBase {
 
   listen(): void {
     this.onText(/^\/panel$/i, async msg => {
-      const panelUrl = `http://${process.env.PANEL_HOST}/${msg.chat.id}`;
+      const panelUrl = `http://${process.env.PANEL_HOST ||
+        'localhost'}:${process.env.PANEL_PORT || 1234}/${msg.chat.id}`;
 
       this.reply(msg, `🤖 [Panel for this chat](${panelUrl})`);
     });
