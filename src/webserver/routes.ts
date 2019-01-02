@@ -1,20 +1,25 @@
-import {
-  chatSettings,
-  commands,
-  healthCheck,
-  remind,
-  weather,
-} from './controllers';
-import { DELETE, GET, POST } from './utils/route';
+import { logger } from 'shared/logger';
+import { Server } from 'socket.io';
+import { getChatSettings } from './controllers/chat';
+import { getCommands } from './controllers/commands';
+import { getReminders, removeReminder } from './controllers/reminders';
+import { addCity, removeCity } from './controllers/weather';
 
-const routes = [
-  GET('/api/healthcheck', healthCheck.handler),
-  GET('/api/remind', remind.getHandler),
-  GET('/api/chatsettings/{chatId}', chatSettings.handler),
-  GET('/api/commands', commands.handler),
-  POST('/api/weather', weather.addCityHandler),
-  DELETE('/api/remind', remind.removeHandler),
-  DELETE('/api/weather', weather.removeCityHandler),
-];
+export function routeSockets(io: Server) {
+  io.on('connection', socket => {
+    logger.socketio('Client connected');
 
-export default routes;
+    socket.on('get chat settings', getChatSettings);
+    socket.on('get commands', getCommands);
+
+    socket.on('add city', addCity);
+    socket.on('remove city', removeCity);
+
+    socket.on('get reminders', getReminders);
+    socket.on('remove reminder', removeReminder);
+
+    socket.on('disconnect', () => {
+      logger.socketio('Client disconnected');
+    });
+  });
+}

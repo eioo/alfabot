@@ -1,5 +1,6 @@
-import { cmdList } from '../../bot/cmds';
+import { cmdList } from 'bot/cmds';
 
-export const handler = () => {
-  return cmdList.map(command => command.name);
-};
+export function getCommands(fn: (commands: string[]) => void) {
+  const commands = cmdList.map(command => command.name);
+  fn(commands);
+}

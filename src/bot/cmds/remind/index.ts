@@ -60,8 +60,9 @@ class RemindCommand extends CommandBase {
 
       const id = await db('reminders')
         .insert(reminder)
-        .returning('id');
-      reminder.id = id[0];
+        .returning('id')
+        .first();
+      reminder.id = id;
 
       this.scheduleReminder(reminder);
 

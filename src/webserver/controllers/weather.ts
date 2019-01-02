@@ -1,18 +1,18 @@
 import { validateCity } from 'bot/cmds/weather/openWeatherMap';
-import * as hapi from 'hapi';
 import * as _ from 'lodash';
 import { db } from 'shared/database';
 import { IChatSettings } from 'shared/types/database';
+import { ISocketResponse } from 'shared/types/sockets';
 
-interface IAddCityData {
+interface ICityData {
   chatId: number;
   cityName: string;
 }
 
-type IRemoveCityData = IAddCityData;
-
-export const addCityHandler = async (request: hapi.Request) => {
-  const data: IAddCityData = JSON.parse(request.payload as string);
+export async function addCity(
+  data: ICityData,
+  fn: (response?: ISocketResponse) => void
+) {
   const { chatId, cityName } = data;
 
   const chat: IChatSettings = await db('chats')
@@ -20,19 +20,17 @@ export const addCityHandler = async (request: hapi.Request) => {
     .first();
 
   if (!chat) {
-    return {
-      status: 'error',
+    fn({
       error: 'chat not found',
-    };
+    });
   }
 
   const validCity = await validateCity(cityName);
 
   if (!validCity) {
-    return {
-      status: 'error',
+    fn({
       error: 'invalid city',
-    };
+    });
   }
 
   const { weather } = chat;
@@ -44,13 +42,13 @@ export const addCityHandler = async (request: hapi.Request) => {
       weather,
     });
 
-  return {
-    status: 'ok',
-  };
-};
+  fn();
+}
 
-export const removeCityHandler = async (request: hapi.Request) => {
-  const data: IRemoveCityData = JSON.parse(request.payload as string);
+export async function removeCity(
+  data: ICityData,
+  fn: (response: ISocketResponse) => void
+) {
   const { chatId, cityName } = data;
 
   const chat: IChatSettings = await db('chats')
@@ -58,10 +56,10 @@ export const removeCityHandler = async (request: hapi.Request) => {
     .first();
 
   if (!chat) {
-    return {
-      status: 'error',
+    fn({
       error: 'chat not found',
-    };
+    });
+    return;
   }
 
   const { weather } = chat;
@@ -72,8 +70,4 @@ export const removeCityHandler = async (request: hapi.Request) => {
     .update({
       weather,
     });
-
-  return {
-    status: 'ok',
-  };
-};
+}

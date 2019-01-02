@@ -1,6 +1,7 @@
 import { Request, ResponseToolkit, Server } from 'hapi';
 import { logger } from 'shared/logger';
-import routes from './routes';
+import * as socketio from 'socket.io';
+import { routeSockets } from './routes';
 
 const server = new Server({
   port: process.env.WEBSERVER_PORT || 3000,
@@ -14,13 +15,15 @@ const server = new Server({
   },
 });
 
-export const startServer = async () => {
-  server.route(routes);
+export async function startServer() {
+  const io = socketio(server.listener);
+
+  routeSockets(io);
   await server.start();
 
   logger.bot(`Webserver running at: ${server.info.uri}`);
-};
+}
 
-export const stopServer = async () => {
+export async function stopServer() {
   return server.stop();
-};
+}

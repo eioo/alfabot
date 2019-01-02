@@ -2,10 +2,10 @@ import dateFormat from 'dateformat';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { IReminder } from '../../shared/types/database';
-import { ControlPanelContext } from '../containers/ControlPanel.context';
-import { deleteReminder, getReminders } from '../services/api';
-import { RemoveButton } from '../theme';
+import { IReminder } from '../../../shared/types/database';
+import { ControlPanelContext } from '../../containers/ControlPanel.context';
+import { socket } from '../../services/sockets';
+import { RemoveButton } from '../../theme';
 
 const ReminderCount = styled.div`
   margin-bottom: 1rem;
@@ -40,16 +40,24 @@ export default function Remind() {
   const { chat } = useContext(ControlPanelContext);
 
   useEffect(() => {
-    getReminders().then(response => {
+    socket.emit('get reminders', (data: IReminder[]) => {
       setLoading(false);
-      setReminders(response);
+      setReminders(data);
     });
   }, []);
 
-  const removeReminder = (reminderId: number) =>
-    deleteReminder(chat.chatid, reminderId).then(() =>
-      setReminders(reminders.filter(x => x.id !== reminderId))
+  const removeReminder = (reminderId: number) => {
+    socket.emit(
+      'remove reminder',
+      {
+        chatId: chat.chatid,
+        reminderId,
+      },
+      () => {
+        setReminders(reminders.filter(x => x.id !== reminderId));
+      }
     );
+  };
 
   const reminderElements = reminders.map(
     ({ id, timestamp, text, askername }, i) => {

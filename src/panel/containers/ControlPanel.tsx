@@ -8,7 +8,7 @@ import Box from '../components/Box';
 import Sidebar from '../components/Sidebar';
 import Spinner from '../components/Spinner';
 import routes from '../routes';
-import { getCommands, getSettings } from '../services/api';
+import { socket } from '../services/sockets';
 import { FillPage } from '../theme';
 import { ControlPanelContext } from './ControlPanel.context';
 
@@ -25,7 +25,6 @@ const Content = styled.div`
 
 export default function ControlPanel({ match }) {
   const { chatId, initialCommand } = match.params;
-
   const [chat, setChat] = useState({} as IChatSettings);
   const [commands, setCommands] = useState([] as string[]);
   const [selectedCommand, selectCommand] = useState(
@@ -34,16 +33,19 @@ export default function ControlPanel({ match }) {
   const [denied, setDenied] = useState(false);
 
   useEffect(() => {
-    getSettings(chatId).then(response => {
-      if (_.isEmpty(response)) {
+    socket.emit('get chat settings', chatId, (data: IChatSettings) => {
+      if (_.isEmpty(data)) {
         setDenied(true);
         return;
       }
 
-      setChat(response);
+      console.log(data);
+      setChat(data);
     });
 
-    getCommands().then(response => setCommands(response));
+    socket.emit('get commands', (response: string[]) => {
+      setCommands(response);
+    });
   }, []);
 
   if (denied) {

@@ -12,8 +12,13 @@ export const logger = new Signale({
     },
     database: {
       badge: '💾',
-      color: 'yellow',
+      color: 'green',
       label: 'database',
+    },
+    socketio: {
+      badge: '⚡️',
+      color: 'yellow',
+      label: 'socketio',
     },
   },
 });

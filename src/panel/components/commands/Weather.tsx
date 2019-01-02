@@ -2,10 +2,12 @@ import _ from 'lodash';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
-import { ControlPanelContext } from '../containers/ControlPanel.context';
-import { addWeather, deleteWeather } from '../services/api';
-import { RemoveButton } from '../theme';
-import Input from './Input';
+import { ControlPanelContext } from '../../containers/ControlPanel.context';
+import { RemoveButton } from '../../theme';
+import Input from './../Input';
+
+import { ISocketResponse } from 'shared/types/sockets';
+import { socket } from '../../services/sockets';
 
 const CityListItem = styled.div`
   margin-bottom: 1rem;
@@ -40,17 +42,33 @@ export default function Weather() {
   };
 
   const removeCity = async (cityName: string) => {
-    await deleteWeather(chat.chatid, cityName);
+    socket.emit('remove city', {
+      chatId: chat.chatid,
+      cityName,
+    });
 
     chat.weather.cities = chat.weather.cities.filter(x => x !== cityName);
     setChat(chat);
   };
 
   const addCity = async (cityName: string) => {
-    await addWeather(chat.chatid, cityName);
+    socket.emit(
+      'add city',
+      {
+        chatId: chat.chatid,
+        cityName,
+      },
+      ({ error }: ISocketResponse) => {
+        if (error) {
+          alert(error);
+          return;
+        }
 
-    chat.weather.cities.push(_.capitalize(cityName));
-    setChat({ ...chat });
+        console.log('pussed');
+        chat.weather.cities.push(_.capitalize(cityName));
+        setChat({ ...chat });
+      }
+    );
   };
 
   const onChange = (name: string, value: string) => {
