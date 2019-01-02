@@ -31,11 +31,18 @@ class WeatherCommand extends CommandBase {
         if (chat.weather.cities.length) {
           const reply = await this.reply(msg, `_Loading..._`);
 
+          console.log(chat.weather);
+
           const forecastPromises = chat.weather.cities.map(async cityName => {
             const forecastText = await getForecastText(cityName);
             return forecastText;
           });
           const response = (await Promise.all(forecastPromises)).join('\n\n');
+
+          if (!response) {
+            this.editReply(reply, 'Failed to fetch weather :(');
+            return;
+          }
 
           this.editReply(reply, response);
           return;
