@@ -37,6 +37,11 @@ class WeatherCommand extends CommandBase {
           });
           const response = (await Promise.all(forecastPromises)).join('\n\n');
 
+          if (!response) {
+            this.editReply(reply, 'Failed to fetch weather :(');
+            return;
+          }
+
           this.editReply(reply, response);
           return;
         }
