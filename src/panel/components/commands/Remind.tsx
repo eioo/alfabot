@@ -1,5 +1,7 @@
 import dateFormat from 'dateformat';
 import React, { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import styled from 'styled-components';
 
 import { IReminder } from '../../../shared/types/database';
@@ -39,25 +41,73 @@ export default function Remind() {
   const [reminders, setReminders] = useState([] as IReminder[]);
   const { chat } = useContext(ControlPanelContext);
 
+  const removeReminder = (reminder: IReminder | number, delay: number = 0) => {
+    setTimeout(() => {
+      const reminderId = typeof reminder === 'number' ? reminder : reminder.id;
+
+      socket.emit(
+        'remove reminder',
+        {
+          id: reminderId,
+          chatid: chat.chatid,
+        },
+        () => {
+          setReminders(reminders.filter(x => x.id !== reminderId));
+        }
+      );
+    }, delay);
+  };
+
+  const removeReminderState = (
+    reminder: IReminder | number,
+    delay: number = 0
+  ) => {
+    const reminderId = typeof reminder === 'number' ? reminder : reminder.id;
+
+    setTimeout(() => {
+      setReminders(r => r.filter(x => x.id !== reminderId));
+    }, delay);
+  };
+
   useEffect(() => {
     socket.emit('get reminders', (data: IReminder[]) => {
       setLoading(false);
       setReminders(data);
+
+      const nextReminder = reminders[0];
+
+      if (!nextReminder || !nextReminder.id) {
+        return;
+      }
+
+      removeReminderState(
+        nextReminder.id,
+        nextReminder.timestamp - +new Date()
+      );
     });
+
+    socket.on('new reminder', (reminder: IReminder) => {
+      const timeUntil = reminder.timestamp - +new Date();
+
+      setReminders(r => [...r, reminder]);
+      removeReminder(reminder, timeUntil);
+      toast(`New reminder!\nFrom: ${reminder.askername}`);
+      console.log('New reminder ');
+    });
+
+    socket.on('reminder removed', (reminder: IReminder) => {
+      removeReminderState(reminder);
+      console.log('reminder removed ');
+    });
+    console.log('once');
   }, []);
 
-  const removeReminder = (reminderId: number) => {
-    socket.emit(
-      'remove reminder',
-      {
-        chatId: chat.chatid,
-        reminderId,
-      },
-      () => {
-        setReminders(reminders.filter(x => x.id !== reminderId));
-      }
-    );
-  };
+  useEffect(
+    () => {
+      console.log('reminders changed');
+    },
+    [reminders]
+  );
 
   const reminderElements = reminders.map(
     ({ id, timestamp, text, askername }, i) => {

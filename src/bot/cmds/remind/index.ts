@@ -6,6 +6,7 @@ import { db } from 'shared/database';
 import { logger } from 'shared/logger';
 import Bot from 'shared/types/bot';
 import { IReminder } from 'shared/types/database';
+import { io } from 'webserver';
 
 class RemindCommand extends CommandBase {
   constructor(bot: Bot) {
@@ -65,6 +66,7 @@ class RemindCommand extends CommandBase {
 
       reminder.id = id;
 
+      io.emit('new reminder', reminder);
       this.scheduleReminder(reminder);
 
       this.reply(msg, [

@@ -15,9 +15,9 @@ const server = new Server({
   },
 });
 
-export async function startServer() {
-  const io = socketio(server.listener);
+export const io = socketio(server.listener);
 
+export async function startServer() {
   routeSockets(io);
   await server.start();
 

@@ -16,7 +16,10 @@ export function routeSockets(io: Server) {
     socket.on('remove city', removeCity);
 
     socket.on('get reminders', getReminders);
-    socket.on('remove reminder', removeReminder);
+    socket.on('remove reminder', (reminderId, fn) => {
+      removeReminder(reminderId, fn);
+      socket.broadcast.emit('reminder removed', reminderId);
+    });
 
     socket.on('disconnect', () => {
       logger.socketio('Client disconnected');

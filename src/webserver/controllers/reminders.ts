@@ -1,14 +1,6 @@
 import { db } from 'shared/database';
 import { IReminder } from 'shared/types/database';
-
-interface IRemoveReminderData {
-  chatId: number;
-  reminderId: number;
-}
-
-interface IRemoveReminderResponse {
-  status: string;
-}
+import { ISocketResponse } from 'shared/types/sockets';
 
 export async function getReminders(fn: (reminders: IReminder[]) => void) {
   const timestamp = +new Date();
@@ -18,15 +10,17 @@ export async function getReminders(fn: (reminders: IReminder[]) => void) {
 }
 
 export async function removeReminder(
-  data: IRemoveReminderData,
-  fn: (response: IRemoveReminderResponse) => void
+  reminder: IReminder,
+  fn: (response: ISocketResponse) => void
 ) {
+  if (!reminder.id) {
+    return;
+  }
+
   await db('reminders')
-    .where('chatid', data.chatId)
-    .where('id', data.reminderId)
+    .where('chatid', reminder.chatid)
+    .where('id', reminder.id)
     .del();
 
-  fn({
-    status: 'ok',
-  });
+  fn({});
 }

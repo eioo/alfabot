@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import styled from 'styled-components';
 
 import { IChatSettings } from '../../shared/types/database';
@@ -72,6 +74,7 @@ export default function ControlPanel({ match }) {
         commands,
       }}
     >
+      <ToastContainer />
       <Wrapper>
         <Sidebar />
         <Content>
