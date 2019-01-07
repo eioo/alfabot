@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
@@ -26,11 +26,21 @@ export default function Weather() {
   const { chat, setChat } = useContext(ControlPanelContext);
   const [values, setValues] = useState({ cityName: '' } as IFormValues);
 
-  const listCities = () => {
-    if (_.isEmpty(chat)) {
-      return;
-    }
+  useEffect(() => {
+    socket.on('city added', ({ cityName }: ICityData) => {
+      chat.weather.cities.push(_.capitalize(cityName));
+      setChat(chat);
+      toast.info(`City was added to /weather command (${cityName})`);
+    });
 
+    socket.on('city removed', ({ cityName }: ICityData) => {
+      _.remove(chat.weather.cities, x => x === _.capitalize(cityName));
+      setChat(chat);
+      toast.info(`City was removed from /weather command (${cityName})`);
+    });
+  }, []);
+
+  const listCities = () => {
     const { cities } = chat.weather;
 
     return cities.map((cityName, i) => (
@@ -49,7 +59,7 @@ export default function Weather() {
   const addCity = async (cityName: string) => {
     const data: ICityData = {
       chatId: chat.chatid,
-      cityName,
+      cityName: _.capitalize(cityName),
     };
 
     socket.emit('add city', data, ({ error }: ISocketResponse) => {
@@ -59,14 +69,14 @@ export default function Weather() {
       }
 
       chat.weather.cities.push(_.capitalize(cityName));
-      setChat({ ...chat });
+      setChat(chat);
     });
   };
 
   const removeCity = async (cityName: string) => {
     const data: ICityData = {
       chatId: chat.chatid,
-      cityName,
+      cityName: _.capitalize(cityName),
     };
 
     socket.emit('remove city', data);

@@ -19,8 +19,14 @@ export function routeSockets(io: Server) {
       socket.broadcast.emit('schedule state changed', data);
     });
 
-    socket.on('add city', addCity);
-    socket.on('remove city', removeCity);
+    socket.on('add city', async (data, fn) => {
+      addCity(data, fn);
+      socket.broadcast.emit('city added', data);
+    });
+    socket.on('remove city', async (data, fn) => {
+      removeCity(data, fn);
+      socket.broadcast.emit('city removed', data);
+    });
 
     socket.on('get reminders', getReminders);
     socket.on('remove reminder', async (reminderId, fn) => {
