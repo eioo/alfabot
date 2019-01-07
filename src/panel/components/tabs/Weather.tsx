@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
 import { ISocketResponse } from 'shared/types/sockets';
 import { ICityData } from 'webserver/controllers/weather';
+import { notify } from '../../common/notify';
 import { ControlPanelContext } from '../../containers/ControlPanel.context';
 import { socket } from '../../services/sockets';
 import { RemoveButton } from '../../theme';
@@ -22,22 +22,30 @@ const CityName = styled.span`
   margin-left: 0.8rem;
 `;
 
+let socketListening = false;
+
 export default function Weather() {
   const { chat, setChat } = useContext(ControlPanelContext);
   const [values, setValues] = useState({ cityName: '' } as IFormValues);
 
   useEffect(() => {
+    if (socketListening) {
+      return;
+    }
+
     socket.on('city added', ({ cityName }: ICityData) => {
-      chat.weather.cities.push(_.capitalize(cityName));
+      chat.weather.cities.push(cityName);
       setChat(chat);
-      toast.info(`City was added to /weather command (${cityName})`);
+      notify.info(`City was added to /weather command (${cityName})`);
     });
 
     socket.on('city removed', ({ cityName }: ICityData) => {
-      _.remove(chat.weather.cities, x => x === _.capitalize(cityName));
+      _.remove(chat.weather.cities, x => x === cityName);
       setChat(chat);
-      toast.info(`City was removed from /weather command (${cityName})`);
+      notify.error(`City was removed from /weather command (${cityName})`);
     });
+
+    socketListening = true;
   }, []);
 
   const listCities = () => {
@@ -64,7 +72,7 @@ export default function Weather() {
 
     socket.emit('add city', data, ({ error }: ISocketResponse) => {
       if (error) {
-        toast.error(error);
+        notify.error(error);
         return;
       }
 
@@ -79,17 +87,23 @@ export default function Weather() {
       cityName: _.capitalize(cityName),
     };
 
-    socket.emit('remove city', data);
+    socket.emit('remove city', data, ({ error }: ISocketResponse) => {
+      if (error) {
+        notify.error(error);
+        return;
+      }
 
-    chat.weather.cities = chat.weather.cities.filter(x => x !== cityName);
-    setChat(chat);
+      chat.weather.cities = chat.weather.cities.filter(x => x !== cityName);
+      setChat(chat);
+    });
   };
 
   const onChange = (name: string, value: string) => {
     setValues({ ...values, [name]: value });
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
     const { cities } = chat.weather;
     const { cityName } = values;
 
@@ -98,7 +112,7 @@ export default function Weather() {
     setValues({ cityName: '' });
 
     if (cityExists) {
-      toast.error('city exists!');
+      notify.error('city exists!');
       return;
     }
 
@@ -109,12 +123,7 @@ export default function Weather() {
     <>
       {listCities()}
 
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          onSubmit();
-        }}
-      >
+      <form onSubmit={onSubmit}>
         <label>Add city/place:</label>
         <p>
           <Input

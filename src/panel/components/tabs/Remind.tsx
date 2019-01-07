@@ -1,11 +1,9 @@
 import dateFormat from 'dateformat';
 import React, { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 import styled from 'styled-components';
-import notificationSound from '../../assets/notification.mp3';
 
 import { IReminder } from '../../../shared/types/database';
+import { notify } from '../../common/notify';
 import { ControlPanelContext } from '../../containers/ControlPanel.context';
 import { socket } from '../../services/sockets';
 import { RemoveButton } from '../../theme';
@@ -37,14 +35,7 @@ const RemindText = styled.span`
   color: black;
 `;
 
-const notify = (msg: string) => {
-  toast(msg, {
-    onOpen: () => {
-      const sound = new Audio(notificationSound);
-      sound.play();
-    },
-  });
-};
+let socketListening = false;
 
 export default function Remind() {
   const { chat } = useContext(ControlPanelContext);
@@ -68,6 +59,10 @@ export default function Remind() {
       );
     });
 
+    if (socketListening) {
+      return;
+    }
+
     socket.on('new reminder', (reminder: IReminder) => {
       const timeUntil = reminder.timestamp - +new Date();
 
@@ -79,6 +74,8 @@ export default function Remind() {
     socket.on('reminder removed', (reminder: IReminder) => {
       removeReminderState(reminder);
     });
+
+    socketListening = true;
   }, []);
 
   const removeReminder = (reminder: IReminder | number, delay: number = 0) => {

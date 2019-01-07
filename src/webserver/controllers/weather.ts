@@ -69,4 +69,6 @@ export async function removeCity(
     .update({
       weather,
     });
+
+  fn({});
 }

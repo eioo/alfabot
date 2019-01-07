@@ -1,11 +1,12 @@
 import * as _ from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 import Switch from 'react-switch';
-import { toast } from 'react-toastify';
-import { ISocketResponse } from 'shared/types/sockets';
 import styled from 'styled-components';
+
+import { ISocketResponse } from 'shared/types/sockets';
 import { IScheduleData } from 'webserver/controllers/schedules';
 import { schedules } from '../../../bot/schedules/rules';
+import { notify } from '../../common/notify';
 import { ControlPanelContext } from '../../containers/ControlPanel.context';
 import { socket } from '../../services/sockets';
 
@@ -23,6 +24,8 @@ const ScheduleSwitch = styled(Switch)`
   vertical-align: middle;
 `;
 
+let socketListening = false;
+
 export default function Schedules() {
   const { chat, setChat } = useContext(ControlPanelContext);
   const [switchStates, setSwitchStates] = useState(
@@ -33,6 +36,10 @@ export default function Schedules() {
   );
 
   useEffect(() => {
+    if (socketListening) {
+      return;
+    }
+
     socket.on(
       'schedule state changed',
       ({ newState, scheduleName }: IScheduleData) => {
@@ -55,6 +62,8 @@ export default function Schedules() {
         setSwitchStates(switchStates);
       }
     );
+
+    socketListening = true;
   }, []);
 
   const listSchedules = () => {
@@ -74,7 +83,7 @@ export default function Schedules() {
           data,
           ({ error }: ISocketResponse) => {
             if (error) {
-              toast.error(error);
+              notify.error(error);
               return;
             }
           }
