@@ -4,6 +4,9 @@ export interface IChatSettings {
     cities: string[];
     enableNotifications: boolean;
   };
+  schedules: {
+    enabled: string[];
+  };
 }
 
 export interface IReminder {

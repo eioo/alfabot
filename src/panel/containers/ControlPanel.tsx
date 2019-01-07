@@ -29,30 +29,26 @@ export default function ControlPanel({ match }) {
   const { chatId, initialCommand } = match.params;
   const [chat, setChat] = useState({} as IChatSettings);
   const [commands, setCommands] = useState([] as string[]);
-  const [selectedCommand, selectCommand] = useState(
-    initialCommand || 'weather'
-  );
+  const [currentTab, selectTab] = useState(initialCommand || 'schedules');
   const [denied, setDenied] = useState(false);
-
-  useEffect(() => {
-    socket.emit('get chat settings', chatId, (data: IChatSettings) => {
-      if (_.isEmpty(data)) {
-        setDenied(true);
-        return;
-      }
-
-      console.log(data);
-      setChat(data);
-    });
-
-    socket.emit('get commands', (response: string[]) => {
-      setCommands(response);
-    });
-  }, []);
 
   if (denied) {
     return <Redirect to="/" />;
   }
+
+  useEffect(() => {
+    socket.emit('get chat settings', chatId, (data: IChatSettings) => {
+      if (_.isEmpty(data)) {
+        return setDenied(true);
+      }
+
+      setChat(data);
+    });
+
+    socket.emit('get commands', (data: string[]) => {
+      setCommands(data);
+    });
+  }, []);
 
   if (_.isEmpty(chat) || _.isEmpty(commands)) {
     return (
@@ -62,15 +58,15 @@ export default function ControlPanel({ match }) {
     );
   }
 
-  const SettingsComponent = routes[selectedCommand];
+  const CurrentRoute = routes[currentTab].component;
 
   return (
     <ControlPanelContext.Provider
       value={{
         chat,
         setChat,
-        selectCommand,
-        selectedCommand,
+        currentTab,
+        selectTab,
         commands,
       }}
     >
@@ -78,8 +74,8 @@ export default function ControlPanel({ match }) {
       <Wrapper>
         <Sidebar />
         <Content>
-          <Box title={selectedCommand}>
-            <SettingsComponent />
+          <Box title={currentTab}>
+            <CurrentRoute />
           </Box>
         </Content>
       </Wrapper>

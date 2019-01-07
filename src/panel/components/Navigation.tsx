@@ -1,8 +1,9 @@
+import _ from 'lodash';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import { ControlPanelContext } from '../containers/ControlPanel.context';
-import routes from '../routes';
+import routes, { RouteType } from '../routes';
 import { device } from '../theme';
 
 interface INavLinkProps {
@@ -35,7 +36,7 @@ const NavLink = styled.a`
 `;
 
 export default function Navigation() {
-  const { chat, commands, selectedCommand, selectCommand } = useContext(
+  const { chat, commands, currentTab, selectTab } = useContext(
     ControlPanelContext
   );
 
@@ -44,34 +45,35 @@ export default function Navigation() {
     history.pushState(path, 'Alfabot', newUrl);
   };
 
-  if (!(selectedCommand in routes)) {
-    selectCommand('weather');
+  if (!(currentTab in routes)) {
+    selectTab('weather');
     changeUrl('');
   }
 
   return (
     <>
-      {commands.map(command => {
-        if (!(command in routes)) {
-          return null;
-        }
-
-        const selected = command === selectedCommand;
+      {Object.keys(routes).map(routeName => {
+        const route = routes[routeName];
+        const selected = routeName === currentTab;
+        const navText =
+          route.type === RouteType.command
+            ? `/${routeName}`
+            : _.capitalize(routeName);
 
         return (
           <NavLink
-            key={command}
+            key={routeName}
             selected={selected}
             onMouseDown={() => {
               if (selected) {
                 return;
               }
 
-              selectCommand(command);
-              changeUrl(`commands/${command}`);
+              selectTab(routeName);
+              changeUrl(`commands/${routeName}`);
             }}
           >
-            /{command}
+            {navText}
           </NavLink>
         );
       })}

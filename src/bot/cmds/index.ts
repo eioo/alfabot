@@ -1,4 +1,4 @@
-import * as TelegramBot from 'node-telegram-bot-api';
+import { bot } from '../bot';
 import CommandBase from './commandBase';
 import { commandRefs } from './commandRefs';
 
@@ -8,7 +8,7 @@ export function getCommand(cmdName: string): CommandBase | undefined {
   return cmdList.find(x => x.name === cmdName);
 }
 
-export async function load(bot: TelegramBot) {
+export async function load() {
   for (const cmdClass of commandRefs) {
     const cmd = new cmdClass(bot);
     cmd.listen && cmd.listen();

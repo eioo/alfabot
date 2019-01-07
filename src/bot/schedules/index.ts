@@ -1,17 +1,41 @@
 import { RecurrenceRule, scheduleJob } from 'node-schedule';
-import Bot from 'shared/types/bot';
+import { db } from 'shared/database';
+import { IChatSettings } from 'shared/types/database';
 import { schedules } from './rules';
 
-export function start(bot: Bot): void {
-  for (const schedule of schedules) {
-    const recRule = new RecurrenceRule();
+export async function start() {
+  const chats: IChatSettings[] = await db('chats').select('*');
 
-    for (const [unit, value] of Object.entries(schedule.rule)) {
-      recRule[unit] = value;
+  for (const chat of chats) {
+    const { enabled } = chat.schedules;
+
+    for (const schedule of schedules) {
+      if (!enabled.includes(schedule.name)) {
+        continue;
+      }
+
+      const rules = Array.isArray(schedule.rules)
+        ? schedule.rules
+        : [schedule.rules];
+
+      for (const rule of rules) {
+        const reccurenceRule = new RecurrenceRule();
+
+        for (const [unit, value] of Object.entries(rule)) {
+          reccurenceRule[unit] = value;
+        }
+
+        scheduleJob(schedule.name, reccurenceRule, async () => {
+          runSchedule(schedule.name, chat.chatid);
+        });
+      }
     }
-
-    scheduleJob(schedule.name, recRule, () => {
-      schedule.action(bot);
-    });
   }
+}
+
+export function runSchedule(scheduleName: string, chatId: number) {
+  import(`./${scheduleName}`).then(importedSchedule => {
+    const { action } = importedSchedule;
+    action(chatId);
+  });
 }

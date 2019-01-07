@@ -79,8 +79,13 @@ class RemindCommand extends CommandBase {
 
   async scheduleReminder(reminder: IReminder): Promise<void> {
     const { id, timestamp, askername, askerid, text } = reminder;
+    const reminderDate = parseInt(timestamp.toString());
 
-    schedule.scheduleJob(new Date(timestamp), async () => {
+    if (reminderDate < +new Date()) {
+      return;
+    }
+
+    schedule.scheduleJob(new Date(reminderDate), async () => {
       const stillExists = (await db('reminders').where('id', id || -1)).length;
 
       if (!stillExists) {
@@ -101,17 +106,16 @@ class RemindCommand extends CommandBase {
       '>',
       now
     );
-    const count = reminders.length;
+
+    if (!reminders.length) {
+      return;
+    }
 
     for (const reminder of reminders) {
-      if (reminder.timestamp < now) {
-        continue;
-      }
-
       this.scheduleReminder(reminder);
     }
 
-    count && logger.bot(`Loaded ${count} reminders from database`);
+    logger.bot(`Loaded ${reminders.length} reminders from database`);
   }
 }
 

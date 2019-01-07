@@ -1,11 +1,10 @@
 import { validateCity } from 'bot/cmds/weather/openWeatherMap';
 import * as _ from 'lodash';
 import { db } from 'shared/database';
-import { logger } from 'shared/logger';
 import { IChatSettings } from 'shared/types/database';
 import { ISocketResponse } from 'shared/types/sockets';
 
-interface ICityData {
+export interface ICityData {
   chatId: number;
   cityName: string;
 }

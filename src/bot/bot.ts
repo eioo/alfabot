@@ -5,6 +5,8 @@ import * as webserver from '../webserver';
 import * as commands from './cmds';
 import * as schedules from './schedules';
 
+export let bot: TelegramBot;
+
 export async function create(): Promise<void> {
   const token = process.env.BOT_TOKEN || '';
 
@@ -14,11 +16,11 @@ export async function create(): Promise<void> {
   }
 
   await webserver.startServer();
-  const bot = new TelegramBot(token);
+  bot = new TelegramBot(token);
 
   bot.on('message', messageHandler);
-  schedules.start(bot);
-  commands.load(bot);
+  schedules.start();
+  commands.load();
   bot.startPolling();
 
   logger.bot('Bot started');

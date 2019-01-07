@@ -11,8 +11,7 @@ export type IOnTextCallback = (
 
 export type IScheduleList = Array<{
   name: string;
-  rule: IScheduleRule;
-  action: Function;
+  rules: IScheduleRule[] | IScheduleRule;
 }>;
 
 type IScheduleRule = Partial<Omit<RecurrenceRule, 'nextInvocationDate'>>;

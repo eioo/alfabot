@@ -35,7 +35,8 @@
     "no-empty": false,
     "no-conditional-assignment": false,
     "jsx-no-lambda": false,
-    "radix": false
+    "radix": false,
+    "no-debugger": false
   },
   "rulesDirectory": []
 }

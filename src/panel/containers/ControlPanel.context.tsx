@@ -5,8 +5,8 @@ import { IChatSettings } from '../../shared/types/database';
 interface IControlPanelContext {
   chat: IChatSettings;
   setChat: React.Dispatch<React.SetStateAction<IChatSettings>>;
-  selectedCommand: string;
-  selectCommand: React.Dispatch<React.SetStateAction<string>>;
+  currentTab: string;
+  selectTab: React.Dispatch<React.SetStateAction<string>>;
   commands: string[];
 }
 

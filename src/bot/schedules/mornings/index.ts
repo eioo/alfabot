@@ -1,8 +1,8 @@
+import { bot } from 'bot/bot';
 import * as cheerio from 'cheerio';
 import * as dateFormat from 'dateformat';
 import * as _ from 'lodash';
 import fetch from 'node-fetch';
-import Bot from 'shared/types/bot';
 
 interface IHoliday {
   national: boolean;
@@ -17,7 +17,6 @@ async function fetchHolidays(): Promise<IHoliday[]> {
     'http://www.webcal.fi/fi-FI/popup.php?content=eventlist&cid=3'
   );
   const html = await request.text();
-
   const $ = cheerio.load(html);
 
   for (const row of Array.from($('tr'))) {
@@ -49,7 +48,7 @@ export async function getTodaysHoliday(): Promise<IHoliday | undefined> {
   return holiday;
 }
 
-export async function action(bot: Bot): Promise<void> {
+export async function action(chatId: number): Promise<void> {
   const holiday = await getTodaysHoliday();
   const holidayText = holiday
     ? `${holiday.national ? '🇫🇮 ' : ''}[${holiday.name}](${holiday.url})`
@@ -60,7 +59,7 @@ export async function action(bot: Bot): Promise<void> {
     `Tänään on ${dateFormat('dd.mm.yyyy')}\n` +
     `${holidayText}`;
 
-  bot.sendMessage(-161953743, message, {
+  bot.sendMessage(chatId, message, {
     parse_mode: 'Markdown',
   });
 }

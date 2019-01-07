@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import styled from 'styled-components';
+import notificationSound from '../../assets/notification.mp3';
 
 import { IReminder } from '../../../shared/types/database';
 import { ControlPanelContext } from '../../containers/ControlPanel.context';
@@ -36,10 +37,49 @@ const RemindText = styled.span`
   color: black;
 `;
 
+const notify = (msg: string) => {
+  toast(msg, {
+    onOpen: () => {
+      const sound = new Audio(notificationSound);
+      sound.play();
+    },
+  });
+};
+
 export default function Remind() {
+  const { chat } = useContext(ControlPanelContext);
   const [loading, setLoading] = useState(true);
   const [reminders, setReminders] = useState([] as IReminder[]);
-  const { chat } = useContext(ControlPanelContext);
+
+  useEffect(() => {
+    socket.emit('get reminders', (data: IReminder[]) => {
+      setLoading(false);
+      setReminders(data);
+
+      const nextReminder = reminders[0];
+
+      if (!nextReminder || !nextReminder.id) {
+        return;
+      }
+
+      removeReminderState(
+        nextReminder.id,
+        nextReminder.timestamp - +new Date()
+      );
+    });
+
+    socket.on('new reminder', (reminder: IReminder) => {
+      const timeUntil = reminder.timestamp - +new Date();
+
+      setReminders(r => [...r, reminder]);
+      removeReminder(reminder, timeUntil);
+      notify(`New reminder!\nFrom: ${reminder.askername}`);
+    });
+
+    socket.on('reminder removed', (reminder: IReminder) => {
+      removeReminderState(reminder);
+    });
+  }, []);
 
   const removeReminder = (reminder: IReminder | number, delay: number = 0) => {
     setTimeout(() => {
@@ -68,46 +108,6 @@ export default function Remind() {
       setReminders(r => r.filter(x => x.id !== reminderId));
     }, delay);
   };
-
-  useEffect(() => {
-    socket.emit('get reminders', (data: IReminder[]) => {
-      setLoading(false);
-      setReminders(data);
-
-      const nextReminder = reminders[0];
-
-      if (!nextReminder || !nextReminder.id) {
-        return;
-      }
-
-      removeReminderState(
-        nextReminder.id,
-        nextReminder.timestamp - +new Date()
-      );
-    });
-
-    socket.on('new reminder', (reminder: IReminder) => {
-      const timeUntil = reminder.timestamp - +new Date();
-
-      setReminders(r => [...r, reminder]);
-      removeReminder(reminder, timeUntil);
-      toast(`New reminder!\nFrom: ${reminder.askername}`);
-      console.log('New reminder ');
-    });
-
-    socket.on('reminder removed', (reminder: IReminder) => {
-      removeReminderState(reminder);
-      console.log('reminder removed ');
-    });
-    console.log('once');
-  }, []);
-
-  useEffect(
-    () => {
-      console.log('reminders changed');
-    },
-    [reminders]
-  );
 
   const reminderElements = reminders.map(
     ({ id, timestamp, text, askername }, i) => {

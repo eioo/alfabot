@@ -1,13 +1,18 @@
 import _ from 'lodash';
 import React, { useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
-import { ControlPanelContext } from '../../containers/ControlPanel.context';
-import { RemoveButton } from '../../theme';
-import Input from './../Input';
-
 import { ISocketResponse } from 'shared/types/sockets';
+import { ICityData } from 'webserver/controllers/weather';
+import { ControlPanelContext } from '../../containers/ControlPanel.context';
 import { socket } from '../../services/sockets';
+import { RemoveButton } from '../../theme';
+import Input from '../Input';
+
+interface IFormValues {
+  cityName: string;
+}
 
 const CityListItem = styled.div`
   margin-bottom: 1rem;
@@ -19,7 +24,7 @@ const CityName = styled.span`
 
 export default function Weather() {
   const { chat, setChat } = useContext(ControlPanelContext);
-  const [values, setValues] = useState({ cityName: '' });
+  const [values, setValues] = useState({ cityName: '' } as IFormValues);
 
   const listCities = () => {
     if (_.isEmpty(chat)) {
@@ -41,32 +46,33 @@ export default function Weather() {
     ));
   };
 
-  const removeCity = async (cityName: string) => {
-    socket.emit('remove city', {
+  const addCity = async (cityName: string) => {
+    const data: ICityData = {
       chatId: chat.chatid,
       cityName,
+    };
+
+    socket.emit('add city', data, ({ error }: ISocketResponse) => {
+      if (error) {
+        toast.error(error);
+        return;
+      }
+
+      chat.weather.cities.push(_.capitalize(cityName));
+      setChat({ ...chat });
     });
+  };
+
+  const removeCity = async (cityName: string) => {
+    const data: ICityData = {
+      chatId: chat.chatid,
+      cityName,
+    };
+
+    socket.emit('remove city', data);
 
     chat.weather.cities = chat.weather.cities.filter(x => x !== cityName);
     setChat(chat);
-  };
-
-  const addCity = async (cityName: string) => {
-    socket.emit(
-      'add city',
-      {
-        chatId: chat.chatid,
-        cityName,
-      },
-      ({ error }: ISocketResponse) => {
-        if (error) {
-          return alert(error);
-        }
-
-        chat.weather.cities.push(_.capitalize(cityName));
-        setChat({ ...chat });
-      }
-    );
   };
 
   const onChange = (name: string, value: string) => {
@@ -82,7 +88,8 @@ export default function Weather() {
     setValues({ cityName: '' });
 
     if (cityExists) {
-      return alert('City exists!');
+      toast.error('city exists!');
+      return;
     }
 
     addCity(cityName);
