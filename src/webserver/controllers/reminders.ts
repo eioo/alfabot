@@ -7,9 +7,14 @@ interface IReminderData {
   reminderId: number;
 }
 
-export async function getReminders(fn: (reminders: IReminder[]) => void) {
+export async function getReminders(
+  chatId: number,
+  fn: (reminders: IReminder[]) => void
+) {
   const timestamp = +new Date();
-  const reminders = await db('reminders').where('timestamp', '>', timestamp);
+  const reminders = await db('reminders')
+    .where('timestamp', '>', timestamp)
+    .where('chatid', chatId);
 
   fn(reminders);
 }
