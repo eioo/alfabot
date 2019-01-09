@@ -6,7 +6,7 @@ exports.up = (knex: Knex) => {
       .jsonb('schedules')
       .defaultTo(
         JSON.stringify({
-          enabled: ['mornings'],
+          enabled: [],
         })
       )
       .notNullable();

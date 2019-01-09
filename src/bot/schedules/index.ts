@@ -10,10 +10,6 @@ export async function start() {
     const { enabled } = chat.schedules;
 
     for (const schedule of schedules) {
-      if (!enabled.includes(schedule.name)) {
-        continue;
-      }
-
       const rules = Array.isArray(schedule.rules)
         ? schedule.rules
         : [schedule.rules];
@@ -26,6 +22,12 @@ export async function start() {
         }
 
         scheduleJob(schedule.name, reccurenceRule, async () => {
+          const chatNow = await db('chats').where('id', chat.chatid);
+
+          if (!chatNow.schedule.enabled.includes(schedule.name)) {
+            return;
+          }
+
           runSchedule(schedule.name, chat.chatid);
         });
       }
