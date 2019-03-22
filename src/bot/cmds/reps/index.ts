@@ -19,6 +19,10 @@ class RepsCommand extends CommandBase {
         return;
       }
 
+      if (Math.random() < 0.70) {
+        return; // Don't spam everytime
+      }
+
       const url = `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=${SEARCH_TERM}&rating=R`;
       const payload = queryString.stringify({
         api_key: API_KEY,
