@@ -19,7 +19,7 @@ class RepsCommand extends CommandBase {
         return;
       }
 
-      if (Math.random() < 0.70) {
+      if (Math.random() < 0.7) {
         return; // Don't spam everytime
       }
 
