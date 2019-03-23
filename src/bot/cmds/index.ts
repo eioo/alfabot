@@ -7,27 +7,24 @@ import CommandBase from './commandBase';
 export const cmdList: { [name: string]: CommandBase } = {};
 
 export async function load() {
-  let cmdDirectories = getDirectories(__dirname);
+  const cmdDirectories = getDirectories(__dirname);
 
-  while (cmdDirectories.length) {
-    for (const cmdDirectory of cmdDirectories) {
-      try {
-        const imported = await import(`./${cmdDirectory}`);
-        const CmdClass = imported.default;
-        const cmd: CommandBase = new CmdClass(bot);
+  for (const cmdDirectory of cmdDirectories) {
+    const imported = await import(`./${cmdDirectory}`);
+    const CmdClass = imported.default;
 
-        cmd.name = cmdDirectory;
-        cmd.listen();
-        cmdList[cmdDirectory] = cmd;
-
-        cmdDirectories = cmdDirectories.filter(dir => dir !== cmdDirectory);
-      } catch {
-        /*
-          For some reason importing fails if it's done in wrong order,
-          this hack just tries to reimport if it fails the first time.
-        */
-      }
+    if (!CmdClass) {
+      logger.warn(
+        `No default export found for command "${cmdDirectory}". Skipping loading.`
+      );
+      return;
     }
+
+    const cmd: CommandBase = new CmdClass(bot);
+
+    cmd.name = cmdDirectory;
+    cmd.listen();
+    cmdList[cmdDirectory] = cmd;
   }
 
   logger.bot(`Loaded ${Object.keys(cmdList).length} commands`);

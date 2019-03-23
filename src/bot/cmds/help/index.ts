@@ -1,8 +1,7 @@
 import CommandBase from 'bot/cmds/commandBase';
-import * as _ from 'lodash';
 import Bot from 'shared/types/bot';
 
-import { cmdList } from '../';
+import { helpAll, helpSingle } from './helpTexts';
 
 class HelpCommand extends CommandBase {
   constructor(bot: Bot) {
@@ -21,38 +20,6 @@ class HelpCommand extends CommandBase {
       this.reply(msg, helpAll());
     });
   }
-}
-
-export function helpAll(): string {
-  const cmdLines = Object.values(cmdList)
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(cmd => {
-      if (!cmd.visible) {
-        return;
-      }
-
-      const left = `/${cmd.name.padEnd(8, ' ')}`;
-      const right = cmd.helpText ? ` - ${cmd.helpText}` : '';
-
-      return `\`${left}${right}\``;
-    })
-    .filter(x => x)
-    .join('\n');
-
-  return `*Commands*\n${cmdLines}\n\n\`/help <command>\` to get more help.`;
-}
-
-export function helpSingle(command: string | CommandBase): string {
-  const createText = (base: CommandBase): string => {
-    const helpArgs = base.helpArgs || '';
-    const helpText = base.helpText || '';
-    const helpDesc = base.helpDescription ? `\n${base.helpDescription}` : '';
-
-    return [`\`/${base.name}\ ${helpArgs}\``, helpText, helpDesc].join('\n');
-  };
-
-  const cmdClass = _.isString(command) ? cmdList[command] : command;
-  return cmdClass ? createText(cmdClass) : 'Command not found.';
 }
 
 export default HelpCommand;
