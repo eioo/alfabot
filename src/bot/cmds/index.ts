@@ -17,7 +17,7 @@ export async function load() {
       logger.warn(
         `No default export found for command "${cmdDirectory}". Skipping loading.`
       );
-      return;
+      continue;
     }
 
     const cmd: CommandBase = new CmdClass(bot);

@@ -1,4 +1,8 @@
-import { EditMessageTextOptions, Message, SendMessageOptions } from 'node-telegram-bot-api';
+import {
+  EditMessageTextOptions,
+  Message,
+  SendMessageOptions,
+} from 'node-telegram-bot-api';
 import { logger } from 'shared/logger';
 import { IOnTextCallback } from 'shared/types';
 import Bot from 'shared/types/bot';
