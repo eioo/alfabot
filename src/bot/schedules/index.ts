@@ -1,6 +1,7 @@
 import { RecurrenceRule, scheduleJob } from 'node-schedule';
 import { db } from 'shared/database';
 import { IChatSettings } from 'shared/types/database';
+
 import { schedules } from './rules';
 
 export async function start() {

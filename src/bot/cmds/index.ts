@@ -1,6 +1,7 @@
 import { bot } from 'bot/bot';
 import { getDirectories } from 'bot/utils';
 import { logger } from 'shared/logger';
+
 import CommandBase from './commandBase';
 
 export const cmdList: { [name: string]: CommandBase } = {};

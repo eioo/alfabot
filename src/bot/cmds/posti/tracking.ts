@@ -1,7 +1,9 @@
 import fetch from 'node-fetch';
+
 import { ITracking } from './types';
 
-const TRACKING_URL = 'https://www.posti.fi/henkiloasiakkaat/seuranta/api/shipments';
+const TRACKING_URL =
+  'https://www.posti.fi/henkiloasiakkaat/seuranta/api/shipments';
 
 export enum ShipmentPhases {
   WAITING = 'Lähetys ei ole vielä saapunut Postille',
@@ -12,7 +14,10 @@ export enum ShipmentPhases {
   RETURNED_TO_SENDER = 'Lähetys on palautettu',
 }
 
-export async function getTrackingDetails(trackingCode: string, ...trackingCodes: string[]): Promise<ITracking> {
+export async function getTrackingDetails(
+  trackingCode: string,
+  ...trackingCodes: string[]
+): Promise<ITracking> {
   const body = {
     trackingCodes: [trackingCode, ...trackingCodes],
   };
@@ -20,7 +25,7 @@ export async function getTrackingDetails(trackingCode: string, ...trackingCodes:
   const request = await fetch(TRACKING_URL, {
     method: 'POST',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),

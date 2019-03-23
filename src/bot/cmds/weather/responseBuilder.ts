@@ -1,7 +1,11 @@
-import * as dateFormat from 'dateformat'
+import * as dateFormat from 'dateformat';
+
 import { forecast } from './openWeatherMap';
 
-export async function getForecastText(cityName: string, limit: number = 8): Promise<string | undefined> {
+export async function getForecastText(
+  cityName: string,
+  limit: number = 8
+): Promise<string | undefined> {
   const data = await forecast.getByCityName(cityName);
 
   if (!data.list) {

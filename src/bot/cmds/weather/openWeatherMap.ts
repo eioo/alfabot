@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import * as queryString from 'query-string';
 import { isArray } from 'util';
+
 import { IForecast, IWeather } from './types';
 
 const APP_ID = process.env.OPENWEATHERMAP_KEY;

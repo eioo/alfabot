@@ -1,5 +1,6 @@
 import CommandBase from 'bot/cmds/commandBase';
 import Bot from 'shared/types/bot';
+
 import { IVideo } from './types';
 import { API_KEY, getVideo } from './youtubeAPI';
 

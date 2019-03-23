@@ -6,6 +6,7 @@ import {
 import { logger } from 'shared/logger';
 import { IOnTextCallback } from 'shared/types';
 import Bot from 'shared/types/bot';
+
 import { helpSingle } from './help';
 
 abstract class CommandBase {

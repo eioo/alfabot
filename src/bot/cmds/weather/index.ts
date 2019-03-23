@@ -2,6 +2,7 @@ import CommandBase from 'bot/cmds/commandBase';
 import { db } from 'shared/database';
 import Bot from 'shared/types/bot';
 import { IChatSettings } from 'shared/types/database';
+
 import { validateCity } from './openWeatherMap';
 import { getForecastText } from './responseBuilder';
 

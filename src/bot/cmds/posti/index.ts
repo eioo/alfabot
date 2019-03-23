@@ -1,6 +1,7 @@
 import CommandBase from 'bot/cmds/commandBase';
 import * as dateFormat from 'dateformat';
 import Bot from 'shared/types/bot';
+
 import { getTrackingDetails, ShipmentPhases } from './tracking';
 
 class PostiCommand extends CommandBase {

@@ -1,7 +1,8 @@
 import CommandBase from 'bot/cmds/commandBase';
 import * as _ from 'lodash';
 import Bot from 'shared/types/bot';
-import { cmdList } from '..';
+
+import { cmdList } from '../';
 
 class HelpCommand extends CommandBase {
   constructor(bot: Bot) {
