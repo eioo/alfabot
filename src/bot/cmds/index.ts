@@ -7,9 +7,9 @@ import CommandBase from './commandBase';
 export const cmdList: { [name: string]: CommandBase } = {};
 
 export async function load() {
-  const cmdDirectories = getDirectories(__dirname);
+  let cmdDirectories = getDirectories(__dirname);
 
-  baseloop: while (true) {
+  while (cmdDirectories.length) {
     for (const cmdDirectory of cmdDirectories) {
       try {
         const imported = await import(`./${cmdDirectory}`);
@@ -20,9 +20,7 @@ export async function load() {
         cmd.listen();
         cmdList[cmdDirectory] = cmd;
 
-        if (Object.keys(cmdList).length === cmdDirectories.length) {
-          break baseloop;
-        }
+        cmdDirectories = cmdDirectories.filter(dir => dir !== cmdDirectory);
       } catch {
         /*
           For some reason importing fails if it's done in wrong order,
