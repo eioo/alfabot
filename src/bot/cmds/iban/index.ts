@@ -10,13 +10,14 @@ const envString = process.env.IBAN_NUMBERS || '';
 
 const ibanAccounts: IAccounts[] = envString
   .split(';')
-  .filter(x => x)
-  .map(x => {
-    const [key, value] = x.split(':');
-    const ownerName = key.trim();
-    const ibanNumber = (value
+  .filter(accountLine => accountLine)
+  .map(accountLine => {
+    let [ownerName, ibanNumber] = accountLine.split(':');
+
+    ownerName = ownerName.trim();
+    ibanNumber = (ibanNumber
       .replace(/ /g, '')
-      .match(/.{4}/g) as RegExpMatchArray).join(' ');
+      .match(/.{1,4}/g) as RegExpMatchArray).join(' ');
 
     return { ownerName, ibanNumber };
   });

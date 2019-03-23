@@ -11,7 +11,7 @@ import { io } from 'webserver';
 class RemindCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-    
+
     this.helpText = 'Reminds you';
     this.helpArgs = '<time option> <message>';
     this.helpDescription = '*Example*\n`/remind 1 day just a reminder`';

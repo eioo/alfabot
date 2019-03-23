@@ -6,7 +6,7 @@ import { getTrackingDetails, ShipmentPhases } from './tracking';
 class PostiCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-    
+
     this.helpText = 'Gets tracking information from Posti';
     this.helpArgs = '[tracking number]';
   }
@@ -32,20 +32,19 @@ class PostiCommand extends CommandBase {
       this.editReply(
         reply,
         `*${trackingCode}*\n` +
-        `Tila: ${ShipmentPhases[shipment.phase]}\n` +
-        `Paino: ${shipment.weight || '-'} kg, ` +
-        `Tilavuus: ${shipment.volume || '-'} m³`
+          `Tila: ${ShipmentPhases[shipment.phase]}\n` +
+          `Paino: ${shipment.weight || '-'} kg, ` +
+          `Tilavuus: ${shipment.volume || '-'} m³`
       );
 
-      const details = shipment.events
-        .map(event => {
-          const { locationName, timestamp, description } = event;
+      const details = shipment.events.map(event => {
+        const { locationName, timestamp, description } = event;
 
-          const dateText = dateFormat(new Date(timestamp), 'dd-mm-yyyy HH:MM');
-          const locationText = locationName ? ` (_${locationName})_ ` : '';
+        const dateText = dateFormat(new Date(timestamp), 'dd-mm-yyyy HH:MM');
+        const locationText = locationName ? ` (_${locationName})_ ` : '';
 
-          return `*${dateText}*${locationText}${description.fi}`;
-        });
+        return `*${dateText}*${locationText}${description.fi}`;
+      });
 
       this.reply(msg, details);
     });
