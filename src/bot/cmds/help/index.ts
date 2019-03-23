@@ -1,13 +1,11 @@
 import CommandBase from 'bot/cmds/commandBase';
 import * as _ from 'lodash';
 import Bot from 'shared/types/bot';
-import { cmdList, getCommand } from '..';
+import { cmdList } from '..';
 
 class HelpCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
-    this.name = 'help';
     this.helpText = 'Show help';
     this.helpArgs = '[command]';
   }
@@ -25,7 +23,7 @@ class HelpCommand extends CommandBase {
 }
 
 export function helpAll(): string {
-  const cmdLines = cmdList
+  const cmdLines = Object.values(cmdList)
     .sort((a, b) => a.name.localeCompare(b.name))
     .map(cmd => {
       if (!cmd.visible) {
@@ -52,7 +50,7 @@ export function helpSingle(command: string | CommandBase): string {
     return [`\`/${base.name}\ ${helpArgs}\``, helpText, helpDesc].join('\n');
   };
 
-  const cmdClass = _.isString(command) ? getCommand(command) : command;
+  const cmdClass = _.isString(command) ? cmdList[command] : command;
   return cmdClass ? createText(cmdClass) : 'Command not found.';
 }
 

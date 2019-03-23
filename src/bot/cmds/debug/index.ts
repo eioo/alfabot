@@ -1,13 +1,11 @@
 import CommandBase from 'bot/cmds/commandBase';
+import { runSchedule } from 'bot/schedules';
 import { schedules } from 'bot/schedules/rules';
 import Bot from 'shared/types/bot';
-import { runSchedule } from 'bot/schedules';
 
 class DebugCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
-    this.name = 'debug';
     this.helpText = 'Helps debugging';
     this.helpArgs = '[schedule [run <name>]]';
     this.visible = false;

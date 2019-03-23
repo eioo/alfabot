@@ -5,8 +5,6 @@ import Bot from 'shared/types/bot';
 class TuleminenCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
-    this.name = 'tuleminen';
     this.helpText = 'Tulemiskomento';
     this.helpArgs = '';
     this.visible = false;

@@ -4,8 +4,6 @@ import Bot from 'shared/types/bot';
 class PanelCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
-    this.name = 'panel';
     this.helpText = 'Gives control panel link';
   }
 

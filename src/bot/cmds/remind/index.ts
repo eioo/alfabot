@@ -11,8 +11,7 @@ import { io } from 'webserver';
 class RemindCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
-    this.name = 'remind';
+    
     this.helpText = 'Reminds you';
     this.helpArgs = '<time option> <message>';
     this.helpDescription = '*Example*\n`/remind 1 day just a reminder`';
@@ -79,7 +78,7 @@ class RemindCommand extends CommandBase {
 
   async scheduleReminder(reminder: IReminder): Promise<void> {
     const { id, timestamp, askername, askerid, text } = reminder;
-    const reminderDate = parseInt(timestamp.toString());
+    const reminderDate = parseInt(timestamp.toString(), 10);
 
     if (reminderDate < +new Date()) {
       return;

@@ -6,7 +6,6 @@ import { API_KEY, getVideo } from './youtubeAPI';
 class AlexaPlayCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-    this.name = 'alexaplay';
     this.visible = false;
   }
 

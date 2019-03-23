@@ -4,8 +4,6 @@ import Bot from 'shared/types/bot';
 class DoublesCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
-    this.name = 'doubles';
     this.helpText = 'Rolls 0-100';
   }
 

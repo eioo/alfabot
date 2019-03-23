@@ -9,7 +9,6 @@ const API_KEY = process.env.GIPHY_KEY;
 class RepsCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-    this.name = 'reps';
     this.visible = false;
   }
 

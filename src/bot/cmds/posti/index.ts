@@ -6,8 +6,7 @@ import { getTrackingDetails, ShipmentPhases } from './tracking';
 class PostiCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
-    this.name = 'posti';
+    
     this.helpText = 'Gets tracking information from Posti';
     this.helpArgs = '[tracking number]';
   }

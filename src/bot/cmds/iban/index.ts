@@ -24,8 +24,6 @@ const ibanAccounts: IAccounts[] = envString
 class IBANCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
-    this.name = 'iban';
     this.helpText = 'Show IBAN numbers';
     this.helpArgs = '[account name]';
   }

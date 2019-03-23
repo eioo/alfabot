@@ -8,7 +8,7 @@ import { IOnTextCallback } from 'shared/types';
 import Bot from 'shared/types/bot';
 import { helpSingle } from './help';
 
-class CommandBase {
+abstract class CommandBase {
   name: string;
   helpText?: string;
   helpArgs?: string;
@@ -16,6 +16,8 @@ class CommandBase {
   visible: boolean = true;
 
   constructor(public bot: Bot) {}
+
+  abstract listen(): void;
 
   onText(regexp: RegExp, callback: IOnTextCallback) {
     this.bot.onText(regexp, msg => {

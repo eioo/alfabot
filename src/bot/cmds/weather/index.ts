@@ -8,8 +8,6 @@ import { getForecastText } from './responseBuilder';
 class WeatherCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
-    this.name = 'weather';
     this.helpText = 'Show weather forecasts';
     this.helpArgs = '[city]';
   }
@@ -30,8 +28,6 @@ class WeatherCommand extends CommandBase {
 
         if (chat.weather.cities.length) {
           const reply = await this.reply(msg, `_Loading..._`);
-
-          console.log(chat.weather);
 
           const forecastPromises = chat.weather.cities.map(async cityName => {
             const forecastText = await getForecastText(cityName);

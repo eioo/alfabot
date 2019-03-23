@@ -4,8 +4,6 @@ import Bot from 'shared/types/bot';
 class KekCommand extends CommandBase {
   constructor(bot: Bot) {
     super(bot);
-
-    this.name = 'kek';
     this.visible = false;
   }
 
