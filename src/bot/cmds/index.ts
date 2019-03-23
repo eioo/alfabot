@@ -6,7 +6,7 @@ import CommandBase from './commandBase';
 
 export const cmdList: { [name: string]: CommandBase } = {};
 
-export async function load() {
+export async function loadCommands() {
   const cmdDirectories = getDirectories(__dirname);
 
   for (const cmdDirectory of cmdDirectories) {

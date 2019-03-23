@@ -1,13 +1,9 @@
-import {
-  EditMessageTextOptions,
-  Message,
-  SendMessageOptions,
-} from 'node-telegram-bot-api';
+import { EditMessageTextOptions, Message, SendMessageOptions } from 'node-telegram-bot-api';
 import { logger } from 'shared/logger';
 import { IOnTextCallback } from 'shared/types';
 import Bot from 'shared/types/bot';
 
-import { helpSingle } from './help/helpTexts';
+import { getHelpText } from './help/helpTexts';
 
 abstract class CommandBase {
   name: string;
@@ -33,7 +29,7 @@ abstract class CommandBase {
 
   async showHelp(msg: Message, err: string = ''): Promise<void> {
     const errText = err ? `😞 *${err}*\n\n` : '';
-    const helpText = errText + helpSingle(this.name);
+    const helpText = errText + getHelpText(this.name);
 
     await this.reply(msg, helpText);
   }

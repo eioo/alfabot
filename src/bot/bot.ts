@@ -21,7 +21,7 @@ export async function create(): Promise<void> {
 
   bot.on('message', messageHandler);
   schedules.start();
-  commands.load();
+  commands.loadCommands();
   bot.startPolling();
 
   logger.bot('Bot started');

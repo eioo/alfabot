@@ -1,6 +1,6 @@
 import { cmdList } from '../';
 
-export function helpAll(): string {
+export function getAllHelpTexts(): string {
   const cmdLines = Object.values(cmdList)
     .sort((a, b) => a.name.localeCompare(b.name))
     .map(cmd => {
@@ -19,7 +19,7 @@ export function helpAll(): string {
   return `*Commands*\n${cmdLines}\n\n\`/help <command>\` to get more help.`;
 }
 
-export function helpSingle(command: string): string {
+export function getHelpText(command: string): string {
   const cmd = cmdList[command];
 
   if (cmd) {
