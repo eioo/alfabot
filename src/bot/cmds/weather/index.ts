@@ -1,8 +1,8 @@
 import CommandBase from 'bot/cmds/commandBase';
-import { db } from 'shared/database';
+import { knex } from 'bot/database';
+import { config } from 'shared/env';
 import Bot from 'shared/types/bot';
 import { IChatSettings } from 'shared/types/database';
-
 import { validateCity } from './openWeatherMap';
 import { getForecastText } from './responseBuilder';
 
@@ -15,13 +15,13 @@ class WeatherCommand extends CommandBase {
 
   listen(): void {
     this.onText(/^\/(weather|sää)/i, async (msg, args, argCount) => {
-      if (!process.env.OPENWEATHERMAP_KEY) {
+      if (!config.bot.openWeatherMapKey) {
         this.reply(msg, '😞 OpenWeatherMap token is not set');
         return;
       }
 
       if (!argCount) {
-        const chat: IChatSettings = await db('chats')
+        const chat: IChatSettings = await knex('chats')
           .where({
             chatid: msg.chat.id,
           })

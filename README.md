@@ -26,7 +26,8 @@ npm run start
 | PG_USER            | PostgreSQL username                            |
 | PG_PASS            | PostgreSQL password                            |
 | PANEL_HOST         | Panel host. Don't include leading/trailing "/" |
-| WEBSERVER_PORT     | Port for Hapi server                           |
+| WEBSERVER_PORT     | Port for Web interface                         |
+| API_PORT           | Port for API server                            |
 | BOT_TOKEN          | Your Telegram bot token                        |
 | IBAN_NUMBERS       | IBAN account list for /iban command            |
 | OPENWEATHERMAP_KEY | Your OpenWeatherMap API key                    |

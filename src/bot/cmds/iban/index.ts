@@ -1,4 +1,5 @@
 import CommandBase from 'bot/cmds/commandBase';
+import { config } from 'shared/env';
 import Bot from 'shared/types/bot';
 
 interface IAccounts {
@@ -6,9 +7,7 @@ interface IAccounts {
   ibanNumber: string;
 }
 
-const envString = process.env.IBAN_NUMBERS || '';
-
-const ibanAccounts: IAccounts[] = envString
+const ibanAccounts: IAccounts[] = config.bot.ibanNumbers
   .split(';')
   .filter(accountLine => accountLine)
   .map(accountLine => {

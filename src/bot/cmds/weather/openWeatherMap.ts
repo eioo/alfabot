@@ -1,14 +1,12 @@
 import fetch from 'node-fetch';
 import * as queryString from 'query-string';
-import { isArray } from 'util';
-
+import { config } from 'shared/env';
 import { IForecast, IWeather } from './types';
 
-const APP_ID = process.env.OPENWEATHERMAP_KEY;
 const API_BASE_URL = 'http://api.openweathermap.org/data/2.5/';
 
 const defaultOptions = {
-  appid: APP_ID,
+  appid: config.bot.openWeatherMapKey,
   lang: 'fi',
   units: 'metric',
 };

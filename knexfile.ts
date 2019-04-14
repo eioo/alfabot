@@ -1,17 +1,10 @@
-import * as dotenv from 'dotenv';
 import * as path from 'path';
-
-dotenv.config();
+import { config } from './src/shared/env';
 
 module.exports = {
   development: {
     client: 'pg',
-    connection: {
-      host: process.env.PG_HOST,
-      database: process.env.PG_DATABASE,
-      user: process.env.PG_USER,
-      password: process.env.PG_PASS,
-    },
+    connection: config.database,
     migrations: {
       directory: path.join(__dirname, 'database', 'migrations'),
     },

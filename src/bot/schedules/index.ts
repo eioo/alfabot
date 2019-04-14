@@ -1,11 +1,11 @@
+import { knex } from 'bot/database';
 import { RecurrenceRule, scheduleJob } from 'node-schedule';
-import { db } from 'shared/database';
 import { IChatSettings } from 'shared/types/database';
 
 import { schedules } from './rules';
 
 export async function start() {
-  const chats: IChatSettings[] = await db('chats').select('*');
+  const chats: IChatSettings[] = await knex('chats').select('*');
 
   for (const chat of chats) {
     const { enabled } = chat.schedules;
@@ -23,7 +23,7 @@ export async function start() {
         }
 
         scheduleJob(schedule.name, reccurenceRule, async () => {
-          const chatNow = await db('chats').where('id', chat.chatid);
+          const chatNow = await knex('chats').where('id', chat.chatid);
 
           if (!chatNow.schedule.enabled.includes(schedule.name)) {
             return;

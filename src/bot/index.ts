@@ -1,7 +1,6 @@
-import * as dotenv from 'dotenv';
 import { logger } from 'shared/logger';
 
-dotenv.config();
+// Ignores warning from node-telegram-bot-api
 process.env.NTBA_FIX_319 = '1';
 
 process.on('unhandledRejection', err => {

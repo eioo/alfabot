@@ -1,12 +1,11 @@
 import CommandBase from 'bot/cmds/commandBase';
+import { knex } from 'bot/database';
 import * as dateFormat from 'dateformat';
 import * as schedule from 'node-schedule';
 import * as parseDuration from 'parse-duration';
-import { db } from 'shared/database';
 import { logger } from 'shared/logger';
 import Bot from 'shared/types/bot';
 import { IReminder } from 'shared/types/database';
-import { io } from 'webserver';
 
 class RemindCommand extends CommandBase {
   constructor(bot: Bot) {
@@ -58,14 +57,12 @@ class RemindCommand extends CommandBase {
         askerid,
       };
 
-      const id = await db('reminders')
+      const id = await knex('reminders')
         .insert(reminder)
         .returning('id')
         .get(0);
 
       reminder.id = id;
-
-      io.emit('new reminder', reminder);
       this.scheduleReminder(reminder);
 
       this.reply(msg, [
@@ -85,7 +82,8 @@ class RemindCommand extends CommandBase {
     }
 
     schedule.scheduleJob(new Date(reminderDate), async () => {
-      const stillExists = (await db('reminders').where('id', id || -1)).length;
+      const stillExists = (await knex('reminders').where('id', id || -1))
+        .length;
 
       if (!stillExists) {
         return;
@@ -100,7 +98,7 @@ class RemindCommand extends CommandBase {
 
   async loadReminders(): Promise<void> {
     const now = +new Date();
-    const reminders: IReminder[] = await db('reminders').where(
+    const reminders: IReminder[] = await knex('reminders').where(
       'timestamp',
       '>',
       now

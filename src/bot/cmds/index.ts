@@ -1,7 +1,7 @@
 import { bot } from 'bot/bot';
-import { getDirectories } from 'bot/utils';
+import { readdirSync, statSync } from 'fs';
+import { join } from 'path';
 import { logger } from 'shared/logger';
-
 import CommandBase from './commandBase';
 
 export const cmdList: { [name: string]: CommandBase } = {};
@@ -29,3 +29,6 @@ export async function loadCommands() {
 
   logger.bot(`Loaded ${Object.keys(cmdList).length} commands`);
 }
+
+const getDirectories = (source: string) =>
+  readdirSync(source).filter(f => statSync(join(source, f)).isDirectory());

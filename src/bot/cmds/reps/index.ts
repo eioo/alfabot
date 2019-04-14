@@ -2,9 +2,10 @@ import CommandBase from 'bot/cmds/commandBase';
 import fetch from 'node-fetch';
 import * as queryString from 'query-string';
 import Bot from 'shared/types/bot';
+import { config } from '../../../shared/env';
 
 const SEARCH_TERM = 'laugh';
-const API_KEY = process.env.GIPHY_KEY;
+const API_KEY = config.bot.giphyKey;
 
 class RepsCommand extends CommandBase {
   constructor(bot: Bot) {
@@ -23,6 +24,7 @@ class RepsCommand extends CommandBase {
       }
 
       const url = `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=${SEARCH_TERM}&rating=R`;
+
       const payload = queryString.stringify({
         api_key: API_KEY,
         tag: SEARCH_TERM,
