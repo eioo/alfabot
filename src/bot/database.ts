@@ -24,7 +24,7 @@ export async function getReminders(chatId: number) {
     .where('chatid', chatId)
     .andWhere('timestamp', '>', now);
 
-  return reminders.sort((a, b) => (a.timestamp > b.timestamp ? 1 : 0));
+  return reminders.sort((a, b) => (a.timestamp > b.timestamp ? 1 : -1));
 }
 
 export async function deleteReminder(reminderId: number) {
