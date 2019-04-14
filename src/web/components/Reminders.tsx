@@ -8,11 +8,10 @@ interface IRemindersProps {
 }
 
 export default function Reminders({ chat, socket }: IRemindersProps) {
-  const [reminders, setReminders] = useState<IReminder[]>([]);
+  const [reminders, setReminders] = useState<IReminder[]>(undefined);
 
   useEffect(() => {
     socket.emit('get reminders', chat.chatid);
-
     socket.on('get reminders', (data: IReminder[]) => {
       setReminders(data);
     });
@@ -25,9 +24,16 @@ export default function Reminders({ chat, socket }: IRemindersProps) {
   return (
     <div>
       <h2>Reminders</h2>
-      {reminders.length
+
+      {!reminders
+        ? 'Loading reminders...'
+        : reminders.length
         ? reminders.map(reminder => (
-            <ReminderItem key={reminder.id} socket={socket} {...reminder} />
+            <ReminderItem
+              key={reminder.id}
+              socket={socket}
+              reminder={reminder}
+            />
           ))
         : 'No reminders'}
     </div>
