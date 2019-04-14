@@ -1,10 +1,10 @@
 node_modules
 dist
+build
 .cache
 .env
 .idea
 database.json
-build
 *-error.log
 .vscode
 .idea

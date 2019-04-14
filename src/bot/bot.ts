@@ -23,8 +23,9 @@ export async function create(): Promise<void> {
   schedules.start();
   commands.loadCommands();
 
-  await api.start();
+  api.start();
   bot.startPolling();
+
   logger.bot('Bot started');
 }
 

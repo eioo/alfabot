@@ -1,7 +1,14 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from './containers/App';
+import Panel from './containers/Panel';
 import * as serviceWorker from './serviceWorker';
 
-render(<App />, document.getElementById('root'));
+render(<Panel />, document.getElementById('root'));
 serviceWorker.unregister();
+
+if (module.hot) {
+  module.hot.dispose(() => {
+    window.location.reload();
+    throw new Error();
+  });
+}

@@ -4,18 +4,22 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev:bot": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly src/bot",
-    "dev:web": "parcel -d build/web src/web/index.html",
+    "dev:bot": "ts-node-dev -r tsconfig-paths/register --transpileOnly --respawn src/bot",
+    "dev:web": "ts-node-dev -r tsconfig-paths/register --transpileOnly --respawn src/web/bundler.ts",
     "dev": "npm-run-all -p dev:bot dev:web",
     "migrate:rollback": "knex migrate:rollback",
     "migrate": "knex migrate:latest",
     "start": "npm-run-all -s migrate dev"
   },
   "dependencies": {
+    "@types/parcel-env": "^0.0.0",
+    "@types/socket.io": "^2.1.2",
+    "@types/socket.io-client": "^1.4.32",
+    "@types/ws": "^6.0.1",
     "cheerio": "^1.0.0-rc.2",
     "dateformat": "^3.0.3",
+    "dayjs": "^1.8.12",
     "dotenv": "^6.1.0",
-    "fastify": "^2.2.0",
     "json5": "^2.1.0",
     "knex": "^0.15.2",
     "lodash": "^4.17.11",
@@ -30,6 +34,8 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "signale": "^1.3.0",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
     "styled-components": "^4.1.1"
   },
   "devDependencies": {

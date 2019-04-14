@@ -15,10 +15,15 @@ export const logger = new Signale({
       color: 'green',
       label: 'database',
     },
-    socketio: {
+    web: {
       badge: '⚡️',
       color: 'yellow',
-      label: 'socketio',
+      label: 'web',
+    },
+    api: {
+      badge: '🍌',
+      color: 'magenta',
+      label: 'api',
     },
   },
 });

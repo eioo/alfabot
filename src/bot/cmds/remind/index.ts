@@ -1,11 +1,12 @@
 import CommandBase from 'bot/cmds/commandBase';
-import { knex } from 'bot/database';
+import { getReminders, knex } from 'bot/database';
 import * as dateFormat from 'dateformat';
 import * as schedule from 'node-schedule';
 import * as parseDuration from 'parse-duration';
 import { logger } from 'shared/logger';
 import Bot from 'shared/types/bot';
 import { IReminder } from 'shared/types/database';
+import { api } from '../../api/index';
 
 class RemindCommand extends CommandBase {
   constructor(bot: Bot) {
@@ -57,13 +58,13 @@ class RemindCommand extends CommandBase {
         askerid,
       };
 
-      const id = await knex('reminders')
+      reminder.id = await knex('reminders')
         .insert(reminder)
         .returning('id')
         .get(0);
 
-      reminder.id = id;
       this.scheduleReminder(reminder);
+      this.updateWeb(reminder.chatid);
 
       this.reply(msg, [
         '*Reminder set!*',
@@ -89,6 +90,8 @@ class RemindCommand extends CommandBase {
         return;
       }
 
+      this.updateWeb(reminder.chatid);
+
       this.reply(
         reminder.chatid,
         `*🔔 Reminder for* [${askername}](tg://user?id=${askerid})\n_${text}_`
@@ -113,6 +116,12 @@ class RemindCommand extends CommandBase {
     }
 
     logger.bot(`Loaded ${reminders.length} reminders from database`);
+  }
+
+  async updateWeb(chatId: number) {
+    const reminders = await getReminders(chatId);
+    const room = String(chatId);
+    api.in(room).emit('get reminders', reminders);
   }
 }
 

@@ -1,31 +1,43 @@
-import * as Fastify from 'fastify';
-import { config } from 'shared/env';
-import { logger } from 'shared/logger';
-import { getReminders, knex } from '../database';
+import { deleteReminder, getChat, getReminders } from 'bot/database';
+import * as io from 'socket.io';
+import { config } from '../../shared/env';
+import { logger } from '../../shared/logger';
 
-const fastify = Fastify();
+export const api = io.listen(config.api.port);
 
-fastify.get('/', async (request, reply) => {
-  return { hello: 'world' };
-});
+interface IExtendedSocket extends io.Socket {
+  room: string;
+}
 
-fastify.post('/reminders', async (request, reply) => {
-  const chatId = Number(request.query.chatId);
+export function start() {
+  api.on('connection', (socket: IExtendedSocket) => {
+    logger.api('Socket connected');
 
-  if (!chatId) {
-    return;
-  }
+    socket.on('get chat', async (chatId: number) => {
+      const chat = await getChat(chatId);
 
-  const reminders = await getReminders(chatId);
-  return reminders;
-});
+      if (chat.chatid) {
+        socket.room = String(chat.chatid);
+        socket.join(socket.room);
+      }
 
-export async function start() {
-  try {
-    await fastify.listen(config.api.port);
-    logger.info(`API Server listening on ${config.api.port}`);
-  } catch (err) {
-    logger.error(err);
-    process.exit(1);
-  }
+      socket.emit('get chat', chat);
+    });
+
+    socket.on('get reminders', async (chatId: number) => {
+      const reminders = await getReminders(chatId);
+      socket.emit('get reminders', reminders);
+    });
+
+    socket.on('delete reminder', async (reminderId: number) => {
+      await deleteReminder(reminderId);
+
+      const reminders = await getReminders(Number(socket.room));
+      api.in(socket.room).emit('get reminders', reminders);
+    });
+
+    socket.on('disconnect', () => {
+      logger.api('Socket disconnected');
+    });
+  });
 }
