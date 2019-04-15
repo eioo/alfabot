@@ -21,21 +21,28 @@ export default function Reminders({ chat, socket }: IRemindersProps) {
     };
   }, []);
 
+  const renderReminders = () => {
+    if (!reminders) {
+      return 'Loading reminders...';
+    }
+
+    if (!reminders.length) {
+      return 'No reminders';
+    }
+
+    return reminders.map(reminder => (
+      <ReminderItem
+        key={reminder.id}
+        socket={socket}
+        reminder={reminder}
+      />
+    ))
+  }
+
   return (
     <div>
       <h2>Reminders</h2>
-
-      {!reminders
-        ? 'Loading reminders...'
-        : reminders.length
-        ? reminders.map(reminder => (
-            <ReminderItem
-              key={reminder.id}
-              socket={socket}
-              reminder={reminder}
-            />
-          ))
-        : 'No reminders'}
+      {renderReminders()}
     </div>
   );
 }
