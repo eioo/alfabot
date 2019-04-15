@@ -38,7 +38,7 @@ export default function ReminderItem({ socket, reminder }: IReminderProps) {
 
         <FloatRight>
           <Timestamp className="text-muted">
-            {dayjs(+timestamp).format('HH:MM DD.MM.YYYY ')}
+            {dayjs(+timestamp).format('HH:mm DD.MM.YYYY ')}
           </Timestamp>
           <Button size="sm" variant="danger" onClick={() => handleDelete(id)}>
             Remove
