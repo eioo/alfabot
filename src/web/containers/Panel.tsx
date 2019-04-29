@@ -6,6 +6,7 @@ import { IChatSettings } from '../../shared/types/database';
 import Reminders from '../components/Reminders';
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import Schedules from '../components/Schedules';
 import './panel.scss';
 
 let socket: SocketIOClient.Socket;
@@ -38,6 +39,8 @@ export default function Panel() {
 
   return (
     <Container>
+      <Schedules chat={chat} socket={socket} />
+      <hr />
       <Reminders chat={chat} socket={socket} />
     </Container>
   );

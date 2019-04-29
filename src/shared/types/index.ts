@@ -9,9 +9,9 @@ export type IOnTextCallback = (
   argCount: number
 ) => void;
 
-export type IScheduleList = Array<{
+export interface IScheduleItem {
   name: string;
-  rules: IScheduleRule[] | IScheduleRule;
-}>;
+  rules: IScheduleRule[];
+}
 
 type IScheduleRule = Partial<Omit<RecurrenceRule, 'nextInvocationDate'>>;

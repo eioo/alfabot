@@ -32,7 +32,7 @@ class DebugCommand extends CommandBase {
           }
 
           this.reply(msg, `\`Running "${schedule.name}" schedule.\``);
-          return runSchedule(schedule.name, msg.chat.id);
+          return runSchedule(msg.chat.id, schedule.name);
         }
       }
 

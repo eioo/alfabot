@@ -1,4 +1,5 @@
-import { deleteReminder, getChat, getReminders } from 'bot/database';
+import { deleteReminder, getChat, getReminders, setChat } from 'bot/database';
+import { IChatSettings } from 'shared/types/database';
 import * as io from 'socket.io';
 import { config } from '../../shared/env';
 import { logger } from '../../shared/logger';
@@ -7,6 +8,7 @@ export const api = io.listen(config.api.port);
 
 interface IExtendedSocket extends io.Socket {
   room: string;
+  sendToAllInRoom: (event: string, ...args: any[]) => void;
 }
 
 export function start() {
@@ -22,6 +24,11 @@ export function start() {
       }
 
       socket.emit('get chat', chat);
+    });
+
+    socket.on('set chat', async (chatSettings: IChatSettings) => {
+      await setChat(chatSettings);
+      api.in(socket.room).emit('get chat', chatSettings);
     });
 
     socket.on('get reminders', async (chatId: number) => {

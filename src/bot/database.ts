@@ -1,6 +1,7 @@
 import * as Knex from 'knex';
 import { IReminder } from 'shared/types/database';
 import { config } from '../shared/env';
+import { IChatSettings } from '../shared/types/database';
 
 export const knex = Knex({
   client: 'pg',
@@ -15,6 +16,12 @@ export async function getChat(chatId: number) {
     .get(0);
 
   return chat;
+}
+
+export async function setChat(chatSettings: IChatSettings) {
+  await knex('chats')
+    .where('chatid', chatSettings.chatid)
+    .update(chatSettings);
 }
 
 export async function getReminders(chatId: number) {

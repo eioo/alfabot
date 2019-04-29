@@ -19,13 +19,13 @@ bundler.on('buildStart', () => {
 
 bundler.on('buildEnd', () => {
   const deltaTime = +new Date() - +startDate;
-  logger.web(`Web panel build done. Took ${deltaTime}ms`);
+  logger.web(`Web panel build done. Took ${deltaTime}ms. `);
 });
 
 (async () => {
   await bundler.serve(config.panel.port);
 
   logger.web(
-    `Serving web client on ${Cyan}http://localhost:${config.panel.port + Reset}`
+    `Web panel url: ${Cyan}http://localhost:${config.panel.port + Reset}`
   );
 })();

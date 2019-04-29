@@ -12,6 +12,7 @@ export default function Reminders({ chat, socket }: IRemindersProps) {
 
   useEffect(() => {
     socket.emit('get reminders', chat.chatid);
+
     socket.on('get reminders', (data: IReminder[]) => {
       setReminders(data);
     });
@@ -31,13 +32,9 @@ export default function Reminders({ chat, socket }: IRemindersProps) {
     }
 
     return reminders.map(reminder => (
-      <ReminderItem
-        key={reminder.id}
-        socket={socket}
-        reminder={reminder}
-      />
-    ))
-  }
+      <ReminderItem key={reminder.id} socket={socket} reminder={reminder} />
+    ));
+  };
 
   return (
     <div>
