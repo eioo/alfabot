@@ -1,13 +1,16 @@
+import '../../../node_modules/rc-time-picker/assets/index.css';
+import '../assets/bootstrap.min.css';
+import './panel.scss';
+
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import * as io from 'socket.io-client';
+
 import { config } from '../../shared/env';
 import { IChatSettings } from '../../shared/types/database';
-import Reminders from '../components/Reminders';
-
-import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import Schedules from '../components/Schedules';
-import './panel.scss';
+import Reminders from '../components/reminders';
+import Schedules from '../components/schedules';
+import Weather from '../components/weather';
 
 let socket: SocketIOClient.Socket;
 
@@ -18,7 +21,7 @@ export default function Panel() {
     return <Container>Go away!</Container>;
   }
 
-  const [chat, setChat] = useState<IChatSettings>(undefined);
+  const [chat, setChat] = useState<IChatSettings>();
 
   if (!socket || !socket.connected) {
     socket = io.connect(`http://${config.api.host}:${config.api.port}`);
@@ -40,6 +43,8 @@ export default function Panel() {
   return (
     <Container>
       <Schedules chat={chat} socket={socket} />
+      <hr />
+      <Weather chat={chat} socket={socket} />
       <hr />
       <Reminders chat={chat} socket={socket} />
     </Container>

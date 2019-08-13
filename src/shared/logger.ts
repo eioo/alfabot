@@ -6,12 +6,12 @@ export const logger = new Signale({
   },
   types: {
     bot: {
-      badge: '🤖',
+      badge: '☻',
       color: 'cyan',
       label: 'bot',
     },
     database: {
-      badge: '💾',
+      badge: '֍',
       color: 'green',
       label: 'database',
     },
@@ -21,7 +21,7 @@ export const logger = new Signale({
       label: 'web',
     },
     api: {
-      badge: '🍌',
+      badge: '♥',
       color: 'magenta',
       label: 'api',
     },

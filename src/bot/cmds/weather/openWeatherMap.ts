@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import * as queryString from 'query-string';
-import { config } from 'shared/env';
+
+import { config } from '../../../shared/env';
 import { IForecast, IWeather } from './types';
 
 const API_BASE_URL = 'http://api.openweathermap.org/data/2.5/';

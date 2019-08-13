@@ -1,7 +1,7 @@
 import * as Knex from 'knex';
-import { IReminder } from 'shared/types/database';
+
 import { config } from '../shared/env';
-import { IChatSettings } from '../shared/types/database';
+import { IChatSettings, IReminder } from '../shared/types/database';
 
 export const knex = Knex({
   client: 'pg',
@@ -9,11 +9,11 @@ export const knex = Knex({
   searchPath: ['public'],
 });
 
-export async function getChat(chatId: number) {
+export async function getChat(chatId: number): Promise<IChatSettings> {
   const chat = await knex('chats')
     .select('*')
     .where('chatid', chatId)
-    .get(0);
+    .first();
 
   return chat;
 }

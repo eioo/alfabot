@@ -1,5 +1,5 @@
-import CommandBase from 'bot/cmds/commandBase';
-import Bot from 'shared/types/bot';
+import { Bot } from '../../../shared/types';
+import CommandBase from '../commandBase';
 
 class ExampleCommand extends CommandBase {
   constructor(bot: Bot) {

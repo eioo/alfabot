@@ -1,8 +1,8 @@
-import CommandBase from 'bot/cmds/commandBase';
-import { knex } from 'bot/database';
-import { config } from 'shared/env';
-import Bot from 'shared/types/bot';
-import { IChatSettings } from 'shared/types/database';
+import { config } from '../../../shared/env';
+import { Bot } from '../../../shared/types';
+import { IChatSettings } from '../../../shared/types/database';
+import { knex } from '../../database';
+import CommandBase from '../commandBase';
 import { validateCity } from './openWeatherMap';
 import { getForecastText } from './responseBuilder';
 

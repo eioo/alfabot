@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { config } from './src/shared/env';
+import { config } from '../src/shared/env';
 
 module.exports = {
   development: {

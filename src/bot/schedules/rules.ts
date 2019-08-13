@@ -1,5 +1,6 @@
 import * as schedule from 'node-schedule';
-import { IScheduleItem } from '../../shared/types/index';
+
+import { IScheduleItem } from '../../shared/types';
 
 export const schedules: IScheduleItem[] = [
   {

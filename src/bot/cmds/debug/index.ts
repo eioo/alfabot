@@ -1,7 +1,7 @@
-import CommandBase from 'bot/cmds/commandBase';
-import { runSchedule } from 'bot/schedules';
-import { schedules } from 'bot/schedules/rules';
-import Bot from 'shared/types/bot';
+import { Bot } from '../../../shared/types';
+import CommandBase from '../../cmds/commandBase';
+import { runSchedule } from '../../schedules';
+import { schedules } from '../../schedules/rules';
 
 class DebugCommand extends CommandBase {
   constructor(bot: Bot) {

@@ -1,6 +1,7 @@
+import { config } from '../shared/env';
+import { logger } from '../shared/logger';
+
 // tslint:disable: no-var-requires
-import { config } from 'shared/env';
-import { logger } from 'shared/logger';
 const Bundler = require('parcel-bundler');
 
 const Reset = '\x1b[0m';

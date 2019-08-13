@@ -1,6 +1,6 @@
-import CommandBase from 'bot/cmds/commandBase';
-import { config } from 'shared/env';
-import Bot from 'shared/types/bot';
+import { config } from '../../../shared/env';
+import { Bot } from '../../../shared/types';
+import CommandBase from '../commandBase';
 
 interface IAccounts {
   ownerName: string;

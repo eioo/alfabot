@@ -1,8 +1,11 @@
+import { RecurrenceRule } from 'node-schedule';
+
 export interface IChatSettings {
   chatid: number;
   weather: {
     cities: string[];
-    enableNotifications: boolean;
+    notifications: boolean;
+    notificationTime: RecurrenceRule;
   };
   schedules: {
     enabled: string[];

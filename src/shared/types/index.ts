@@ -1,10 +1,12 @@
 import { RecurrenceRule } from 'node-schedule';
-import { Message } from 'node-telegram-bot-api';
+import * as TelegramBot from 'node-telegram-bot-api';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
+export type Bot = TelegramBot;
+
 export type IOnTextCallback = (
-  msg: Message,
+  msg: TelegramBot.Message,
   args: string[],
   argCount: number
 ) => void;
@@ -14,4 +16,4 @@ export interface IScheduleItem {
   rules: IScheduleRule[];
 }
 
-type IScheduleRule = Partial<Omit<RecurrenceRule, 'nextInvocationDate'>>;
+export type IScheduleRule = Partial<Omit<RecurrenceRule, 'nextInvocationDate'>>;

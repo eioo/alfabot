@@ -1,5 +1,5 @@
-import CommandBase from 'bot/cmds/commandBase';
-import Bot from 'shared/types/bot';
+import CommandBase from '../../../bot/cmds/commandBase';
+import { Bot } from '../../../shared/types/bot';
 
 class PanelCommand extends CommandBase {
   constructor(bot: Bot) {

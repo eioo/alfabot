@@ -11,7 +11,11 @@ exports.up = (knex: Knex) => {
       .defaultTo(
         JSON.stringify({
           cities: [],
-          enableNotifications: false,
+          notifications: false,
+          notificationTime: {
+            hour: 7,
+            minute: 0,
+          },
         })
       )
       .notNullable();

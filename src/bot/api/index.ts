@@ -1,8 +1,16 @@
-import { deleteReminder, getChat, getReminders, setChat } from 'bot/database';
-import { IChatSettings } from 'shared/types/database';
 import * as io from 'socket.io';
+
+import {
+  deleteReminder,
+  getChat,
+  getReminders,
+  setChat,
+} from '../../bot/database';
+import { cancelSchedule, createSchedule } from '../../bot/schedules';
 import { config } from '../../shared/env';
 import { logger } from '../../shared/logger';
+import { IScheduleRule } from '../../shared/types';
+import { IChatSettings } from '../../shared/types/database';
 
 export const api = io.listen(config.api.port);
 
@@ -34,6 +42,17 @@ export function start() {
     socket.on('get reminders', async (chatId: number) => {
       const reminders = await getReminders(chatId);
       socket.emit('get reminders', reminders);
+    });
+
+    socket.on(
+      'create schedule',
+      (chatId: number, scheduleName: string, scheduleRule: IScheduleRule) => {
+        createSchedule(chatId, scheduleName, scheduleRule);
+      }
+    );
+
+    socket.on('cancel schedule', (chatId: number, scheduleName: string) => {
+      cancelSchedule(chatId, scheduleName);
     });
 
     socket.on('delete reminder', async (reminderId: number) => {

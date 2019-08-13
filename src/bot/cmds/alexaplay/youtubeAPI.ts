@@ -1,8 +1,9 @@
 import fetch from 'node-fetch';
 import * as queryString from 'query-string';
-import { config } from 'shared/env';
-import { logger } from 'shared/logger';
-import { sleep } from 'shared/sleep';
+
+import { config } from '../../../shared/env';
+import { logger } from '../../../shared/logger';
+import { sleep } from '../../../shared/sleep';
 import { ISearchItem, ISearchList, IVideo } from './types';
 
 const API_URL = 'https://www.googleapis.com/youtube/v3/search';

@@ -1,8 +1,17 @@
-import { knex } from 'bot/database';
-import { RecurrenceRule, scheduleJob } from 'node-schedule';
-import { IChatSettings } from 'shared/types/database';
+import { Job, RecurrenceRule, scheduleJob } from 'node-schedule';
 
+import { IScheduleRule } from '../../shared/types';
+import { IChatSettings } from '../../shared/types/database';
+import { knex } from '../database';
 import { schedules } from './rules';
+
+interface IJobs {
+  [chatId: number]: {
+    [scheduleName: string]: Job;
+  };
+}
+
+const jobs: IJobs = {};
 
 export async function start() {
   const chats: IChatSettings[] = await knex('chats').select('*');
@@ -22,16 +31,16 @@ export async function start() {
   }
 }
 
-function createSchedule(
+export function createSchedule(
   chatId: number,
   scheduleName: string,
-  reccurenceRule: RecurrenceRule
+  scheduleRule: IScheduleRule
 ) {
-  scheduleJob(scheduleName, reccurenceRule, async () => {
+  const job = scheduleJob(scheduleName, scheduleRule, async () => {
     const chatNow: IChatSettings = await knex('chats')
       .select('*')
       .where('chatid', chatId)
-      .get(0);
+      .first();
 
     if (!chatNow.schedules.enabled.includes(scheduleName)) {
       return;
@@ -39,10 +48,22 @@ function createSchedule(
 
     runSchedule(chatId, scheduleName);
   });
+
+  if (!jobs[chatId]) {
+    jobs[chatId] = {};
+  }
+
+  jobs[chatId][scheduleName] = job;
+}
+
+export function cancelSchedule(chatId: number, scheduleName: string) {
+  console.log('cancel schedule: ', scheduleName);
 }
 
 export function runSchedule(chatId: number, scheduleName: string) {
   import(`./${scheduleName}`).then(({ action }) => {
-    action(chatId);
+    if (action) {
+      action(chatId);
+    }
   });
 }

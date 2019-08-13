@@ -1,8 +1,9 @@
-import CommandBase from 'bot/cmds/commandBase';
 import fetch from 'node-fetch';
 import * as queryString from 'query-string';
-import Bot from 'shared/types/bot';
+
 import { config } from '../../../shared/env';
+import { Bot } from '../../../shared/types';
+import CommandBase from '../commandBase';
 
 const SEARCH_TERM = 'laugh';
 const API_KEY = config.bot.giphyKey;

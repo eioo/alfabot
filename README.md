@@ -6,6 +6,7 @@ Telegram bot. Beep Boop.
 
 - Node.js
 - PostgreSQL database
+- Buckets worth of API keys
 
 ## Installation & running
 
@@ -17,6 +18,8 @@ npm install
 npm run start
 ```
 
+Database is created automatically.
+
 ## Environment variables
 
 | Key                | Explanation                                    |
@@ -25,12 +28,13 @@ npm run start
 | PG_DATABASE        | PostgreSQL database name                       |
 | PG_USER            | PostgreSQL username                            |
 | PG_PASS            | PostgreSQL password                            |
-| PANEL_HOST         | Panel host. Don't include leading/trailing "/" |
+| PANEL_HOST         | Panel host, don't include leading/trailing "/" |
 | PANEL_PORT         | Panel port                                     |
 | API_HOST           | Host for WebSocket API                         |
 | API_PORT           | Port for WebSocket API                         |
 | BOT_TOKEN          | Your Telegram bot token                        |
 | IBAN_NUMBERS       | IBAN account list for /iban command            |
+| GOOGLE_MAPS_KEY    | Your Google Maps API key (For web panel)       |
 | OPENWEATHERMAP_KEY | Your OpenWeatherMap API key                    |
 | GIPHY_KEY          | Your Giphy API key                             |
 | YOUTUBEV3_KEY      | Your Youtube V3 Data API key                   |
@@ -38,6 +42,14 @@ npm run start
 - IBAN accounts are formatted like this:
 
 `<accountName>:<accountNumber>` (each account splitted with semicolon)
+
+## Roadmap
+
+- [ ] Remove `cheerio` dependency
+- [ ] Remove `lodash` dependency (?)
+- [ ] Replace `node-fetch` dependency with `unfetch`
+- [ ] Replace `knex` and `pg` with (slonik)[https://github.com/gajus/slonik]
+- [ ] Add ability to add / remove IBAN numbers with /iban command
 
 ## License
 

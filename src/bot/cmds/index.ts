@@ -1,7 +1,8 @@
-import { bot } from 'bot/bot';
 import { readdirSync, statSync } from 'fs';
 import { join } from 'path';
-import { logger } from 'shared/logger';
+
+import { logger } from '../../shared/logger';
+import { bot } from '../bot';
 import CommandBase from './commandBase';
 
 export const cmdList: { [name: string]: CommandBase } = {};

@@ -1,8 +1,9 @@
-import { bot } from 'bot/bot';
 import * as cheerio from 'cheerio';
 import * as dateFormat from 'dateformat';
-import * as _ from 'lodash';
 import fetch from 'node-fetch';
+
+import { sample } from '../../../shared/utils';
+import { bot } from '../../bot';
 
 interface IHoliday {
   national: boolean;
@@ -43,7 +44,7 @@ export async function getTodaysHoliday(): Promise<IHoliday | undefined> {
   const currentTime = dateFormat('dd.mm.yyyy');
   const todaysHolidays = holidays.filter(x => x.date === currentTime);
   const nationalHolidays = todaysHolidays.filter(x => x.national);
-  const holiday = nationalHolidays[0] || _.sample(todaysHolidays);
+  const holiday = nationalHolidays[0] || sample(todaysHolidays);
 
   return holiday;
 }

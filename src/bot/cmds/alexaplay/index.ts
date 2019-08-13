@@ -1,8 +1,8 @@
-import CommandBase from 'bot/cmds/commandBase';
-import Bot from 'shared/types/bot';
-
+import { config } from '../../../shared/env';
+import Bot from '../../../shared/types/bot';
+import CommandBase from '../commandBase';
 import { IVideo } from './types';
-import { API_KEY, getVideo } from './youtubeAPI';
+import { getVideo } from './youtubeAPI';
 
 class AlexaPlayCommand extends CommandBase {
   constructor(bot: Bot) {
@@ -14,7 +14,7 @@ class AlexaPlayCommand extends CommandBase {
     this.onText(
       /^(alexa play|alfabot soita) .+/i,
       async (msg, args, argCount) => {
-        if (!API_KEY || argCount === 0) {
+        if (!config.bot.youtubeKey || argCount === 0) {
           return;
         }
 

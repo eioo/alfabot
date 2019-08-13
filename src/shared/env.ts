@@ -23,6 +23,7 @@ export const config = {
   bot: {
     token: process.env.BOT_TOKEN || '',
     ibanNumbers: process.env.IBAN_NUMBERS || '',
+    googleMapsKey: process.env.GOOGLE_MAPS_KEY || '',
     openWeatherMapKey: process.env.OPENWEATHERMAP_KEY || '',
     giphyKey: process.env.GIPHY_KEY || '',
     youtubeKey: process.env.YOUTUBEV3_KEY || '',

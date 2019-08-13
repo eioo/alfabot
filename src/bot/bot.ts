@@ -1,10 +1,10 @@
 import * as TelegramBot from 'node-telegram-bot-api';
 
-import { knex } from 'bot/database';
-import { config } from 'shared/env';
-import { logger } from 'shared/logger';
+import { config } from '../shared/env';
+import { logger } from '../shared/logger';
 import * as api from './api';
 import * as commands from './cmds';
+import { knex } from './database';
 import * as schedules from './schedules';
 
 export let bot: TelegramBot;

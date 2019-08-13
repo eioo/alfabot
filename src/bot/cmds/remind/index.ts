@@ -1,12 +1,13 @@
-import CommandBase from 'bot/cmds/commandBase';
-import { getReminders, knex } from 'bot/database';
 import * as dateFormat from 'dateformat';
 import * as schedule from 'node-schedule';
 import * as parseDuration from 'parse-duration';
-import { logger } from 'shared/logger';
-import Bot from 'shared/types/bot';
-import { IReminder } from 'shared/types/database';
-import { api } from '../../api/index';
+
+import { logger } from '../../../shared/logger';
+import { Bot } from '../../../shared/types';
+import { IReminder } from '../../../shared/types/database';
+import { api } from '../../api';
+import { getReminders, knex } from '../../database';
+import CommandBase from '../commandBase';
 
 class RemindCommand extends CommandBase {
   constructor(bot: Bot) {
@@ -61,7 +62,7 @@ class RemindCommand extends CommandBase {
       reminder.id = await knex('reminders')
         .insert(reminder)
         .returning('id')
-        .get(0);
+        .first();
 
       this.scheduleReminder(reminder);
       this.updateWeb(reminder.chatid);
