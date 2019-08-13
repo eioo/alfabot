@@ -48,7 +48,7 @@ Database is created automatically.
 - [ ] Remove `cheerio` dependency
 - [ ] Remove `lodash` dependency (?)
 - [ ] Replace `node-fetch` dependency with `unfetch`
-- [ ] Replace `knex` and `pg` with (slonik)[https://github.com/gajus/slonik]
+- [ ] Replace `knex` and `pg` with [slonik](https://github.com/gajus/slonik)
 - [ ] Add ability to add / remove IBAN numbers with /iban command
 
 ## License
