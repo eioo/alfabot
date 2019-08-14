@@ -3,6 +3,7 @@ import { Job, RecurrenceRule, scheduleJob } from 'node-schedule';
 import { IScheduleRule } from '../../shared/types';
 import * as database from '../database';
 import { schedules } from './rules';
+import ScheduleBase from './scheduleBase';
 
 interface IJobs {
   [chatId: number]: {
@@ -53,13 +54,19 @@ export function createSchedule(
 }
 
 export function cancelSchedule(chatId: number, scheduleName: string) {
+  // TODO
   console.log('cancel schedule: ', scheduleName);
 }
 
-export function runSchedule(chatId: number, scheduleName: string) {
-  import(`./${scheduleName}`).then(({ action }) => {
-    if (action) {
-      action(chatId);
+export async function runSchedule(chatId: number, scheduleName: string) {
+  const imported = await import(`./${scheduleName}`);
+  const ScheduleClass = imported.default;
+
+  if (ScheduleClass) {
+    const schedule: ScheduleBase = new ScheduleClass();
+
+    if (schedule.action) {
+      schedule.action(chatId);
     }
-  });
+  }
 }

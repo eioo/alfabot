@@ -1,5 +1,5 @@
+import fetch from 'node-fetch';
 import * as queryString from 'query-string';
-import fetch from 'unfetch';
 
 import { config } from '../../../shared/env';
 import { IForecast, IWeather } from './types';

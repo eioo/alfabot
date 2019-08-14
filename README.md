@@ -47,10 +47,13 @@ Database is created automatically.
 ## Roadmap
 
 - [x] Remove `lodash` dependency (?)
-- [x] Replace `node-fetch` dependency with [unfetch](https://github.com/developit/unfetch)
 - [x] Replace `knex` and `pg` with ~~[slonik](https://github.com/gajus/slonik)~~ (No TypeScript support) `node-postgres`
-- [ ] Remove `cheerio` dependency
-- [ ] Add ability to add / remove IBAN numbers with /iban command
+- [x] Remove `cheerio` dependency
+- [ ] Make `/remind` command accept dates with/instead of durations
+- [ ] Revamp database schema
+- [ ] Improve web panel (Schedule settings with cron selector, chat city selector, ability to edit reminds)
+- [ ] Replace `signale` logger with something more lightweight
+- [ ] Add ability to add / remove IBAN numbers with `/iban` command
 
 ## License
 

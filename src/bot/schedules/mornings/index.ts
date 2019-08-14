@@ -1,66 +1,78 @@
-import * as cheerio from 'cheerio';
 import * as dateFormat from 'dateformat';
-import fetch from 'unfetch';
+import fetch from 'node-fetch';
 
-import { sample } from '../../../shared/utils';
+import { chunk, getBetween, sample } from '../../../shared/utils';
 import { bot } from '../../bot';
+import ScheduleBase from '../scheduleBase';
 
-interface IHoliday {
+interface IEvent {
   national: boolean;
   name: string;
   url: string;
   date: string;
 }
 
-async function fetchHolidays(): Promise<IHoliday[]> {
-  const holidays: IHoliday[] = [];
+async function fetchEvents(): Promise<IEvent[]> {
+  const events: IEvent[] = [];
   const request = await fetch(
     'http://www.webcal.fi/fi-FI/popup.php?content=eventlist&cid=3'
   );
   const html = await request.text();
-  const $ = cheerio.load(html);
+  const tableLines = html
+    .split(`<table class='eventlist'>`)[1]
+    .split('</table>')[0]
+    .trim()
+    .split(/\n/g);
 
-  for (const row of Array.from($('tr'))) {
-    holidays.push({
-      national: !!$(row).find('td:nth-of-type(1) > img').length,
-      url: $(row)
-        .find('td:nth-of-type(2) > a')
-        .attr('href'),
-      name: $(row)
-        .find('td:nth-of-type(2) > a')
-        .text(),
-      date: $(row)
-        .find('td:nth-of-type(4)')
-        .text()
-        .trim(),
-    });
+  const chunks = chunk(tableLines, 6);
+
+  for (const event of chunks) {
+    const flagColumn = event[0];
+    const anchorColumn = event[2];
+    const dateColumn = event[4];
+
+    const national = flagColumn.includes(`<img`);
+    const url = getBetween(anchorColumn, `href='`, `'`);
+    const name = getBetween(anchorColumn, `\'>`, '</a>');
+    const date = getBetween(dateColumn, `eiwrap'>`, '</td>');
+
+    if (url && name && date) {
+      events.push({
+        national,
+        url,
+        name,
+        date,
+      });
+    }
   }
 
-  return holidays;
+  return events;
 }
 
-export async function getTodaysHoliday(): Promise<IHoliday | undefined> {
-  const holidays = await fetchHolidays();
-  const currentTime = dateFormat('dd.mm.yyyy');
-  const todaysHolidays = holidays.filter(x => x.date === currentTime);
-  const nationalHolidays = todaysHolidays.filter(x => x.national);
-  const holiday = nationalHolidays[0] || sample(todaysHolidays);
+async function getTodaysEvent(): Promise<IEvent | undefined> {
+  const holidays = await fetchEvents();
+  const today = dateFormat('dd.mm.yyyy');
+  const eventsToday = holidays.filter(x => x.date === today);
+  const eventsNational = eventsToday.filter(x => x.national);
+  const holiday = eventsNational[0] || sample(eventsToday);
 
   return holiday;
 }
 
-export async function action(chatId: number): Promise<void> {
-  const holiday = await getTodaysHoliday();
-  const holidayText = holiday
-    ? `${holiday.national ? '🇫🇮 ' : ''}[${holiday.name}](${holiday.url})`
-    : '';
+export default class extends ScheduleBase {
+  async action(chatId: number): Promise<void> {
+    const holiday = await getTodaysEvent();
+    const holidayText = holiday
+      ? `${holiday.national ? '🇫🇮 ' : ''}[${holiday.name}](${holiday.url})`
+      : '';
 
-  const message =
-    `*Mornings!*\n` +
-    `Tänään on ${dateFormat('dd.mm.yyyy')}\n` +
-    `${holidayText}`;
+    const message =
+      `*Mornings!*\n` +
+      `Tänään on ${dateFormat('dd.mm.yyyy')}\n` +
+      `${holidayText}`;
 
-  bot.sendMessage(chatId, message, {
-    parse_mode: 'Markdown',
-  });
+    bot.sendMessage(chatId, message, {
+      parse_mode: 'Markdown',
+    });
+  }
 }
