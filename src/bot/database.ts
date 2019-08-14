@@ -1,4 +1,4 @@
-import { Client } from 'pg';
+import { Client, QueryResult } from 'pg';
 
 import { config } from '../shared/env';
 import { IChatSettings, IReminder } from '../shared/types/database';
@@ -36,7 +36,6 @@ export async function addNewChat(chatId: number) {
 
 export async function getAllChats(): Promise<IChatSettings[]> {
   const result = await client.query(`SELECT * FROM chats`);
-
   return result.rows;
 }
 
@@ -55,17 +54,23 @@ export async function getChat(chatId: number): Promise<IChatSettings> {
   return result.rows[0];
 }
 
-export async function setChat(chatSettings: IChatSettings) {
+export async function setChat({ chatid, schedules, weather }: IChatSettings) {
   // TODO: Not dynamic, at all
   return client.query(
     `
     UPDATE chats SET weather = $1, schedules = $2 WHERE chatid = $3
   `,
-    [chatSettings.chatid, chatSettings.schedules, chatSettings.weather]
+    [chatid, schedules, weather]
   );
 }
 
-export async function addReminder(reminder: IReminder) {
+export async function addReminder({
+  chatid,
+  timestamp,
+  text,
+  askername,
+  askerid,
+}: IReminder) {
   // TODO: Not dynamic, at all
   const result = await client.query(
     `
@@ -74,42 +79,33 @@ export async function addReminder(reminder: IReminder) {
     VALUES ($1, $2, $3, $4, $5)
     RETURNING *
   `,
-    [
-      reminder.chatid,
-      reminder.timestamp,
-      reminder.text,
-      reminder.askername,
-      reminder.askerid,
-    ]
+    [chatid, timestamp, text, askername, askerid]
   );
 
   return result.rows[0];
 }
 
 export async function getReminders(chatId?: number) {
-  const sortByTimestamp = (a: IReminder, b: IReminder) =>
-    a.timestamp > b.timestamp ? 1 : -1;
+  const now = +new Date();
+  let result: QueryResult;
 
   if (chatId) {
-    const now = +new Date();
-    const result = await client.query(
+    result = await client.query(
       `SELECT * FROM reminders 
       WHERE timestamp > $1
       AND chatid = $2`,
       [now, chatId]
     );
-
-    return result.rows.sort(sortByTimestamp);
   } else {
-    const now = +new Date();
-    const result = await client.query(
+    result = await client.query(
       `SELECT * FROM reminders 
       WHERE timestamp > $1`,
       [now]
     );
-
-    return result.rows.sort(sortByTimestamp);
   }
+
+  // TODO: Perform sorting with SQL
+  return result.rows.sort((a, b) => (a.timestamp > b.timestamp ? 1 : -1));
 }
 
 export async function getReminderByID(
