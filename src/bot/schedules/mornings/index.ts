@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 import * as dateFormat from 'dateformat';
-import fetch from 'node-fetch';
+import fetch from 'unfetch';
 
 import { sample } from '../../../shared/utils';
 import { bot } from '../../bot';

@@ -26,7 +26,7 @@ export function start() {
     socket.on('get chat', async (chatId: number) => {
       const chat = await getChat(chatId);
 
-      if (chat.chatid) {
+      if (chat) {
         socket.room = String(chat.chatid);
         socket.join(socket.room);
       }

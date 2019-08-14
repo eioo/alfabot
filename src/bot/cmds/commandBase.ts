@@ -5,8 +5,7 @@ import {
 } from 'node-telegram-bot-api';
 
 import { logger } from '../../shared/logger';
-import { IOnTextCallback } from '../../shared/types';
-import Bot from '../../shared/types/bot';
+import { Bot, IOnTextCallback } from '../../shared/types';
 import { getHelpText } from './help/helpTexts';
 
 abstract class CommandBase {
@@ -39,13 +38,17 @@ abstract class CommandBase {
   }
 
   async reply(
-    msg: Message | number,
+    msg: Message | string | number,
     text: string | string[],
     options?: SendMessageOptions
   ): Promise<Message> {
     text = typeof text === 'string' ? text : text.join('\n');
 
-    const chatid = typeof msg === 'number' ? msg : msg.chat.id;
+    const chatid =
+      typeof msg === 'string' || typeof msg === 'number'
+        ? Number(msg)
+        : msg.chat.id;
+
     const message = await this.bot.sendMessage(chatid, text, {
       parse_mode: 'Markdown',
       ...options,

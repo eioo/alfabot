@@ -1,8 +1,7 @@
 import { Job, RecurrenceRule, scheduleJob } from 'node-schedule';
 
 import { IScheduleRule } from '../../shared/types';
-import { IChatSettings } from '../../shared/types/database';
-import { knex } from '../database';
+import * as database from '../database';
 import { schedules } from './rules';
 
 interface IJobs {
@@ -14,7 +13,7 @@ interface IJobs {
 const jobs: IJobs = {};
 
 export async function start() {
-  const chats: IChatSettings[] = await knex('chats').select('*');
+  const chats = await database.getAllChats();
 
   for (const chat of chats) {
     for (const schedule of schedules) {
@@ -37,12 +36,9 @@ export function createSchedule(
   scheduleRule: IScheduleRule
 ) {
   const job = scheduleJob(scheduleName, scheduleRule, async () => {
-    const chatNow: IChatSettings = await knex('chats')
-      .select('*')
-      .where('chatid', chatId)
-      .first();
+    const currentChat = await database.getChat(chatId);
 
-    if (!chatNow.schedules.enabled.includes(scheduleName)) {
+    if (!currentChat.schedules.enabled.includes(scheduleName)) {
       return;
     }
 

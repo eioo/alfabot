@@ -6,7 +6,7 @@ import { logger } from '../../../shared/logger';
 import { Bot } from '../../../shared/types';
 import { IReminder } from '../../../shared/types/database';
 import { api } from '../../api';
-import { getReminders, knex } from '../../database';
+import * as database from '../../database';
 import CommandBase from '../commandBase';
 
 class RemindCommand extends CommandBase {
@@ -16,8 +16,6 @@ class RemindCommand extends CommandBase {
     this.helpText = 'Reminds you';
     this.helpArgs = '<time option> <message>';
     this.helpDescription = '*Example*\n`/remind 1 day just a reminder`';
-
-    this.loadReminders();
   }
 
   listen(): void {
@@ -51,18 +49,13 @@ class RemindCommand extends CommandBase {
       const askername = from.first_name;
       const askerid = from.id;
 
-      const reminder: IReminder = {
+      const reminder = await database.addReminder({
         chatid,
         timestamp,
         text,
         askername,
         askerid,
-      };
-
-      reminder.id = await knex('reminders')
-        .insert(reminder)
-        .returning('id')
-        .first();
+      });
 
       this.scheduleReminder(reminder);
       this.updateWeb(reminder.chatid);
@@ -84,15 +77,13 @@ class RemindCommand extends CommandBase {
     }
 
     schedule.scheduleJob(new Date(reminderDate), async () => {
-      const stillExists = (await knex('reminders').where('id', id || -1))
-        .length;
+      const stillExists = await database.getReminderByID(id || -1);
 
       if (!stillExists) {
         return;
       }
 
       this.updateWeb(reminder.chatid);
-
       this.reply(
         reminder.chatid,
         `*🔔 Reminder for* [${askername}](tg://user?id=${askerid})\n_${text}_`
@@ -101,14 +92,9 @@ class RemindCommand extends CommandBase {
   }
 
   async loadReminders(): Promise<void> {
-    const now = +new Date();
-    const reminders: IReminder[] = await knex('reminders').where(
-      'timestamp',
-      '>',
-      now
-    );
+    const reminders = await database.getReminders();
 
-    if (!reminders.length) {
+    if (reminders.length) {
       return;
     }
 
@@ -116,11 +102,13 @@ class RemindCommand extends CommandBase {
       this.scheduleReminder(reminder);
     }
 
-    logger.bot(`Loaded ${reminders.length} reminders from database`);
+    if (reminders.length) {
+      logger.bot(`Loaded ${reminders.length} reminders from database`);
+    }
   }
 
   async updateWeb(chatId: number) {
-    const reminders = await getReminders(chatId);
+    const reminders = await database.getReminders(chatId);
     const room = String(chatId);
     api.in(room).emit('get reminders', reminders);
   }

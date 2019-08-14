@@ -1,7 +1,7 @@
 import { config } from '../../../shared/env';
 import { Bot } from '../../../shared/types';
 import { IChatSettings } from '../../../shared/types/database';
-import { knex } from '../../database';
+import * as database from '../../database';
 import CommandBase from '../commandBase';
 import { validateCity } from './openWeatherMap';
 import { getForecastText } from './responseBuilder';
@@ -21,31 +21,30 @@ class WeatherCommand extends CommandBase {
       }
 
       if (!argCount) {
-        const chat: IChatSettings = await knex('chats')
-          .where({
-            chatid: msg.chat.id,
-          })
-          .first();
+        const chat: IChatSettings = await database.getChat(msg.chat.id);
 
-        if (chat.weather.cities.length) {
-          const reply = await this.reply(msg, `_Loading..._`);
-
-          const forecastPromises = chat.weather.cities.map(async cityName => {
-            const forecastText = await getForecastText(cityName);
-            return forecastText;
-          });
-          const response = (await Promise.all(forecastPromises)).join('\n\n');
-
-          if (!response) {
-            this.editReply(reply, 'Failed to fetch weather :(');
-            return;
-          }
-
-          this.editReply(reply, response);
+        if (!chat.weather.cities.length) {
+          this.showHelp(
+            msg,
+            'No cities yet added. Visit* /panel *to add more.'
+          );
           return;
         }
 
-        this.showHelp(msg, 'No cities yet added. Visit* /panel *to add more.');
+        const reply = await this.reply(msg, `_Loading..._`);
+
+        const forecastPromises = chat.weather.cities.map(async cityName => {
+          const forecastText = await getForecastText(cityName);
+          return forecastText;
+        });
+        const response = (await Promise.all(forecastPromises)).join('\n\n');
+
+        if (!response) {
+          this.editReply(reply, 'Failed to fetch weather :(');
+          return;
+        }
+
+        this.editReply(reply, response);
         return;
       }
 

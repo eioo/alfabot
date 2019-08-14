@@ -4,7 +4,8 @@ import { config } from '../shared/env';
 import { logger } from '../shared/logger';
 import * as api from './api';
 import * as commands from './cmds';
-import { knex } from './database';
+import RemindCommand from './cmds/remind';
+import * as database from './database';
 import * as schedules from './schedules';
 
 export let bot: TelegramBot;
@@ -19,26 +20,20 @@ export async function create(): Promise<void> {
 
   bot = new TelegramBot(token);
 
-  bot.on('message', messageHandler);
-  schedules.start();
-  commands.loadCommands();
+  await database.setup();
+  await schedules.start();
+  await commands.loadCommands();
+
+  const remindCommand = commands.cmdList.remind as RemindCommand;
+  await remindCommand.loadReminders();
 
   api.start();
+  bot.on('message', messageHandler);
   bot.startPolling();
 
   logger.bot('Bot started');
 }
 
 async function messageHandler(msg: TelegramBot.Message) {
-  const chat = await knex('chats')
-    .where('chatid', msg.chat.id)
-    .first();
-
-  if (chat) {
-    return;
-  }
-
-  await knex('chats').insert({
-    chatid: msg.chat.id,
-  });
+  await database.addNewChat(msg.chat.id);
 }

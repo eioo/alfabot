@@ -5,7 +5,7 @@ Telegram bot. Beep Boop.
 ## Requirements
 
 - Node.js
-- PostgreSQL database
+- PostgreSQL (>= 9.1) database
 - Buckets worth of API keys
 
 ## Installation & running
@@ -25,6 +25,7 @@ Database is created automatically.
 | Key                | Explanation                                    |
 | ------------------ | ---------------------------------------------- |
 | PG_HOST            | PostgreSQL host                                |
+| PG_PORT            | PostgreSQL port                                |
 | PG_DATABASE        | PostgreSQL database name                       |
 | PG_USER            | PostgreSQL username                            |
 | PG_PASS            | PostgreSQL password                            |
@@ -33,11 +34,11 @@ Database is created automatically.
 | API_HOST           | Host for WebSocket API                         |
 | API_PORT           | Port for WebSocket API                         |
 | BOT_TOKEN          | Your Telegram bot token                        |
-| IBAN_NUMBERS       | IBAN account list for /iban command            |
 | GOOGLE_MAPS_KEY    | Your Google Maps API key (For web panel)       |
 | OPENWEATHERMAP_KEY | Your OpenWeatherMap API key                    |
 | GIPHY_KEY          | Your Giphy API key                             |
 | YOUTUBEV3_KEY      | Your Youtube V3 Data API key                   |
+| IBAN_NUMBERS       | IBAN account list for /iban command            |
 
 - IBAN accounts are formatted like this:
 
@@ -45,10 +46,10 @@ Database is created automatically.
 
 ## Roadmap
 
+- [x] Remove `lodash` dependency (?)
+- [x] Replace `node-fetch` dependency with [unfetch](https://github.com/developit/unfetch)
+- [x] Replace `knex` and `pg` with ~~[slonik](https://github.com/gajus/slonik)~~ (No TypeScript support) `node-postgres`
 - [ ] Remove `cheerio` dependency
-- [ ] Remove `lodash` dependency (?)
-- [ ] Replace `node-fetch` dependency with `unfetch`
-- [ ] Replace `knex` and `pg` with [slonik](https://github.com/gajus/slonik)
 - [ ] Add ability to add / remove IBAN numbers with /iban command
 
 ## License
