@@ -1,11 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import Panel from './containers/Panel';
-import html from './index.html';
+import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
 
-document.body.innerHTML = html;
-render(<Panel />, document.getElementById('root'));
+render(<App />, document.getElementById('root') as HTMLDivElement);
 
 serviceWorker.unregister();
