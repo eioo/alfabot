@@ -20,6 +20,12 @@ npm run start
 
 Database is created automatically.
 
+## Development mode
+
+```
+npm run [dev|dev:bot|dev:web]
+```
+
 ## Environment variables
 
 | Key                | Explanation                                    |
