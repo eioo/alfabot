@@ -9,7 +9,9 @@
     "dev": "npm-run-all -p dev:bot dev:web",
     "migrate:rollback": "knex migrate:rollback",
     "migrate": "knex migrate:latest",
-    "start": "npm-run-all -s migrate dev"
+    "start": "npm-run-all -s migrate dev",
+    "test": "jest --forceExit",
+    "lint": "tslint src/**/*.ts"
   },
   "dependencies": {
     "@emotion/core": "^10.0.10",
@@ -45,6 +47,7 @@
     "@types/cheerio": "^0.22.9",
     "@types/dateformat": "^1.0.1",
     "@types/dotenv": "^4.0.3",
+    "@types/jest": "^24.0.18",
     "@types/knex": "^0.14.26",
     "@types/lodash": "^4.14.117",
     "@types/node-fetch": "^2.1.2",
@@ -58,9 +61,11 @@
     "@types/socket.io": "^2.1.2",
     "@types/socket.io-client": "^1.4.32",
     "husky": "^1.1.2",
+    "jest": "^24.9.0",
     "lint-staged": "^7.3.0",
     "prettier": "^1.14.3",
     "sass": "^1.19.0",
+    "ts-jest": "^24.1.0",
     "ts-node": "^7.0.1",
     "ts-node-dev": "^1.0.0-pre.30",
     "tsconfig-paths": "^3.6.0",
