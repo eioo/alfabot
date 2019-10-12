@@ -17,7 +17,7 @@ class DoublesCommand extends CommandBase {
   }
 
   listen(): void {
-    this.onText(/^\/(doubles?|tuplat?)$/i, async msg => {
+    this.onText(/^(\/(doubles?|tuplat?)|tuplat päättää)/i, async msg => {
       const reply = await this.reply(msg, '🎲🎲🎲 Rolling 🎲🎲🎲');
 
       await new Promise(resolve => setTimeout(resolve, 2500));
